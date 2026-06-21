@@ -1,0 +1,53 @@
+Comandos react
+
+node -v
+npm -v
+yarn -v
+yarn add lucide-react
+
+para crear un proyecto posicionrse por cmd a la carpeta y poner
+yarn create vite
+yarn create vite rick-and-morty --template react
+
+instalar router
+yarn add react-router-dom
+
+instalar tailwind
+yarn add tailwindcss @tailwindcss/vite
+
+instalar zustand
+yarn add zustand
+
+instalar axios
+yarn add axios
+
+SI EL PROYECTO ES TYPESCRIPT UTILIZAR ESTE COMANDO
+yarn add -D @types/react @types/react-dom
+
+
+
+
+descargar nodejs
+https://nodejs.org/en/download
+
+luego instalar yarn con
+npm install -g yarn
+
+verificar con yarn -v si ahora aparece la versión
+
+yarn install - dentro del proyecto react para que instale todas las dependencias
+
+yarn dev - para levantar el proyecto
+
+yarn add lucide-react - instalar iconos
+
+EXTENSIONES
+prettier
+eslint
+javascript and typescript nightly
+ES7+
+Auto Rename Tag
+Path Intellisense
+Error Lens
+GitLens
+Material Icon Theme
