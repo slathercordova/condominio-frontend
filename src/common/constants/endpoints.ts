@@ -12,6 +12,10 @@ export const API_ENDPOINTS = {
   },
 
   USUARIO_EDIFICIO: {
-    MY_UNITS: "/edificio/usuario/mis-edificios",
-  }
+    MY_BUILDINGS: "/edificio/usuario/mis-edificios",
+  },
+
+  USUARIO_UNIDAD: {
+    MY_UNITS: "/unidad/mis-unidades/",
+  },
 };
