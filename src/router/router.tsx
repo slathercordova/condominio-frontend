@@ -5,6 +5,7 @@ import { MainLayout } from "../common/layouts/main-layout";
 import { UnitsApp } from "../app/units/units";
 import { BuildingApp } from "../app/buildings/buildings";
 import { FavoritesApp } from "../app/favorites/favorites";
+import { ProtectedRouter } from "../common/security/protected-router";
 
 export const router = createBrowserRouter([
   {
@@ -12,25 +13,29 @@ export const router = createBrowserRouter([
     Component: SignIn,
   },
   {
-    path: "/",
-    Component: MainLayout,
-    children: [
-      {
-        path: "landing",
-        Component: Landing
-      },
-      {
-        path: "units",
-        Component: UnitsApp
-      },
-      {
-        path: "buildings",
-        Component: BuildingApp
-      },
-      {
-        path: "favorites",
-        Component: FavoritesApp
-      },
-    ]
-  }
+  element: <ProtectedRouter />,
+  children: [
+    {
+      element: <MainLayout />,
+      children: [
+        {
+          path: "/landing",
+          Component: Landing
+        },
+        {
+          path: "/units",
+          Component: UnitsApp
+        },
+        {
+          path: "/buildings",
+          Component: BuildingApp
+        },
+        {
+          path: "/favorites",
+          Component: FavoritesApp
+        }
+      ]
+    }
+  ]
+}
 ]);
