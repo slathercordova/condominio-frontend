@@ -6,6 +6,7 @@ import { UnitsApp } from "../app/units/units";
 import { BuildingApp } from "../app/buildings/buildings";
 import { FavoritesApp } from "../app/favorites/favorites";
 import { ProtectedRouter } from "../common/security/protected-router";
+import { UnitApp } from "../app/units/unit";
 
 export const router = createBrowserRouter([
   {
@@ -33,7 +34,11 @@ export const router = createBrowserRouter([
         {
           path: "/favorites",
           Component: FavoritesApp
-        }
+        },
+        {
+          path: "/unit/:idUnidad",
+          Component: UnitApp
+        },
       ]
     }
   ]

@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { type UnidadUsuarioType} from "../types/mis-unidades";
 
 interface UnidadCardProps {
@@ -5,6 +6,14 @@ interface UnidadCardProps {
 }
 
 export function UnidadCard({ unidad }: UnidadCardProps) {
+
+  const navigate = useNavigate();
+  
+  const handleUnidad = () => {
+    navigate(`/unit/${unidad.idUnidad}`)
+  }
+
+
   return (
     <div style={{
       border: "1px solid #ccc",
@@ -24,7 +33,7 @@ export function UnidadCard({ unidad }: UnidadCardProps) {
       <p><strong>Metraje:</strong> {unidad.metraje} m²</p>
       
       <button 
-        onClick={() => alert(`Seleccionaste la unidad ${unidad.codigo}`)}
+        onClick={handleUnidad}
         style={{ marginTop: "10px", padding: "8px 12px", cursor: "pointer" }}
       >
         Gestionar Unidad
