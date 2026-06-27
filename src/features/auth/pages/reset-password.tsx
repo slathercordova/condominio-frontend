@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { resetPasswordEP } from "../services/auth-service";
 import type { AxiosError } from "axios";
@@ -21,12 +21,6 @@ export function ResetPasswordPage() {
   const [cambioContrasenaOk, setCambioContrasenaOk] = useState(false);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setErrorGlobal(null);
-    setErroresValidacion(null);
-    setSuccessMessage(null);
-  }, []);
 
   const handleClick = () => {
     if (!cambioContrasenaOk) {
