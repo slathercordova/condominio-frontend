@@ -1,9 +1,14 @@
 import { useNavigate } from "react-router-dom";
-import { loginEdificioEP, loginEP } from "../services/auth-service";
+import {
+  forgotPasswordEP,
+  loginEdificioEP,
+  loginEP,
+} from "../services/auth-service";
 import { useState } from "react";
 import { useAuthStore } from "../store/auth-store";
 import { AxiosError } from "axios";
 import { misEdificiosEP } from "../services/auth-edificios";
+import styles from "./sign-in.module.css";
 
 interface EdificioInterface {
   idEdificio: string;
@@ -32,12 +37,15 @@ export function SignInPage() {
     ErrorResponseInterface["data"] | null
   >(null);
   const [errorGlobal, setErrorGlobal] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   //  Flujo de pantalla
   const [edificios, setEdificios] = useState<EdificioInterface[]>([]);
   const [edificioSeleccionadoId, setEdificioSeleccionadoId] = useState("");
   const [tokenTemporal, setTokenTemporal] = useState("");
   const [mostrarCombo, setMostrarCombo] = useState(false);
+  const [forgotPasswordFlg, setForgotPasswordFlg] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleLogin = async () => {
     setErrorGlobal(null);
@@ -52,14 +60,17 @@ export function SignInPage() {
     // FASE 2: Si el combo ya está visible, el botón procesa la selección del edificio
     if (mostrarCombo) {
       if (!edificioSeleccionadoId) {
-        setErrorGlobal("Debe seleccionar un edificio")
+        setErrorGlobal("Debe seleccionar un edificio");
         return;
       }
       try {
-        const finalResponse = await loginEdificioEP(edificioSeleccionadoId,tokenTemporal);
+        const finalResponse = await loginEdificioEP(
+          edificioSeleccionadoId,
+          tokenTemporal,
+        );
         if (finalResponse.success) {
           setLoginSuccess(finalResponse.data); // Guardamos el token definitivo en Zustand
-          
+
           if (finalResponse.data.edificioSeleccionado) {
             navigate("/landing");
           }
@@ -113,8 +124,50 @@ export function SignInPage() {
           // Guardamos el mapa de errores (ej: { password: ["..."] })
           setErroresValidacion(cuerpoError.data);
         } else {
-          setErrorGlobal(cuerpoError.message);
-          //alert(cuerpoError.message || "Error al iniciar sesión");
+          setErrorGlobal(cuerpoError.message || "Ocurrió un error inesperado.");
+        }
+      } else {
+        alert("Error de conexión con el servidor");
+        setErrorGlobal("No hay conexión con el servidor.");
+      }
+    }
+  };
+
+  const handleForgotPassWord = async () => {
+    setErrorGlobal("");
+    setSuccessMessage("");
+    if (!email.trim()) {
+      setErrorGlobal("Debe ingresar un correo");
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailRegex.test(email)) {
+      setErrorGlobal("Ingrese un correo válido.");
+      return;
+    }
+
+    try {
+      const response = await forgotPasswordEP({
+        correo: email,
+      });
+
+      if (response.success) {
+        setSuccessMessage(response.message);
+      }
+    } catch (err) {
+      const error = err as AxiosError<ErrorResponseInterface>;
+      console.log("Error completo de Axios:", error);
+
+      // 🔍 Verificamos si el backend nos devolvió un cuerpo de error estructurado
+      if (error.response && error.response.data) {
+        const cuerpoError = error.response.data;
+
+        if (cuerpoError.errorCode === "VALIDATION_ERROR") {
+          // Guardamos el mapa de errores (ej: { password: ["..."] })
+          setErroresValidacion(cuerpoError.data);
+        } else {
           setErrorGlobal(cuerpoError.message || "Ocurrió un error inesperado.");
         }
       } else {
@@ -125,61 +178,116 @@ export function SignInPage() {
   };
 
   return (
-    <div>
-      <p>Sign in</p>
+    <div className={styles.container}>
+      <div className={styles.card}>
+        {/* TODO: ver si importar logo */}
+        {/* <img src={logo} alt="Logo" className={styles.logo} /> */}
 
-      {/* 🚨 Mensaje de error GLOBAL (Aparece arriba si la clave está mal o si están vacíos) */}
-      {errorGlobal && (
-        <div style={{ color: "red", fontWeight: "bold", marginBottom: "10px" }}>
-          {errorGlobal}
-        </div>
-      )}
+        <h1>Sistema de Condominios</h1>
 
-      <form onSubmit={(e) => e.preventDefault()}>
-        <input
-          type="text"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          placeholder="user"
-          disabled={mostrarCombo}
-        />
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="password"
-          disabled={mostrarCombo}
-        />
+        <p className={styles.subtitle}>Inicie sesión para continuar</p>
 
-        {/* 🚨 Mensaje de error ESPECÍFICO (Solo aparece si el backend rechaza el formato) */}
-        {erroresValidacion?.password && (
-          <div style={{ color: "orange", fontSize: "12px", marginTop: "5px" }}>
-            {erroresValidacion.password[0]}{" "}
-            {/* Muestra el primer error de la lista */}
-          </div>
+        {errorGlobal && <div className={styles.error}>{errorGlobal}</div>}
+
+        {successMessage && (
+          <div className={styles.success}>{successMessage}</div>
         )}
 
-        {/* El Combo Box aparece mágicamente abajo de los campos solo si se requiere */}
-        {mostrarCombo && (
-          <div style={{ marginTop: "15px", marginBottom: "15px" }}>
-            <p>Selecciona tu edificio</p>
-            <select
-              value={edificioSeleccionadoId}
-              onChange={(e) => setEdificioSeleccionadoId(e.target.value)}
-            >
-              <option value="">-- Seleccione su edificio --</option>
-              {edificios.map((edi) => (
-                <option key={edi.idEdificio} value={edi.idEdificio}>
-                  {edi.nombre}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-        <button type="button" onClick={handleLogin}>
-          {mostrarCombo ? "Confirmar e ingresar" : "Ingresar"}
-        </button>
-      </form>
+        <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
+          {!forgotPasswordFlg && (
+            <>
+              <input
+                type="text"
+                placeholder="Usuario"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={mostrarCombo}
+              />
+
+              <input
+                type="password"
+                placeholder="Contraseña"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                disabled={mostrarCombo}
+              />
+
+              {erroresValidacion?.password && (
+                <div className={styles.validationError}>
+                  {erroresValidacion.password[0]}
+                </div>
+              )}
+
+              {mostrarCombo && (
+                <>
+                  <label>Seleccione su edificio</label>
+
+                  <select
+                    value={edificioSeleccionadoId}
+                    onChange={(e) => setEdificioSeleccionadoId(e.target.value)}
+                  >
+                    <option value="">-- Seleccione --</option>
+
+                    {edificios.map((edi) => (
+                      <option key={edi.idEdificio} value={edi.idEdificio}>
+                        {edi.nombre}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
+
+              <button
+                type="button"
+                className={styles.linkButton}
+                onClick={() => setForgotPasswordFlg(true)}
+              >
+                ¿Olvidaste tu contraseña?
+              </button>
+
+              <button
+                type="button"
+                className={styles.primaryButton}
+                onClick={handleLogin}
+              >
+                {mostrarCombo ? "Confirmar e ingresar" : "Ingresar"}
+              </button>
+            </>
+          )}
+
+          {forgotPasswordFlg && (
+            <>
+              <p className={styles.subtitle}>
+                Ingresa tu correo electrónico y te enviaremos un enlace para
+                restablecer tu contraseña.
+              </p>
+
+              <input
+                type="email"
+                placeholder="Correo electrónico"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+
+              <button
+                type="button"
+                className={styles.primaryButton}
+                onClick={handleForgotPassWord}
+              >
+                Enviar enlace
+              </button>
+
+              <button
+                type="button"
+                className={styles.linkButton}
+                onClick={() => setForgotPasswordFlg(false)}
+              >
+                Volver al inicio de sesión
+              </button>
+            </>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
