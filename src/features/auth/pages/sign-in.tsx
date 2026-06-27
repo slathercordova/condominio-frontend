@@ -50,6 +50,7 @@ export function SignInPage() {
   const handleLogin = async () => {
     setErrorGlobal(null);
     setErroresValidacion(null);
+    setSuccessMessage(null);
 
     // 🔴 VALIDACIÓN FRONTEND (Tu primera línea de defensa):
     if (!username.trim() || !password.trim()) {
@@ -134,8 +135,9 @@ export function SignInPage() {
   };
 
   const handleForgotPassWord = async () => {
-    setErrorGlobal("");
-    setSuccessMessage("");
+    setErrorGlobal(null);
+    setErroresValidacion(null);
+    setSuccessMessage(null);
     if (!email.trim()) {
       setErrorGlobal("Debe ingresar un correo");
       return;
@@ -177,6 +179,15 @@ export function SignInPage() {
     }
   };
 
+  const handleBackToLogin = () => {
+    setForgotPasswordFlg(false);
+
+    setErrorGlobal(null);
+    setSuccessMessage(null);
+    setErroresValidacion(null);
+    setEmail("");
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.card}>
@@ -185,12 +196,12 @@ export function SignInPage() {
 
         <h1>Sistema de Condominios</h1>
 
-        <p className={styles.subtitle}>Inicie sesión para continuar</p>
+        <p className="subtitle">Inicie sesión para continuar</p>
 
-        {errorGlobal && <div className={styles.error}>{errorGlobal}</div>}
+        {errorGlobal && <div className="alert-error">{errorGlobal}</div>}
 
         {successMessage && (
-          <div className={styles.success}>{successMessage}</div>
+          <div className="alert-success">{successMessage}</div>
         )}
 
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
@@ -213,7 +224,7 @@ export function SignInPage() {
               />
 
               {erroresValidacion?.password && (
-                <div className={styles.validationError}>
+                <div className="alert-error">
                   {erroresValidacion.password[0]}
                 </div>
               )}
@@ -237,17 +248,19 @@ export function SignInPage() {
                 </>
               )}
 
-              <button
-                type="button"
-                className={styles.linkButton}
-                onClick={() => setForgotPasswordFlg(true)}
-              >
-                ¿Olvidaste tu contraseña?
-              </button>
+              {!mostrarCombo && (
+                <button
+                  type="button"
+                  className="btn btn-link"
+                  onClick={() => setForgotPasswordFlg(true)}
+                >
+                  ¿Olvidaste tu contraseña?
+                </button>
+              )}
 
               <button
                 type="button"
-                className={styles.primaryButton}
+                className="btn btn-primary"
                 onClick={handleLogin}
               >
                 {mostrarCombo ? "Confirmar e ingresar" : "Ingresar"}
@@ -257,7 +270,7 @@ export function SignInPage() {
 
           {forgotPasswordFlg && (
             <>
-              <p className={styles.subtitle}>
+              <p className="subtitle">
                 Ingresa tu correo electrónico y te enviaremos un enlace para
                 restablecer tu contraseña.
               </p>
@@ -271,7 +284,7 @@ export function SignInPage() {
 
               <button
                 type="button"
-                className={styles.primaryButton}
+                className="btn btn-primary"
                 onClick={handleForgotPassWord}
               >
                 Enviar enlace
@@ -279,8 +292,8 @@ export function SignInPage() {
 
               <button
                 type="button"
-                className={styles.linkButton}
-                onClick={() => setForgotPasswordFlg(false)}
+                className="btn btn-link"
+                onClick={handleBackToLogin}
               >
                 Volver al inicio de sesión
               </button>
