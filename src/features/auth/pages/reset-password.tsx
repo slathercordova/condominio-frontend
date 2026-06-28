@@ -7,6 +7,7 @@ import type {
   ValidationErrors,
 } from "../../../common/types/api-response";
 import styles from "./reset-password.module.css";
+import { PasswordRules } from "../../../common/components/password-rules";
 
 export function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -127,6 +128,8 @@ export function ResetPasswordPage() {
         <button className="btn btn-primary" type="button" onClick={handleClick}>
           {!cambioContrasenaOk ? "Cambiar contraseña" : "Ir a login"}
         </button>
+
+        <PasswordRules password={password}/>
 
         {cambioContrasenaOk && (
           <p className={styles.redirectText}>
