@@ -6,8 +6,9 @@ import { UnidadCard } from "../component/unit-card";
 
 export function UnitsPage() {
   //  sesion
-  const accessToken = useAuthStore((state) => state.accessToken);
-  const usuarioId = useAuthStore((state) => state.usuarioId);
+  const usuario = useAuthStore(state => state.usuario);
+  const accessToken = usuario?.accessToken;
+  const usuarioId = usuario?.idUsuario;
 
   //  variables a utilizar
   const [unidades, setUnidades] = useState<UnidadUsuarioType[]>([]);

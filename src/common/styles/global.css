@@ -198,3 +198,9 @@ select:focus {
 
   border: 1px solid #bbf7d0;
 }
+
+.divider{
+    border: none;
+    border-top: 1px solid #e5e7eb;
+    margin: 6px 0;
+}

@@ -1,24 +1,19 @@
-import { Building, DoorOpen, Heart, House, LogOut } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import {
+  Building,
+  DoorOpen,
+  Heart,
+  House,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 import styles from "./navbar.module.css";
 import logo from "../images/edificio_logo.png";
-import { useAuthStore } from "../../features/auth/store/auth-store";
+import { UserMenuCom } from "../components/UserMenu/UserMenu";
 
 export function NavBar() {
   //  TODO: poner el logo del edificio luego de BD
   //  TODO: poner el nombre del edificio luego de BD
   //  TODO: mensajes son TODO FIXME BUG HACK
-
-  const navigate = useNavigate();
-  const logout = useAuthStore((state) => state.logout);
-
-  const handleLogout = () => {
-    // TODO: debería de llamar al endpoint que invalida el refresh token
-    logout();
-    localStorage.removeItem('auth-storage');
-    navigate("/login", { replace: true });
-  };
-
+  
   return (
     <header className={styles.header}>
       <div className={styles.logoSection}>
@@ -48,10 +43,7 @@ export function NavBar() {
           FAVORITOS
         </Link>
 
-        <button type="button" onClick={handleLogout}>
-          <LogOut size={20} />
-          LOG-OUT
-        </button>
+        <UserMenuCom/>
       </nav>
     </header>
   );

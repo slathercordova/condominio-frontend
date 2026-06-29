@@ -1,0 +1,36 @@
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+}
+
+.header strong {
+  font-size: 15px;
+}
+
+.header span {
+  font-size: 13px;
+  color: #666;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: 0.2s;
+  width: 100%;
+  border: none;
+  background: none;
+}
+
+.item:hover {
+  background: #f5f5f5;
+}
+
+.user {
+  color: white;
+  cursor: pointer;
+}

@@ -52,7 +52,7 @@ export function SignInPage() {
     setErroresValidacion(null);
     setSuccessMessage(null);
 
-    // 🔴 VALIDACIÓN FRONTEND (Tu primera línea de defensa):
+    // 🔴 VALIDACIÓN FRONTEND
     if (!username.trim() || !password.trim()) {
       setErrorGlobal("Por favor, ingresa tu usuario y contraseña.");
       return;
