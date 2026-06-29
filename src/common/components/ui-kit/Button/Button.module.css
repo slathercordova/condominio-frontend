@@ -1,0 +1,85 @@
+/* ===== BUTTONS ===== */
+.btn {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  user-select: none;
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.success {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  color: white;
+  box-shadow: 0 6px 18px rgba(22, 163, 74, 0.25);
+}
+
+.success:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(22, 163, 74, 0.35);
+}
+
+.primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
+}
+
+.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
+}
+
+.primary:active {
+  transform: translateY(0px);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.2);
+}
+
+.secondary {
+  background: #6b7280;
+  color: white;
+}
+
+.danger {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  color: white;
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.25);
+}
+
+.danger:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(220, 38, 38, 0.35);
+}
+
+.link {
+  background: transparent;
+  color: #2563eb;
+}
+
+.link:hover {
+  color: #1d4ed8;
+  text-decoration: underline;
+}
+
+.iconOnly {
+  width: 36px;
+  height: 36px;
+
+  padding: 0;
+
+  border-radius: 8px;
+}

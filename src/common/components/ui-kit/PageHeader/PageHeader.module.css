@@ -1,0 +1,17 @@
+/* ===== PAGES ===== */
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  margin: 0;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.subtitle {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 0.95rem;
+}

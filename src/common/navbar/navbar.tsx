@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import styles from "./navbar.module.css";
 import logo from "../images/edificio_logo.png";
 import { UserMenuCom } from "../components/UserMenu/UserMenu";
+import { AdministracionMenu } from "../components/AdministracionMenu/AdministracionMenu";
 
 export function NavBar() {
   //  TODO: poner el logo del edificio luego de BD
@@ -28,14 +29,16 @@ export function NavBar() {
           Home
         </Link>
 
+        <AdministracionMenu/>
+
         <Link to="/buildings" /*className={styles.highlight}*/>
           <Building size={20} />
-          EDIFICIOS
+          MIS EDIFICIOS
         </Link>
 
         <Link to="/units" className={styles.highlight}>
           <DoorOpen size={20} />
-          UNIDADES
+          MIS UNIDADES
         </Link>
 
         <Link to="/favorites" /*className={styles.link}*/>

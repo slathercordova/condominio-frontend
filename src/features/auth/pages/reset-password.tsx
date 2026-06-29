@@ -8,6 +8,9 @@ import type {
 } from "../../../common/types/api-response";
 import styles from "./reset-password.module.css";
 import { PasswordRules } from "../../../common/components/password-rules";
+import { Alert } from "../../../common/components/ui-kit/Alert/Alert";
+import { Input } from "../../../common/components/ui-kit/Input/Input";
+import { Button } from "../../../common/components/ui-kit/Button/Button";
 
 export function ResetPasswordPage() {
   const [searchParams] = useSearchParams();
@@ -97,7 +100,7 @@ export function ResetPasswordPage() {
           Ingresa tu nueva contraseña para continuar
         </p>
 
-        {errorGlobal && <div className="alert-error">{errorGlobal}</div>}
+        {errorGlobal && <Alert type="error" message={errorGlobal} />}
 
         {erroresValidacion &&
           Object.entries(erroresValidacion).map(([field, errors]) => (
@@ -112,24 +115,25 @@ export function ResetPasswordPage() {
             </div>
           ))}
 
-        {successMessage && (
-          <div className="alert-success">{successMessage}</div>
-        )}
+        {successMessage && <Alert type="success" message={successMessage} />}
 
         {!cambioContrasenaOk && (
-          <input
-            type="password"
-            placeholder="Contraseña"
+          <Input
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={setPassword}
+            placeholder="Nueva contraseña"
+            type="password"
           />
         )}
 
-        <button className="btn btn-primary" type="button" onClick={handleClick}>
-          {!cambioContrasenaOk ? "Cambiar contraseña" : "Ir a login"}
-        </button>
+        <Button
+          desc={!cambioContrasenaOk ? "Cambiar contraseña" : "Ir a login"}
+          modo="UPD"
+          type="button"
+          onClick={handleClick}
+        />
 
-        <PasswordRules password={password}/>
+        <PasswordRules password={password} />
 
         {cambioContrasenaOk && (
           <p className={styles.redirectText}>

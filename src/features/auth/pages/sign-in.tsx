@@ -9,6 +9,10 @@ import { useAuthStore } from "../store/auth-store";
 import { AxiosError } from "axios";
 import { misEdificiosEP } from "../services/auth-edificios";
 import styles from "./sign-in.module.css";
+import { Input } from "../../../common/components/ui-kit/Input/Input";
+import { Button } from "../../../common/components/ui-kit/Button/Button";
+import { Alert } from "../../../common/components/ui-kit/Alert/Alert";
+import { Select } from "../../../common/components/ui-kit/Select/Select";
 
 interface EdificioInterface {
   idEdificio: string;
@@ -54,7 +58,7 @@ export function SignInPage() {
 
     // 🔴 VALIDACIÓN FRONTEND
     if (!username.trim() || !password.trim()) {
-      setErrorGlobal("Por favor, ingresa tu usuario y contraseña.");
+      setErrorGlobal("Ingresa tu usuario y contraseña.");
       return;
     }
 
@@ -198,73 +202,65 @@ export function SignInPage() {
 
         <p className="subtitle">Inicie sesión para continuar</p>
 
-        {errorGlobal && <div className="alert-error">{errorGlobal}</div>}
+        {errorGlobal && <Alert type="error" message={errorGlobal} />}
 
-        {successMessage && (
-          <div className="alert-success">{successMessage}</div>
-        )}
+        {successMessage && <Alert type="success" message={successMessage} />}
 
         <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
           {!forgotPasswordFlg && (
             <>
-              <input
-                type="text"
-                placeholder="Usuario"
+              <Input
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={setUsername}
+                placeholder="Usuario"
+                type="text"
                 disabled={mostrarCombo}
               />
 
-              <input
-                type="password"
-                placeholder="Contraseña"
+              <Input
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={setPassword}
+                placeholder="Contraseña"
+                type="password"
                 disabled={mostrarCombo}
               />
 
               {erroresValidacion?.password && (
-                <div className="alert-error">
-                  {erroresValidacion.password[0]}
-                </div>
+                <Alert type="error" message={erroresValidacion.password[0]} />
               )}
 
               {mostrarCombo && (
                 <>
-                  <label>Seleccione su edificio</label>
-
-                  <select
+                  <Select
+                    label="Seleccione su edificio"
                     value={edificioSeleccionadoId}
-                    onChange={(e) => setEdificioSeleccionadoId(e.target.value)}
-                  >
-                    <option value="">-- Seleccione --</option>
-
-                    {edificios.map((edi) => (
-                      <option key={edi.idEdificio} value={edi.idEdificio}>
-                        {edi.nombre}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={setEdificioSeleccionadoId}
+                    placeholder="-- Seleccione --"
+                    options={edificios.map((edi) => ({
+                      value: edi.idEdificio,
+                      label: edi.nombre,
+                    }))}
+                  />
                 </>
               )}
 
               {!mostrarCombo && (
-                <button
-                  type="button"
-                  className="btn btn-link"
+                <Button
+                  desc="¿Olvidaste tu contraseña?"
+                  modo="LNK"
                   onClick={() => setForgotPasswordFlg(true)}
-                >
-                  ¿Olvidaste tu contraseña?
-                </button>
+                  type="button"
+                  title="¿Olvidaste tu contraseña?"
+                />
               )}
 
-              <button
-                type="button"
-                className="btn btn-primary"
+              <Button
+                desc={mostrarCombo ? "Confirmar e ingresar" : "Ingresar"}
+                modo="UPD"
                 onClick={handleLogin}
-              >
-                {mostrarCombo ? "Confirmar e ingresar" : "Ingresar"}
-              </button>
+                type="button"
+                title={mostrarCombo ? "Confirmar e ingresar" : "Ingresar"}
+              />
             </>
           )}
 
@@ -275,28 +271,28 @@ export function SignInPage() {
                 restablecer tu contraseña.
               </p>
 
-              <input
-                type="email"
-                placeholder="Correo electrónico"
+              <Input
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={setEmail}
+                placeholder="Correo electrónico"
+                type="email"
               />
 
-              <button
-                type="button"
-                className="btn btn-primary"
+              <Button
+                desc="Enviar enlace"
+                modo="UPD"
                 onClick={handleForgotPassWord}
-              >
-                Enviar enlace
-              </button>
-
-              <button
                 type="button"
-                className="btn btn-link"
+                title="Enviar enlace"
+              />
+
+              <Button
+                desc="Volver al inicio de sesión"
+                modo="LNK"
                 onClick={handleBackToLogin}
-              >
-                Volver al inicio de sesión
-              </button>
+                type="button"
+                title="Volver al inicio de sesión"
+              />
             </>
           )}
         </form>

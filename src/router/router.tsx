@@ -8,6 +8,8 @@ import { FavoritesApp } from "../app/favorites/favorites";
 import { ProtectedRouter } from "../common/security/protected-router";
 import { UnitApp } from "../app/units/unit";
 import { ResetPassword } from "../app/auth/reset-password";
+import { EstilosGeneralesApp } from "../app/auth/Utilitarios/EstilosGenerales";
+import { PersonsApp } from "../app/persons/persons";
 
 export const router = createBrowserRouter([
   {
@@ -19,33 +21,41 @@ export const router = createBrowserRouter([
     Component: ResetPassword,
   },
   {
-  element: <ProtectedRouter />,
-  children: [
-    {
-      element: <MainLayout />,
-      children: [
-        {
-          path: "/landing",
-          Component: Landing
-        },
-        {
-          path: "/units",
-          Component: UnitsApp
-        },
-        {
-          path: "/buildings",
-          Component: BuildingApp
-        },
-        {
-          path: "/favorites",
-          Component: FavoritesApp
-        },
-        {
-          path: "/unit/:idUnidad",
-          Component: UnitApp
-        },
-      ]
-    }
-  ]
-}
+    element: <ProtectedRouter />,
+    children: [
+      {
+        element: <MainLayout />,
+        children: [
+          {
+            path: "/landing",
+            Component: Landing,
+          },
+          {
+            path: "/units",
+            Component: UnitsApp,
+          },
+          {
+            path: "/buildings",
+            Component: BuildingApp,
+          },
+          {
+            path: "/favorites",
+            Component: FavoritesApp,
+          },
+          {
+            path: "/unit/:idUnidad",
+            Component: UnitApp,
+          },
+          {
+            path: "/persons",
+            Component: PersonsApp,
+          },
+          {
+            path: "/utilitarios",
+            Component: EstilosGeneralesApp,
+          },
+        ],
+      },
+    ],
+  },
 ]);

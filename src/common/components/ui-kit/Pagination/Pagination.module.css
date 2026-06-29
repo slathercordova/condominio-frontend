@@ -1,0 +1,30 @@
+/* ===== PAGINACION ===== */
+.pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  margin-top: 12px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+}
+
+.pagination button {
+  padding: 8px 12px;
+  border: none;
+  background: #2563eb;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background: #d1d5db;
+  cursor: not-allowed;
+}
+
+.pagination_info {
+  font-size: 14px;
+  color: #374151;
+}

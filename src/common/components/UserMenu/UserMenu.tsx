@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../features/auth/store/auth-store";
 import { CircleUser, LogOut } from "lucide-react";
 import styles from "./UserMenu.module.css";
-import { DropdownCom } from "../DropDown/Dropdown";
+import { DropdownCom } from "../ui-kit/DropDown/Dropdown";
 
 export function UserMenuCom() {
   const usuario = useAuthStore(state => state.usuario);

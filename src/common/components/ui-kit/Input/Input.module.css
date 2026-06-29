@@ -1,0 +1,26 @@
+/* ===== INPUTS ===== */
+.input {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  outline: none;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+}

@@ -1,0 +1,36 @@
+/* ===== TABLA GRILLA ===== */
+.tableWrapper {
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: left;
+  background: #f9fafb;
+  padding: 12px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.table td {
+  padding: 12px;
+  border-top: 1px solid #eee;
+}
+
+.tableRow:hover {
+  background: #f3f4f6;
+}
+
+.tableEmpty {
+  text-align: center;
+  padding: 20px;
+  color: #9ca3af;
+}
