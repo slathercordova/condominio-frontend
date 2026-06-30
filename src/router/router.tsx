@@ -8,7 +8,7 @@ import { FavoritesApp } from "../app/favorites/favorites";
 import { ProtectedRouter } from "../common/security/protected-router";
 import { UnitApp } from "../app/units/unit";
 import { ResetPassword } from "../app/auth/reset-password";
-import { EstilosGeneralesApp } from "../app/auth/Utilitarios/EstilosGenerales";
+import { EstilosGeneralesApp } from "../app/Utilitarios/EstilosGenerales";
 import { PersonsApp } from "../app/persons/persons";
 
 export const router = createBrowserRouter([

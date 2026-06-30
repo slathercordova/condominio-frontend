@@ -9,6 +9,11 @@ import { Pagination } from "../components/ui-kit/Pagination/Pagination";
 import { ConfirmDialog } from "../components/ui-kit/ConfirmDialog/ConfirmDialog";
 import { Select } from "../components/ui-kit/Select/Select";
 import { RowActions } from "../components/ui-kit/RowActions/RowActions";
+import { Loading } from "../components/ui-kit/Loading/Loading";
+import { Skeleton } from "../components/ui-kit/Skeleton/Skeleton";
+import { ErrorState } from "../components/ui-kit/ErrorState/ErrorState";
+import { EmptyState } from "../components/ui-kit/EmptyState/EmptyState";
+import { NoResults } from "../components/ui-kit/NoResults/NoResults";
 
 export function EstilosGeneralesPage() {
   //   DATOS PARA TEXTO
@@ -186,6 +191,48 @@ export function EstilosGeneralesPage() {
           { value: "user", label: "Usuario" },
           { value: "guest", label: "Invitado" },
         ]}
+      />
+      <h1>LOADING</h1>
+
+      <Loading text="Consultando personas..." />
+
+      <Loading text="Guardando..." size="sm" />
+
+      <Loading text="Procesando información..." size="lg" />
+
+      <Loading variant="inline" />
+
+      <Loading variant="inline" text="Consultando edificios..." />
+
+      <h1>SKELETON</h1>
+      <Skeleton type="table" rows={5} />
+      <br />
+      <Skeleton type="text" rows={4} height={16} />
+      <br />
+      <Skeleton type="text" rows={2} />
+
+      <h1>ERROR STATE</h1>
+      <ErrorState
+        message="No se pudieron cargar las personas"
+        onRetry={() => console.log("aea")}
+      />
+
+      <h1>EMPTY STATE</h1>
+      {/* if (data.length === 0) */}
+      <EmptyState />
+      {/* onAction={() => navigate("/personas/new")} */}
+      <EmptyState
+        actionLabel="Crear persona"
+        onAction={() => console.log("aea")}
+      />
+
+      <h1>NO RESULTS</h1>
+      {/* if (data.length === 0 && hasFilters) */}
+      {/* onClearFilters={clearFilters}
+      onClearFilters={() => setSearch("")} */}
+      <NoResults
+        clearLabel="Limpia filtros"
+        onClearFilters={() => console.log("limpiando filtros")}
       />
     </div>
   );

@@ -8,6 +8,19 @@
   --stone-950: oklch(14.7% 0.004 49.25);
   --neutral-950: oklch(26.9% 0 0);
   --slate-100: oklch(96.8% 0.007 247.896);
+
+
+  --color-primary: #2563eb;
+  --color-primary-dark: #1d4ed8;
+  --color-success: #16a34a;
+  --color-danger: #dc2626;
+  --color-warning: #f59e0b;
+  --color-info: #3b82f6;
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --bg-primary: #ffffff;
+  --bg-muted: #f3f4f6;
+  --border: #d1d5db;
 }
 
 html,
@@ -82,9 +95,6 @@ select:focus {
   border-color: #2563eb;
   box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
 }
-
-
-
 
 /* ===== DIVIDER ===== */
 
