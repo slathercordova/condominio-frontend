@@ -14,6 +14,7 @@ import { Skeleton } from "../components/ui-kit/Skeleton/Skeleton";
 import { ErrorState } from "../components/ui-kit/ErrorState/ErrorState";
 import { EmptyState } from "../components/ui-kit/EmptyState/EmptyState";
 import { NoResults } from "../components/ui-kit/NoResults/NoResults";
+import { PageToolbar } from "../components/ui-kit/PageToolbar/PageToolbar";
 
 export function EstilosGeneralesPage() {
   //   DATOS PARA TEXTO
@@ -233,6 +234,16 @@ export function EstilosGeneralesPage() {
       <NoResults
         clearLabel="Limpia filtros"
         onClearFilters={() => console.log("limpiando filtros")}
+      />
+
+      <h1>PAGE TOOLBAR</h1>
+      <PageToolbar
+        title="Personas"
+        searchValue={"search value"}
+        onSearchChange={() => console.log("search change")}
+        onCreate={() => console.log("on create")}
+        onRefresh={() => console.log("on refresh")}
+        onExport={() => console.log("on excel")}
       />
     </div>
   );
