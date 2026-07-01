@@ -3,18 +3,30 @@ import { CheckCircle2, CircleAlert, CircleX, Info, X } from "lucide-react";
 import styles from "./Notification.module.css";
 import { notificationStore } from "./NotificationStore";
 import type { NotificationItem } from "./Types";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 interface Props {
   notification: NotificationItem;
 }
 
 export function NotificationCard({ notification }: Props) {
+  const [closing, setClosing] = useState(false);
+
+  const close = () => {
+    if (closing) return;
+
+    setClosing(true);
+
+    setTimeout(() => {
+      notificationStore.remove(notification.id);
+    }, 300);
+  };
+
   useEffect(() => {
     if (notification.duration === 0) return;
 
     const timer = setTimeout(() => {
-      notificationStore.remove(notification.id);
+      close();
     }, notification.duration ?? 3000);
 
     return () => clearTimeout(timer);
@@ -28,7 +40,9 @@ export function NotificationCard({ notification }: Props) {
   };
 
   return (
-    <div className={`${styles.toast} ${styles[notification.type ?? "info"]}`}>
+    <div
+      className={`${styles.toast} ${styles[notification.type ?? "info"]} ${closing ? styles.closing : ""}`}
+    >
       <div className={styles.icon}>{icons[notification.type ?? "info"]}</div>
 
       <div className={styles.body}>
@@ -50,10 +64,7 @@ export function NotificationCard({ notification }: Props) {
         )}
       </div>
 
-      <button
-        className={styles.close}
-        onClick={() => notificationStore.remove(notification.id)}
-      >
+      <button className={styles.close} onClick={close}>
         <X size={16} />
       </button>
     </div>
