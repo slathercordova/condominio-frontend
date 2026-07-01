@@ -1,4 +1,7 @@
+import type React from "react";
 import styles from "./Input.module.css";
+import { useState } from "react";
+import { Check, Copy, Eye, EyeOff, X } from "lucide-react";
 
 interface InputProps {
   label?: string;
@@ -9,9 +12,16 @@ interface InputProps {
   disabled?: boolean;
   readOnly?: boolean;
   required?: boolean;
-  maxLength?: number;
   autoFocus?: boolean;
+  maxLength?: number;
   name?: string;
+  helperText?: string;
+  error?: string;
+  startAdornment?: React.ReactNode;
+  endAdornment?: React.ReactNode;
+  showCounter?: boolean;
+  clearable?: boolean;
+  copyable?: boolean;
 }
 
 export function Input({
@@ -23,26 +33,110 @@ export function Input({
   disabled,
   readOnly,
   required,
-  maxLength,
   autoFocus,
+  maxLength,
   name,
+  helperText,
+  error,
+  startAdornment,
+  endAdornment,
+  showCounter,
+  clearable,
+  copyable,
 }: InputProps) {
+  const [showPassword, setShowPassword] = useState(false);
+
+  const [isCopied, setIsCopied] = useState(false);
+
+  const inputType =
+    type === "password" ? (showPassword ? "text" : "password") : type;
+
+  const handleCopy = async () => {
+    try {
+      setIsCopied(true);
+      await navigator.clipboard.writeText(value);
+      setTimeout(() => {
+        setIsCopied(false);
+      }, 1500);
+    } catch {
+      console.error("No se pudo copiar el texto.");
+    }
+  };
+
   return (
-    <div className={styles.inputGroup}>
-      {label && <label className={styles.label}>{label}</label>}
-      <input
-        className={styles.input}
-        value={value}
-        placeholder={placeholder}
-        type={type}
-        onChange={(e) => onChange(e.target.value)}
-        disabled={disabled}
-        readOnly={readOnly}
-        required={required}
-        maxLength={maxLength}
-        autoFocus={autoFocus}
-        name={name}
-      />
+    <div className={styles.container}>
+      {label && (
+        <label className={styles.label}>
+          {label}
+          {required && <span className={styles.required}> *</span>}
+        </label>
+      )}
+
+      <div
+        className={`${styles.inputWrapper} ${error ? styles.errorBorder : ""}`}
+      >
+        {startAdornment && (
+          <span className={styles.icon}>{startAdornment}</span>
+        )}
+
+        <input
+          className={styles.input}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder={placeholder}
+          type={inputType}
+          disabled={disabled}
+          readOnly={readOnly}
+          required={required}
+          autoFocus={autoFocus}
+          maxLength={maxLength}
+          name={name}
+        />
+
+        {clearable && value && (
+          <button
+            type="button"
+            className={styles.action}
+            onClick={() => onChange("")}
+          >
+            <X size={18} />
+          </button>
+        )}
+
+        {copyable && value && (
+          <button type="button" className={styles.action} onClick={handleCopy}>
+            {isCopied ? (
+              <Check size={18} className={styles.copied} />
+            ) : (
+              <Copy size={18} />
+            )}
+          </button>
+        )}
+
+        {type === "password" && (
+          <button
+            type="button"
+            className={styles.action}
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+          </button>
+        )}
+
+        {endAdornment && <span className={styles.icon}>{endAdornment}</span>}
+      </div>
+
+      {error ? (
+        <span className={styles.error}>{error}</span>
+      ) : (
+        helperText && <span className={styles.helper}>{helperText}</span>
+      )}
+
+      {showCounter && maxLength && (
+        <span className={styles.counter}>
+          {value.length}/{maxLength}
+        </span>
+      )}
     </div>
   );
 }

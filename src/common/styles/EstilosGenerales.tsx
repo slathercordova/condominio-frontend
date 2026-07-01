@@ -15,6 +15,10 @@ import { ErrorState } from "../components/ui-kit/ErrorState/ErrorState";
 import { EmptyState } from "../components/ui-kit/EmptyState/EmptyState";
 import { NoResults } from "../components/ui-kit/NoResults/NoResults";
 import { PageToolbar } from "../components/ui-kit/PageToolbar/PageToolbar";
+import { User } from "lucide-react";
+import { RadioButton } from "../components/ui-kit/RadioButton/RadioButton";
+import { Switch } from "../components/ui-kit/Switch/Switch";
+import { Slider } from "../components/ui-kit/Slider/Slider";
 
 export function EstilosGeneralesPage() {
   //   DATOS PARA TEXTO
@@ -82,6 +86,16 @@ export function EstilosGeneralesPage() {
 
   //  DATOS PARA SELECT
   const [role, setRole] = useState("admin");
+
+  //  DATOS PARA RADIO BUTTON
+  const [sexo, setSexo] = useState("");
+
+  //  DATOS PARA SWITCH
+  const [activo2, setActivo2] = useState(true);
+
+  //  DATOS PARA SLIDER
+  const [edad, setEdad] = useState(25);
+
   return (
     <div>
       <h1>PAGINA DE ESTILOS</h1>
@@ -138,12 +152,69 @@ export function EstilosGeneralesPage() {
         type="password"
       />
 
+      <Input
+        label="texto copiable"
+        value={texto}
+        onChange={setTexto}
+        placeholder="este texto puede ser copiado"
+        type="text"
+        required
+        maxLength={200}
+        startAdornment={<User />}
+        showCounter
+        copyable
+        helperText="Este es un mensaje para el helper text del input"
+      />
+
       <h1>CHECKBOX</h1>
       <Checkbox
         label="texto del checkbox"
         checked={activo}
         onChange={setActivo}
       />
+
+      <Checkbox
+        label="texto del checkbox 2"
+        checked={activo}
+        onChange={setActivo}
+        helperText="mensaje de ayuda"
+        error="debe aceptar los terminos y ..."
+      />
+
+      <h1>SWITCH</h1>
+      <Switch
+        label="Recibir correos"
+        checked={activo2}
+        onChange={setActivo2}
+        helperText="Se enviarán notificaciones por correo."
+      />
+
+      <h1>RADIO BUTTON</h1>
+      <RadioButton
+        label="Sexo"
+        value={sexo}
+        onChange={setSexo}
+        options={[
+          {
+            value: "M",
+            label: "Masculino",
+          },
+          {
+            value: "F",
+            label: "Femenino",
+          },
+          {
+            value: "O",
+            label: "Otro",
+          },
+        ]}
+        required
+        helperText="mensaje de ayuda"
+        direction="horizontal"
+      />
+
+      <h1>SLIDER</h1>
+      <Slider label="Edad" value={edad} onChange={setEdad} min={18} max={80} />
 
       <h1>TABLA</h1>
       <Table data={data} columns={columns} />

@@ -1,6 +1,47 @@
-/* ===== CHECKBOX ===== */
-.checkbox {
-  display: flex;
-  gap: 8px;
-  align-items: center;
+.container{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+}
+
+.checkbox{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    cursor:pointer;
+    user-select:none;
+}
+
+.input{
+    width:18px;
+    height:18px;
+    accent-color:var(--color-primary);
+    cursor:pointer;
+}
+
+.input:disabled{
+    cursor:not-allowed;
+    opacity:.5;
+}
+
+.label{
+    color:var(--text-primary);
+    font-size:14px;
+}
+
+.required{
+    color:var(--color-danger);
+    margin-left:3px;
+}
+
+.helper{
+    margin-left:28px;
+    font-size:12px;
+    color:var(--text-secondary);
+}
+
+.error{
+    margin-left:28px;
+    color:var(--color-danger);
+    font-size:12px;
 }
