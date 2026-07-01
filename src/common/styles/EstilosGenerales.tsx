@@ -19,6 +19,8 @@ import { User } from "lucide-react";
 import { RadioButton } from "../components/ui-kit/RadioButton/RadioButton";
 import { Switch } from "../components/ui-kit/Switch/Switch";
 import { Slider } from "../components/ui-kit/Slider/Slider";
+import { Separator } from "../components/ui-kit/Separator/Separator";
+import { notification } from "../components/ui-kit/Notificacion/Notification";
 
 export function EstilosGeneralesPage() {
   //   DATOS PARA TEXTO
@@ -315,6 +317,49 @@ export function EstilosGeneralesPage() {
         onCreate={() => console.log("on create")}
         onRefresh={() => console.log("on refresh")}
         onExport={() => console.log("on excel")}
+      />
+
+      <h1>SEPARATOR</h1>
+      <Separator
+        orientation="horizontal"
+        label="mensaje de prueba solid"
+        variant="solid"
+        color="danger"
+      />
+      <Separator
+        orientation="horizontal"
+        label="mensaje de prueba dashed"
+        variant="dashed"
+      />
+      <Separator
+        orientation="horizontal"
+        label="mensaje de prueba dotted"
+        variant="dotted"
+      />
+      <Separator orientation="vertical" label="mensaje de prueba" />
+
+      <h1>Notificaciones</h1>
+      <Button
+        desc="Success"
+        modo="INS"
+        onClick={() =>
+          notification.success({
+            title: "Persona creada",
+          })
+        }
+      />
+
+      <Button
+        desc="Error"
+        modo="DLT"
+        onClick={() =>
+          notification.error({
+            title: "Error",
+            description: "No fue posible guardar.",
+            showProgress: true,
+            position: "top-right",
+          })
+        }
       />
     </div>
   );

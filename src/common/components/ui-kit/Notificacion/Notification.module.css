@@ -1,0 +1,130 @@
+.container {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  z-index: 9999;
+}
+
+.top-left {
+  top: 24px;
+  left: 24px;
+}
+
+.top-center {
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.top-right {
+  top: 24px;
+  right: 24px;
+}
+
+.bottom-left {
+  bottom: 24px;
+  left: 24px;
+}
+
+.bottom-center {
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bottom-right {
+  bottom: 24px;
+  right: 24px;
+}
+
+.toast {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: 360px;
+  padding: 14px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  animation: slideIn 0.25s ease;
+}
+
+.icon {
+  margin-top: 2px;
+}
+
+.body {
+  flex: 1;
+}
+
+.title {
+  font-weight: 600;
+}
+
+.description {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #6b7280;
+}
+
+.close {
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.success {
+  border-left: 4px solid #16a34a;
+}
+
+.error {
+  border-left: 4px solid #dc2626;
+}
+
+.warning {
+  border-left: 4px solid #f59e0b;
+}
+
+.info {
+  border-left: 4px solid #2563eb;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.progress {
+  margin-top: 10px;
+  width: 100%;
+  height: 4px;
+  background: #e5e7eb;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progressBar {
+  width: 100%;
+  height: 100%;
+  background: var(--color-primary);
+  transform-origin: left;
+  animation: progress linear forwards;
+}
+
+@keyframes progress {
+  from {
+    transform: scaleX(1);
+  }
+
+  to {
+    transform: scaleX(0);
+  }
+}
