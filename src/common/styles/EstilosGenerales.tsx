@@ -23,6 +23,7 @@ import { Separator } from "../components/ui-kit/Separator/Separator";
 import { notification } from "../components/ui-kit/Notificacion/Notification";
 import { Tabs } from "../components/ui-kit/Tabs/Tabs";
 import { Popover } from "../components/ui-kit/Popover/Popover";
+import { Avatar } from "../components/ui-kit/Avatar/Avatar";
 
 export function EstilosGeneralesPage() {
   //   DATOS PARA TEXTO
@@ -168,6 +169,7 @@ export function EstilosGeneralesPage() {
         onChange={setTexto}
         placeholder="correo@gmail.com"
         type="email"
+        success="correo valido"
       />
 
       <Input
@@ -190,6 +192,7 @@ export function EstilosGeneralesPage() {
         showCounter
         copyable
         helperText="Este es un mensaje para el helper text del input"
+        error="error"
       />
 
       <h1>CHECKBOX</h1>
@@ -392,7 +395,7 @@ export function EstilosGeneralesPage() {
       {tab === "roles" && <RolesTab />}
       {tab === "auditoria" && <AuditTab />} */}
 
-      <h1>Popover</h1>
+      <h1>POPOVER</h1>
       <Popover text="Eliminar registro">
         <Button modo="DLT" desc="Eliminar" />
       </Popover>
@@ -409,6 +412,13 @@ export function EstilosGeneralesPage() {
       <Popover placement="right" text="Editar">
         <Pencil size={18} />
       </Popover>
+
+      <h1>AVATAR</h1>
+      <Avatar
+        initials="SC"
+        status="online"
+        onClick={() => console.log("aea")}
+      />
     </div>
   );
 }

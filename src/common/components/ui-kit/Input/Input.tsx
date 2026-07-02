@@ -17,6 +17,7 @@ interface InputProps {
   name?: string;
   helperText?: string;
   error?: string;
+  success?: string;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   showCounter?: boolean;
@@ -38,6 +39,7 @@ export function Input({
   name,
   helperText,
   error,
+  success,
   startAdornment,
   endAdornment,
   showCounter,
@@ -73,7 +75,7 @@ export function Input({
       )}
 
       <div
-        className={`${styles.inputWrapper} ${error ? styles.errorBorder : ""}`}
+        className={`${styles.inputWrapper} ${error ? styles.errorBorder : ""} ${success ? styles.successBorder : ""} ${disabled ? styles.disabled : ""} ${readOnly ? styles.readOnly : ""}`}
       >
         {startAdornment && (
           <span className={styles.icon}>{startAdornment}</span>
@@ -128,6 +130,8 @@ export function Input({
 
       {error ? (
         <span className={styles.error}>{error}</span>
+      ) : success ? (
+        <span className={styles.success}>{success}</span>
       ) : (
         helperText && <span className={styles.helper}>{helperText}</span>
       )}

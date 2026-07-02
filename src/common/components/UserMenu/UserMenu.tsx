@@ -1,12 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../features/auth/store/auth-store";
-import { CircleUser, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import styles from "./UserMenu.module.css";
 import { DropdownCom } from "../ui-kit/DropDown/Dropdown";
 import { Separator } from "../ui-kit/Separator/Separator";
+import { Avatar } from "../ui-kit/Avatar/Avatar";
 
 export function UserMenuCom() {
   const usuario = useAuthStore((state) => state.usuario);
+  const initials = `${usuario?.nombres?.[0] ?? ""}${usuario?.apellidoPaterno?.[0] ?? ""}`;
   const navigate = useNavigate();
   const logout = useAuthStore((state) => state.logout);
 
@@ -18,7 +20,9 @@ export function UserMenuCom() {
   };
 
   return (
-    <DropdownCom trigger={<CircleUser className={styles.user} size={30} />}>
+    <DropdownCom
+      trigger={<Avatar initials={initials} size="md" status="online" />}
+    >
       <div className={styles.header}>
         <strong>{usuario?.nombreCompleto}</strong>
         <span>{usuario?.roles.map((r) => r.nombre).join(" | ")}</span>
