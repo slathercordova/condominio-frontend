@@ -1,0 +1,121 @@
+.container {
+  position: relative;
+  display: inline-block;
+  width: max-content;
+}
+
+.position {
+  position: absolute;
+  z-index: 9999;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  border: 1px solid var(--color-border);
+  padding: 12px;
+  min-width: 220px;
+  max-width: 320px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  animation: popoverIn 0.18s ease;
+  /* position: relative;
+  z-index: 1; */
+}
+
+/* =============================== */
+
+.top {
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.bottom {
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.left {
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.right {
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* =============================== */
+
+.title {
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.description {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.45;
+}
+
+.footer {
+  margin-top: 10px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.arrow {
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-left: 1px solid var(--color-border);
+  border-top: 1px solid var(--color-border);
+  transform: rotate(45deg);
+  position: absolute;
+  z-index: 0;
+}
+
+.top .arrow {
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(225deg);
+}
+
+.bottom .arrow {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.left .arrow {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(135deg);
+}
+
+.right .arrow {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-45deg);
+}
+
+/* =============================== */
+
+@keyframes popoverIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

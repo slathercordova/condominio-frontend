@@ -1,0 +1,112 @@
+.container {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.fullWidth {
+  width: 100%;
+}
+
+.fullWidth .tab {
+  flex: 1;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: 0.2s;
+  white-space: nowrap;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.tab:hover {
+  color: var(--color-primary);
+}
+
+.tab:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.icon {
+  display: flex;
+}
+
+.badge {
+  background: var(--color-primary);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+}
+
+.active {
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+/* ========================= */
+/* LINE                      */
+/* ========================= */
+
+.line {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.line .tab {
+  border-bottom: 3px solid transparent;
+}
+
+.line .active {
+  border-color: var(--color-primary);
+}
+
+/* ========================= */
+/* CARD                      */
+/* ========================= */
+
+.card {
+  gap: 8px;
+}
+
+.card .tab {
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: white;
+}
+
+.card .active {
+  background: var(--color-primary);
+  color: white;
+}
+
+/* ========================= */
+/* PILL                      */
+/* ========================= */
+
+.pill {
+  gap: 8px;
+}
+
+.pill .tab {
+  border-radius: 999px;
+  background: #f3f4f6;
+}
+
+.pill .active {
+  background: var(--color-primary);
+  color: white;
+}

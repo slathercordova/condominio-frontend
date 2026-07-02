@@ -15,12 +15,14 @@ import { ErrorState } from "../components/ui-kit/ErrorState/ErrorState";
 import { EmptyState } from "../components/ui-kit/EmptyState/EmptyState";
 import { NoResults } from "../components/ui-kit/NoResults/NoResults";
 import { PageToolbar } from "../components/ui-kit/PageToolbar/PageToolbar";
-import { User } from "lucide-react";
+import { User, Shield, Building2, Pencil } from "lucide-react";
 import { RadioButton } from "../components/ui-kit/RadioButton/RadioButton";
 import { Switch } from "../components/ui-kit/Switch/Switch";
 import { Slider } from "../components/ui-kit/Slider/Slider";
 import { Separator } from "../components/ui-kit/Separator/Separator";
 import { notification } from "../components/ui-kit/Notificacion/Notification";
+import { Tabs } from "../components/ui-kit/Tabs/Tabs";
+import { Popover } from "../components/ui-kit/Popover/Popover";
 
 export function EstilosGeneralesPage() {
   //   DATOS PARA TEXTO
@@ -97,6 +99,28 @@ export function EstilosGeneralesPage() {
 
   //  DATOS PARA SLIDER
   const [edad, setEdad] = useState(25);
+
+  //  DATOS PARA TAB
+  const [tab, setTab] = useState("general");
+  const tabs = [
+    {
+      id: "general",
+      label: "General",
+      icon: <User size={16} />,
+    },
+    {
+      id: "roles",
+      label: "Roles",
+      icon: <Shield size={16} />,
+    },
+
+    {
+      id: "buildings",
+      label: "Edificios",
+      badge: 4,
+      icon: <Building2 size={16} />,
+    },
+  ];
 
   return (
     <div>
@@ -338,7 +362,7 @@ export function EstilosGeneralesPage() {
       />
       <Separator orientation="vertical" label="mensaje de prueba" />
 
-      <h1>Notificaciones</h1>
+      <h1>NOTIFICACIONES</h1>
       <Button
         desc="Success"
         modo="INS"
@@ -361,6 +385,30 @@ export function EstilosGeneralesPage() {
           })
         }
       />
+
+      <h1>TABS</h1>
+      <Tabs tabs={tabs} activeTab={tab} onChange={setTab} variant="line" />
+      {/* {tab === "general" && <GeneralTab />}
+      {tab === "roles" && <RolesTab />}
+      {tab === "auditoria" && <AuditTab />} */}
+
+      <h1>Popover</h1>
+      <Popover text="Eliminar registro">
+        <Button modo="DLT" desc="Eliminar" />
+      </Popover>
+
+      <Popover
+        title="Administrador"
+        description="Puede crear usuarios y administrar edificios."
+        footer="Último acceso: hace 5 minutos"
+        placement="right"
+      >
+        <Button modo="DSP" desc="Perfil" />
+      </Popover>
+
+      <Popover placement="right" text="Editar">
+        <Pencil size={18} />
+      </Popover>
     </div>
   );
 }
