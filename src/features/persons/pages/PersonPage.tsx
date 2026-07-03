@@ -8,11 +8,23 @@ import {
 import type { PersonDto } from "../types/person-types";
 import { RowActions } from "../../../common/components/ui-kit/RowActions/RowActions";
 import { Pagination } from "../../../common/components/ui-kit/Pagination/Pagination";
+import { Button } from "../../../common/components/ui-kit/Button/Button";
+import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
+import { PersonForm } from "./PersonForm";
 
 export function PersonPage() {
   const PAGE_SIZE = 3;
 
-  const { loading, error, fetchPersons, persons, pagination } = usePersonPage();
+  const {
+    loading,
+    error,
+    fetchPersons,
+    persons,
+    pagination,
+    handleNuevaPersona,
+    handleCloseModal,
+    isCreateModalOpen,
+  } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
   const uiTotalPages = pagination?.totalPages ?? 0;
@@ -65,17 +77,26 @@ export function PersonPage() {
     fetchPersons({ page: 0, size: PAGE_SIZE });
   }, []);
 
-  console.table(persons);
-
   return (
     <div className="page-content">
       <PageHeader titulo="PERSONAS" subtitulo="Adminstración de personas" />
+
       <div>FILTROS</div>
-      <div>BOTON NUEVO</div>
+
+      <Button
+        desc="Nuevo"
+        modo="INS"
+        onClick={handleNuevaPersona}
+        type="button"
+        title="Nueva persona"
+      />
+
       <Table data={persons} columns={columns} rowKey={(p) => p.id} />
+
       <div>
         BOTONES QUE HACEN ACCIONES EXTRAS AL SELECCIONAR UN REGISTRO DE LA TABLA
       </div>
+
       <Pagination
         page={uiPage}
         totalPages={uiTotalPages}
@@ -83,6 +104,14 @@ export function PersonPage() {
           fetchPersons({ page: uiPage - 1, size: PAGE_SIZE })
         }
       />
+
+      <Modal
+        open={isCreateModalOpen}
+        title="Crear nueva persona"
+        onClose={handleCloseModal}
+      >
+        <PersonForm onCancel={handleCloseModal} />
+      </Modal>
     </div>
   );
 }

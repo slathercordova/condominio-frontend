@@ -22,3 +22,7 @@
 .select:focus {
   border-color: #2563eb;
 }
+
+.required {
+  color: var(--color-danger);
+}

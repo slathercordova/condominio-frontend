@@ -8,7 +8,7 @@ interface InputProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
-  type?: "text" | "password" | "email" | "number";
+  type?: React.HTMLInputTypeAttribute;
   disabled?: boolean;
   readOnly?: boolean;
   required?: boolean;

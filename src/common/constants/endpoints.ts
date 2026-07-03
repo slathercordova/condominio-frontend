@@ -25,4 +25,8 @@ export const API_ENDPOINTS = {
     PUT: "/persona",
     DELETE: "/persona",
   },
+
+  TIPO_DOCUMENTO: {
+    GET: "/tipo-documento",
+  },
 };

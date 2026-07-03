@@ -39,11 +39,23 @@ export function usePersonPage() {
       });
   };
 
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const handleNuevaPersona = () => {
+    setIsCreateModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsCreateModalOpen(false);
+  };
+
   return {
     loading,
     error,
     fetchPersons,
     persons,
     pagination,
+    handleNuevaPersona,
+    handleCloseModal,
+    isCreateModalOpen,
   };
 }

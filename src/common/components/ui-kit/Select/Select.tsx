@@ -11,6 +11,7 @@ interface SelectProps {
   options: SelectOption[];
   placeholder?: string;
   onChange: (value: string) => void;
+  required?: boolean;
 }
 
 export function Select({
@@ -19,15 +20,21 @@ export function Select({
   options,
   placeholder,
   onChange,
+  required,
 }: SelectProps) {
   return (
     <div className={styles.group}>
-      {label && <label className={styles.label}>{label}</label>}
+      {label && (
+        <label className={styles.label}>
+          {label} {required && <span className={styles.required}> *</span>}
+        </label>
+      )}
 
       <select
         className={styles.select}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        required={required}
       >
         {placeholder && <option value="">{placeholder}</option>}
         {options.map((opt) => (

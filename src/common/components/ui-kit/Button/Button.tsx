@@ -10,6 +10,7 @@ interface ButtonProps {
   onClick?: () => void;
   type?: "button" | "submit";
   title?: string;
+  disabled?: boolean;
 }
 
 const stylesMap: Record<EstadoBoton, string> = {
@@ -27,6 +28,7 @@ export function Button({
   onClick,
   type = "button",
   title,
+  disabled = false,
 }: ButtonProps) {
   const iconOnly = !!Icon && !desc;
 
@@ -36,6 +38,7 @@ export function Button({
       onClick={onClick}
       type={type}
       title={title}
+      disabled={disabled}
     >
       {Icon && <Icon size={18} />}
       {desc && <span>{desc}</span>}

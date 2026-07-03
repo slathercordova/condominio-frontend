@@ -4,9 +4,9 @@ export interface PersonDto {
   tipoDocumentoNombre: string;
   numeroDocumento: string;
   nacimiento: string;
-  celular: string;
+  celular?: string;
   celular2?: string;
-  correo: string;
+  correo?: string;
   correo2?: string;
   nombres: string;
   apellidoPaterno: string;
@@ -24,4 +24,26 @@ export interface PersonFilters {
 
   page?: number;
   size?: number;
+}
+
+export interface personPostRequest {
+  tipoDocumento: string;
+  numeroDocumento: string;
+  nacimiento: string;
+  celular?: string;
+  celular2?: string;
+  correo?: string;
+  correo2?: string;
+  nombres?: string;
+  apellidoPaterno?: string;
+  apellidoMaterno?: string;
+  sexo: string;
+  estado: boolean;
+}
+
+export interface PersonaResponse {
+  id: string;
+  tipoDocumentoId: string;
+  tipoDocumentoNombre: string;
+  numeroDocumento: string;
 }

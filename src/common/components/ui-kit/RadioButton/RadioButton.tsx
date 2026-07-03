@@ -1,6 +1,6 @@
 import styles from "./RadioButton.module.css";
 
-interface RadioOption {
+export interface RadioOption {
   value: string;
   label: string;
   disabled?: boolean;
