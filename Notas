@@ -24,9 +24,6 @@ yarn add axios
 SI EL PROYECTO ES TYPESCRIPT UTILIZAR ESTE COMANDO
 yarn add -D @types/react @types/react-dom
 
-
-
-
 descargar nodejs
 https://nodejs.org/en/download
 
@@ -53,3 +50,98 @@ GitLens
 Material Icon Theme
 Todo Tree
 Paste JSON as Code
+
+// Comandos Git
+
+1. Posicionarse en la rama master del local
+   git switch master
+
+2. Hacer pull de lo que hay en la nube
+   git pull origin master
+
+3. Crear una nueva rama local para las feature
+   git switch -c feature/nombre-feature
+
+4. Realizar cambios y hacer commits frecuentes
+   git add .
+   git commit -m "mensaje"
+
+5. Terminado el trabajo volver a master y hacer pull de la rama feature a la master
+   git switch master
+
+6. Actualizar master antes del merge
+   git pull origin master
+
+7. Fusionar feature hacia la master
+   git merge feature/nombre-feature
+
+8. Subir los cambios al repositorio en la nube
+   git push origin master
+
+9. Borrar la rama feature después del push (opcional)
+   git branch -d feature/nombre-feature (local)
+   git push origin --delete feature/nombre-feature (remoto)
+
+COMANDOS ADICIONALES
+
+- Ver estado actual
+  git status
+
+- Ver historial de logs
+  git log
+  git log --oneline
+  git log --oneline --graph --decorate --all
+
+- Ver diferencias antes del commit
+  git diff
+  git diff --name-only HEAD origin/master
+
+- ver solo los commits nuevos
+  git log HEAD..origin/master --oneline
+
+- Listar ramas locales y remotas
+  git branch -a
+
+- Subida inicial
+  git push -u origin master
+
+- Traer cambios sin fusionar
+  git fetch
+
+COMANDOS POWERSHELL
+
+abrir power shell y posicionarse en la ruta del proyecto
+
+- Cantidad de objetos
+  Get-ChildItem -Recurse -Filter \*.java | Measure-Object
+
+- Cantidad de líneas
+  Get-ChildItem -Recurse -Filter \*.java |
+  Get-Content |
+  Measure-Object -Line
+
+- Cantidad de clases
+  Get-ChildItem -Recurse -Filter \*.java |
+  Select-String "class " |
+  Measure-Object
+
+- Cantidad de interfaces
+  Get-ChildItem -Recurse -Filter \*.java |
+  Select-String "interface " |
+  Measure-Object
+
+- Cantidad de records
+  Get-ChildItem -Recurse -Filter \*.java |
+  Select-String "record " |
+  Measure-Object
+
+- Cantidad de enums
+  Get-ChildItem -Recurse -Filter \*.java |
+  Select-String "enum " |
+  Measure-Object
+
+- Cantidad de commits git
+  git rev-list --count HEAD
+
+- Cantidad de trabajo en git
+  git diff --shortstat $(git hash-object -t tree /dev/null) HEAD

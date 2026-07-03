@@ -247,7 +247,7 @@ export function EstilosGeneralesPage() {
       <Slider label="Edad" value={edad} onChange={setEdad} min={18} max={80} />
 
       <h1>TABLA</h1>
-      <Table data={data} columns={columns} />
+      <Table data={data} columns={columns} rowKey={(p) => p.id} />
 
       <h1>MODAL</h1>
       <Button desc="MODAL" modo="INS" onClick={() => setIsModalOpen(true)} />

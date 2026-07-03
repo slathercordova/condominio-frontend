@@ -18,4 +18,11 @@ export const API_ENDPOINTS = {
   USUARIO_UNIDAD: {
     MY_UNITS: "/unidad/mis-unidades/",
   },
+
+  PERSONA: {
+    POST: "/persona",
+    GET: "/persona",
+    PUT: "/persona",
+    DELETE: "/persona",
+  },
 };

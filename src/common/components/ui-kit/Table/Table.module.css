@@ -2,13 +2,18 @@
 .tableWrapper {
   background: white;
   border-radius: 10px;
-  overflow: hidden;
   border: 1px solid #e5e7eb;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  scrollbar-width: thin;
 }
 
 .table {
   width: 100%;
   border-collapse: collapse;
+  min-width: max-content;
   font-size: 14px;
 }
 

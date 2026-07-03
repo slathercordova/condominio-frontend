@@ -1,6 +1,6 @@
-import styles from "./Table.module.css"
+import styles from "./Table.module.css";
 
-interface Column<T> {
+export interface Column<T> {
   header: string;
   render: (row: T) => React.ReactNode;
   width?: string;
@@ -9,9 +9,10 @@ interface Column<T> {
 interface TableProps<T> {
   data: T[];
   columns: Column<T>[];
+  rowKey: (row: T) => string;
 }
 
-export function Table<T>({ data, columns }: TableProps<T>) {
+export function Table<T>({ data, columns, rowKey }: TableProps<T>) {
   return (
     <div className={styles.tableWrapper}>
       <table className={styles.table}>
@@ -33,8 +34,8 @@ export function Table<T>({ data, columns }: TableProps<T>) {
               </td>
             </tr>
           ) : (
-            data.map((row, i) => (
-              <tr key={i} className={styles.tableRow}>
+            data.map((row) => (
+              <tr key={rowKey(row)} className={styles.tableRow}>
                 {columns.map((col, j) => (
                   <td key={j}>{col.render(row)}</td>
                 ))}
