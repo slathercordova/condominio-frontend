@@ -108,9 +108,28 @@
   color: var(--color-danger);
 }
 
+.error:focus-within {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
 .success {
   font-size: 12px;
   color: var(--color-success);
+}
+
+.success:focus-within {
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.warning {
+  border-color: var(--color-warning);
+}
+
+.warning:focus-within {
+  border-color: var(--color-warning);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
 }
 
 .disabled {
@@ -132,4 +151,57 @@
 
 .copied {
   color: var(--color-success);
+}
+
+.stateDefault {
+}
+
+.stateError {
+  border-color: var(--color-danger);
+}
+
+.stateError:focus-within {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.15);
+}
+
+.stateSuccess {
+  border-color: var(--color-success);
+}
+
+.stateSuccess:focus-within {
+  border-color: var(--color-success);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+
+.stateWarning {
+  border-color: var(--color-warning);
+}
+
+.stateWarning:focus-within {
+  border-color: var(--color-warning);
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.15);
+}
+
+.messageDefault {
+  color: var(--text-secondary);
+}
+
+.messageError {
+  color: var(--color-danger);
+}
+
+.messageSuccess {
+  color: var(--color-success);
+}
+
+.messageWarning {
+  color: var(--color-warning);
+}
+
+.messageDefault,
+.messageError,
+.messageSuccess,
+.messageWarning {
+  font-size: 12px;
 }

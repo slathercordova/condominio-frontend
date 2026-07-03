@@ -16,14 +16,28 @@ interface InputProps {
   maxLength?: number;
   name?: string;
   helperText?: string;
-  error?: string;
-  success?: string;
+  status?: "default" | "success" | "warning" | "error";
+  messageStatus?: string;
   startAdornment?: React.ReactNode;
   endAdornment?: React.ReactNode;
   showCounter?: boolean;
   clearable?: boolean;
   copyable?: boolean;
 }
+
+const borderStatusClass = {
+  default: styles.stateDefault,
+  success: styles.stateSuccess,
+  warning: styles.stateWarning,
+  error: styles.stateError,
+};
+
+const messageStatusClass = {
+  default: styles.messageDefault,
+  success: styles.messageSuccess,
+  warning: styles.messageWarning,
+  error: styles.messageError,
+};
 
 export function Input({
   label,
@@ -38,8 +52,8 @@ export function Input({
   maxLength,
   name,
   helperText,
-  error,
-  success,
+  status = "default",
+  messageStatus,
   startAdornment,
   endAdornment,
   showCounter,
@@ -75,7 +89,7 @@ export function Input({
       )}
 
       <div
-        className={`${styles.inputWrapper} ${error ? styles.errorBorder : ""} ${success ? styles.successBorder : ""} ${disabled ? styles.disabled : ""} ${readOnly ? styles.readOnly : ""}`}
+        className={`${styles.inputWrapper} ${borderStatusClass[status]} ${disabled ? styles.disabled : ""} ${readOnly ? styles.readOnly : ""}`}
       >
         {startAdornment && (
           <span className={styles.icon}>{startAdornment}</span>
@@ -128,10 +142,8 @@ export function Input({
         {endAdornment && <span className={styles.icon}>{endAdornment}</span>}
       </div>
 
-      {error ? (
-        <span className={styles.error}>{error}</span>
-      ) : success ? (
-        <span className={styles.success}>{success}</span>
+      {messageStatus ? (
+        <span className={messageStatusClass[status]}>{messageStatus}</span>
       ) : (
         helperText && <span className={styles.helper}>{helperText}</span>
       )}

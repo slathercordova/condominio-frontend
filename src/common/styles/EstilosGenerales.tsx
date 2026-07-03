@@ -169,7 +169,7 @@ export function EstilosGeneralesPage() {
         onChange={setTexto}
         placeholder="correo@gmail.com"
         type="email"
-        success="correo valido"
+        status="success"
       />
 
       <Input
@@ -192,7 +192,8 @@ export function EstilosGeneralesPage() {
         showCounter
         copyable
         helperText="Este es un mensaje para el helper text del input"
-        error="error"
+        status="error"
+        messageStatus="error de credenciales..."
       />
 
       <h1>CHECKBOX</h1>
