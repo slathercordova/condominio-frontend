@@ -109,7 +109,7 @@ export function Input({
           name={name}
         />
 
-        {clearable && value && (
+        {(clearable && value && !disabled) && (
           <button
             type="button"
             className={styles.action}

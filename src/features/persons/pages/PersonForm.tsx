@@ -5,33 +5,71 @@ import { usePersonForm } from "../hooks/usePersonForm";
 import { RadioButton } from "../../../common/components/ui-kit/RadioButton/RadioButton";
 import { GENDER_OPTIONS } from "../../../common/constants/gender";
 import { Button } from "../../../common/components/ui-kit/Button/Button";
-import type { personPostRequest } from "../types/person-types";
+import type { PersonDto, personPostRequest } from "../types/person-types";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
+import { Switch } from "../../../common/components/ui-kit/Switch/Switch";
+import { FORM_MODE } from "../../../common/constants/formMode";
 
 interface PersonFormProps {
   onCancel: () => void;
-  onSave: (request: personPostRequest) => void;
-  saving: boolean;
+  onSubmit: (request: personPostRequest) => void;
+  saving?: boolean;
+  person?: PersonDto | null;
+  modo: string;
 }
 
-export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
+export function PersonForm({
+  onCancel,
+  onSubmit,
+  saving,
+  person,
+  modo,
+}: PersonFormProps) {
   const [tipDoc, setTipDoc] = useState("");
   const [numDoc, setNumDoc] = useState("");
+  const [apePat, setApePat] = useState("");
+  const [apeMat, setApeMat] = useState("");
+  const [nombre, setNombre] = useState("");
   const [fecNac, setFecNac] = useState("");
   const [cel1, setCel1] = useState("");
   const [cel2, setCel2] = useState("");
   const [correo1, setCorreo1] = useState("");
   const [correo2, setCorreo2] = useState("");
+  const [sexo, setSexo] = useState("");
+  const [estado, setEstado] = useState(false);
+
+  const isInsert = modo === FORM_MODE.INSERT;
+  const isEdit = modo === FORM_MODE.UPDATE;
+  const isDisplay = modo === FORM_MODE.DISPLAY;
+
   const { documents, error, loading, fetchDocuments } = usePersonForm();
   const documentOptions = documents.map((doc) => ({
     value: doc.id,
     label: doc.nombre,
   }));
-  const [sexo, setSexo] = useState("");
+
+  const toNull = (value: string) => (value.trim() === "" ? null : value);
 
   useEffect(() => {
     fetchDocuments({});
   }, []);
+
+  useEffect(() => {
+    if (person) {
+      setTipDoc(person.tipoDocumentoId);
+      setNumDoc(person.numeroDocumento);
+      setApePat(person.apellidoPaterno);
+      setApeMat(person.apellidoMaterno);
+      setNombre(person.nombres);
+      setFecNac(person.nacimiento);
+      setCel1(person.celular ?? "");
+      setCel2(person.celular2 ?? "");
+      setCorreo1(person.correo ?? "");
+      setCorreo2(person.correo2 ?? "");
+      setSexo(person.sexo);
+      setEstado(person.estado);
+    }
+  }, [person]);
 
   const handleGrabar = async () => {
     //  TODO: Validar que cada item tenga algún valor
@@ -55,16 +93,19 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
       return;
     }
 
-    onSave({
+    onSubmit({
       tipoDocumento: tipDoc,
       numeroDocumento: numDoc,
+      apellidoPaterno: toNull(apePat),
+      apellidoMaterno: toNull(apeMat),
+      nombres: toNull(nombre),
       nacimiento: fecNac,
-      celular: cel1,
-      celular2: cel2,
-      correo: correo1,
-      correo2: correo2,
+      celular: toNull(cel1),
+      celular2: toNull(cel2),
+      correo: toNull(correo1),
+      correo2: toNull(correo2),
       sexo: sexo,
-      estado: true,
+      estado: isInsert ? true : estado,
     });
   };
 
@@ -77,6 +118,7 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         options={documentOptions}
         placeholder="Seleccione un tipo de documento"
         required
+        disabled={isDisplay}
       />
 
       <Input
@@ -88,7 +130,48 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         required
         status="default"
         clearable
+        disabled={isDisplay}
       />
+
+      {!isInsert && (
+        <>
+          <Input
+            label="Apellido paterno"
+            value={apePat}
+            onChange={setApePat}
+            placeholder="Apellido paterno"
+            type="text"
+            required
+            status="default"
+            clearable
+            disabled={isDisplay}
+          />
+
+          <Input
+            label="Apellido materno"
+            value={apeMat}
+            onChange={setApeMat}
+            placeholder="Apellido materno"
+            type="text"
+            required
+            status="default"
+            clearable
+            disabled={isDisplay}
+          />
+
+          <Input
+            label="Nombres"
+            value={nombre}
+            onChange={setNombre}
+            placeholder="Nombres"
+            type="text"
+            required
+            status="default"
+            clearable
+            disabled={isDisplay}
+          />
+        </>
+      )}
 
       <Input
         label="Fecha de nacimiento"
@@ -99,6 +182,7 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         required
         status="default"
         clearable
+        disabled={isDisplay}
       />
 
       <Input
@@ -109,6 +193,7 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         type="number"
         status="default"
         clearable
+        disabled={isDisplay}
       />
 
       <Input
@@ -119,6 +204,7 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         type="number"
         status="default"
         clearable
+        disabled={isDisplay}
       />
 
       <Input
@@ -129,6 +215,7 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         type="email"
         status="default"
         clearable
+        disabled={isDisplay}
       />
 
       <Input
@@ -139,6 +226,7 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         type="email"
         status="default"
         clearable
+        disabled={isDisplay}
       />
 
       <RadioButton
@@ -148,17 +236,31 @@ export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
         onChange={setSexo}
         required
         direction="horizontal"
+        disabled={isDisplay}
       />
+
+      {!isInsert && (
+        <Switch
+          label="Estado"
+          checked={estado}
+          onChange={setEstado}
+          disabled={isDisplay}
+        />
+      )}
+
+      {!isDisplay && (
+        <Button
+          desc={isInsert ? "Grabar" : "Actualizar"}
+          modo={isInsert ? "INS" : "UPD"}
+          onClick={handleGrabar}
+          type="button"
+          title="Grabar"
+          disabled={saving}
+        />
+      )}
+
       <Button
-        desc="Grabar"
-        modo="INS"
-        onClick={handleGrabar}
-        type="button"
-        title="Grabar"
-        disabled={saving}
-      />
-      <Button
-        desc="Cancelar"
+        desc={isDisplay ? "Cerrar" : "Cancelar"}
         modo="LNK"
         onClick={onCancel}
         type="button"

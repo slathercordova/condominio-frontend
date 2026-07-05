@@ -5,12 +5,13 @@ import {
   Table,
   type Column,
 } from "../../../common/components/ui-kit/Table/Table";
-import type { PersonDto } from "../types/person-types";
+import type { PersonDto, personPostRequest } from "../types/person-types";
 import { RowActions } from "../../../common/components/ui-kit/RowActions/RowActions";
 import { Pagination } from "../../../common/components/ui-kit/Pagination/Pagination";
 import { Button } from "../../../common/components/ui-kit/Button/Button";
 import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
 import { PersonForm } from "./PersonForm";
+import { FORM_MODE } from "../../../common/constants/formMode";
 
 export function PersonPage() {
   const {
@@ -19,7 +20,7 @@ export function PersonPage() {
     pagination,
     handleNuevaPersona,
     handleCloseModal,
-    isCreateModalOpen,
+    isModalOpen,
     loadPersons,
     createPerson,
     deletePerson,
@@ -27,6 +28,13 @@ export function PersonPage() {
     savingPerson,
     deletingPerson,
     refreshCurrentPage,
+    getPerson,
+    selectedPerson,
+    gettingPerson,
+    openEditModal,
+    modo,
+    updatePerson,
+    openDisplayModal,
   } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -49,10 +57,6 @@ export function PersonPage() {
           .concat(" " + p.apellidoMaterno),
     },
     {
-      header: "Apellido",
-      render: (p: PersonDto) => p.apellidoPaterno,
-    },
-    {
       header: "Correo",
       render: (p: PersonDto) => p.correo,
     },
@@ -68,8 +72,8 @@ export function PersonPage() {
           showView
           showEdit
           showDelete
-          onView={() => console.log("Ver", p.id)}
-          onEdit={() => console.log("Editar", p.id)}
+          onView={() => openDisplayModal(p.id)}
+          onEdit={() => openEditModal(p.id)}
           onDelete={() => deletePerson(p.id)}
         />
       ),
@@ -79,6 +83,27 @@ export function PersonPage() {
   useEffect(() => {
     loadPersons({ page: pagination?.page, size: pagination?.size });
   }, []);
+
+  const handleSave = (request: personPostRequest) => {
+    if (modo === FORM_MODE.INSERT) {
+      createPerson(request);
+    } else if (selectedPerson) {
+      updatePerson(selectedPerson.id, request);
+    }
+  };
+
+  const getModalTitle = () => {
+    switch (modo) {
+      case FORM_MODE.INSERT:
+        return "Crear persona";
+      case FORM_MODE.UPDATE:
+        return "Modificar persona";
+      case FORM_MODE.DISPLAY:
+        return "Consultar persona";
+      default:
+        return "";
+    }
+  };
 
   return (
     <div className="page-content">
@@ -109,14 +134,16 @@ export function PersonPage() {
       />
 
       <Modal
-        open={isCreateModalOpen}
-        title="Crear nueva persona"
+        open={isModalOpen}
+        title={getModalTitle()}
         onClose={handleCloseModal}
       >
         <PersonForm
           onCancel={handleCloseModal}
-          onSave={createPerson}
+          onSubmit={handleSave}
           saving={savingPerson}
+          modo={modo}
+          person={selectedPerson}
         />
       </Modal>
     </div>

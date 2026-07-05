@@ -80,3 +80,37 @@ export async function deletePersonaWs(
   );
   return response.data;
 }
+
+export async function getPersonaWs(
+  id: string,
+): Promise<ApiResponse<PersonDto>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.get(
+    `${API_ENDPOINTS.PERSONA.GET}/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}
+
+export async function putPersonaWs(
+  id: string,
+  data: personPostRequest,
+): Promise<ApiResponse<PersonDto>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.put<ApiResponse<PersonDto>>(
+    `${API_ENDPOINTS.PERSONA.PUT}/${id}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}

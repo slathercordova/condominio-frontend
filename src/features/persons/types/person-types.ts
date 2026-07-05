@@ -30,13 +30,13 @@ export interface personPostRequest {
   tipoDocumento: string;
   numeroDocumento: string;
   nacimiento: string;
-  celular?: string;
-  celular2?: string;
-  correo?: string;
-  correo2?: string;
-  nombres?: string;
-  apellidoPaterno?: string;
-  apellidoMaterno?: string;
+  celular?: string | null;
+  celular2?: string | null;
+  correo?: string | null;
+  correo2?: string | null;
+  nombres?: string  | null;
+  apellidoPaterno?: string  | null;
+  apellidoMaterno?: string  | null;
   sexo: string;
   estado: boolean;
 }

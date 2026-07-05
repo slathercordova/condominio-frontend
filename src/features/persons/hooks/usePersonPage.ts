@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { data, useNavigate } from "react-router-dom";
 import type {
   PersonDto,
   PersonFilters,
@@ -10,17 +10,25 @@ import { handleApiError } from "../../../common/security/handleApiError";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
 import {
   deletePersonaWs,
+  getPersonaWs,
   personaListWs,
   postPersonaWs,
+  putPersonaWs,
 } from "../services/person-service";
+import { FORM_MODE } from "../../../common/constants/formMode";
 
 export function usePersonPage() {
   const DEFAULT_PAGE_SIZE = 3;
 
   const navigate = useNavigate();
+  const [isModalOpen, setModalOpen] = useState(false);
   const [loadingPersons, setLoadingPersons] = useState(false);
   const [savingPerson, setSavingPerson] = useState(false);
   const [deletingPerson, setDeletingPerson] = useState(false);
+  const [updatingPerson, setUpdatingPerson] = useState(false);
+  const [gettingPerson, setGettingPerson] = useState(false);
+  const [selectedPerson, setSelectedPerson] = useState<PersonDto | null>(null);
+  const [modo, setModo] = useState("");
   const [error, setError] = useState<Error | null>(null);
   const [persons, setPersons] = useState<PersonDto[]>([]);
   const [filters, setFilters] = useState<PersonFilters>({
@@ -91,13 +99,61 @@ export function usePersonPage() {
       });
   };
 
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const getPerson = async (id: string) => {
+    setSelectedPerson(null);
+    setGettingPerson(true);
+    setError(null);
+
+    getPersonaWs(id)
+      .then((response) => {
+        if (response.data) {
+          setSelectedPerson(response.data);
+        }
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setGettingPerson(false);
+      });
+  };
+
+  const updatePerson = async (id: string, request: personPostRequest) => {
+    setUpdatingPerson(true);
+    setError(null);
+
+    putPersonaWs(id, request)
+      .then((response) => {
+        if (response.data) {
+          notification.success({ title: "Persona actualizada correctamente" });
+          handleCloseModal();
+          refreshCurrentPage();
+        }
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setUpdatingPerson(false);
+      });
+  };
+
   const handleNuevaPersona = () => {
-    setIsCreateModalOpen(true);
+    setModo(FORM_MODE.INSERT);
+    setSelectedPerson(null);
+    setModalOpen(true);
+  };
+
+  const openEditModal = (id: string) => {
+    setModo(FORM_MODE.UPDATE);
+    getPerson(id);
+    setModalOpen(true);
+  };
+
+   const openDisplayModal = (id: string) => {
+    setModo(FORM_MODE.DISPLAY);
+    getPerson(id);
+    setModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setIsCreateModalOpen(false);
+    setModalOpen(false);
   };
 
   const refreshCurrentPage = () => {
@@ -113,7 +169,7 @@ export function usePersonPage() {
     pagination,
     handleNuevaPersona,
     handleCloseModal,
-    isCreateModalOpen,
+    isModalOpen,
     loadPersons,
     createPerson,
     deletePerson,
@@ -121,5 +177,12 @@ export function usePersonPage() {
     savingPerson,
     deletingPerson,
     refreshCurrentPage,
+    getPerson,
+    selectedPerson,
+    gettingPerson,
+    openEditModal,
+    modo,
+    updatePerson,
+    openDisplayModal,
   };
 }
