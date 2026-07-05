@@ -14,7 +14,7 @@ import type {
   personPostRequest,
 } from "../types/person-types";
 
-export async function personaList(
+export async function personaListWs(
   params?: PersonFilters,
 ): Promise<ApiResponse<PageResponse<PersonDto>>> {
   const token = useAuthStore.getState().usuario?.accessToken;
@@ -48,7 +48,7 @@ export async function getAllTipoDocumento(
   return response.data;
 }
 
-export async function postPersona(
+export async function postPersonaWs(
   data: personPostRequest,
 ): Promise<ApiResponse<PersonaResponse>> {
   const token = useAuthStore.getState().usuario?.accessToken;
@@ -65,7 +65,7 @@ export async function postPersona(
   return response.data;
 }
 
-export async function deletePersona(
+export async function deletePersonaWs(
   id: string,
 ): Promise<ApiResponse<PersonaResponse>> {
   const token = useAuthStore.getState().usuario?.accessToken;

@@ -1,19 +1,35 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { PersonDto, PersonFilters } from "../types/person-types";
-import { deletePersona, personaList } from "../services/person-service";
+import type {
+  PersonDto,
+  PersonFilters,
+  personPostRequest,
+} from "../types/person-types";
 import type { Pagination } from "../../../common/types/pagination";
 import { handleApiError } from "../../../common/security/handleApiError";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
+import {
+  deletePersonaWs,
+  personaListWs,
+  postPersonaWs,
+} from "../services/person-service";
 
 export function usePersonPage() {
+  const DEFAULT_PAGE_SIZE = 3;
+
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loadingPersons, setLoadingPersons] = useState(false);
+  const [savingPerson, setSavingPerson] = useState(false);
+  const [deletingPerson, setDeletingPerson] = useState(false);
   const [error, setError] = useState<Error | null>(null);
   const [persons, setPersons] = useState<PersonDto[]>([]);
+  const [filters, setFilters] = useState<PersonFilters>({
+    page: 0,
+    size: DEFAULT_PAGE_SIZE,
+  });
   const [pagination, setPagination] = useState<Pagination | null>({
     page: 0,
-    size: 3,
+    size: DEFAULT_PAGE_SIZE,
     totalElements: 0,
     totalPages: 0,
     first: true,
@@ -22,13 +38,11 @@ export function usePersonPage() {
     hasPrevious: false,
   });
 
-  const PAGE_SIZE = 3;
-
-  const fetchPersons = async (filter?: PersonFilters) => {
-    setLoading(true);
+  const loadPersons = async (filter?: PersonFilters) => {
+    setLoadingPersons(true);
     setError(null);
 
-    personaList(filter)
+    personaListWs(filter)
       .then((response) => {
         if (response.data) {
           setPersons(response.data.content);
@@ -39,15 +53,15 @@ export function usePersonPage() {
         setError(error);
       })
       .finally(() => {
-        setLoading(false);
+        setLoadingPersons(false);
       });
   };
 
-  const fetchDeletePerson = async (id: string) => {
-    setLoading(true);
+  const deletePerson = async (id: string) => {
+    setDeletingPerson(true);
     setError(null);
 
-    deletePersona(id)
+    deletePersonaWs(id)
       .then(() => {
         notification.success({ title: "Persona eliminada correctamente" });
 
@@ -55,7 +69,25 @@ export function usePersonPage() {
       })
       .catch(handleApiError)
       .finally(() => {
-        setLoading(false);
+        setDeletingPerson(false);
+      });
+  };
+
+  const createPerson = async (request: personPostRequest) => {
+    setSavingPerson(true);
+    setError(null);
+
+    postPersonaWs(request)
+      .then((response) => {
+        if (response.data) {
+          notification.success({ title: "Persona creada correctamente" });
+          handleCloseModal();
+          refreshCurrentPage();
+        }
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setSavingPerson(false);
       });
   };
 
@@ -69,21 +101,25 @@ export function usePersonPage() {
   };
 
   const refreshCurrentPage = () => {
-    fetchPersons({
+    loadPersons({
       page: pagination?.page ?? 0,
-      size: PAGE_SIZE,
+      size: pagination?.size ?? DEFAULT_PAGE_SIZE,
     });
   };
 
   return {
-    loading,
     error,
-    fetchPersons,
     persons,
     pagination,
     handleNuevaPersona,
     handleCloseModal,
     isCreateModalOpen,
-    fetchDeletePerson,
+    loadPersons,
+    createPerson,
+    deletePerson,
+    loadingPersons,
+    savingPerson,
+    deletingPerson,
+    refreshCurrentPage,
   };
 }

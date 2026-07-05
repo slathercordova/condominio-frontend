@@ -13,18 +13,20 @@ import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
 import { PersonForm } from "./PersonForm";
 
 export function PersonPage() {
-  const PAGE_SIZE = 3;
-
   const {
-    loading,
     error,
-    fetchPersons,
     persons,
     pagination,
     handleNuevaPersona,
     handleCloseModal,
     isCreateModalOpen,
-    fetchDeletePerson,
+    loadPersons,
+    createPerson,
+    deletePerson,
+    loadingPersons,
+    savingPerson,
+    deletingPerson,
+    refreshCurrentPage,
   } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -68,23 +70,15 @@ export function PersonPage() {
           showDelete
           onView={() => console.log("Ver", p.id)}
           onEdit={() => console.log("Editar", p.id)}
-          onDelete={() => fetchDeletePerson(p.id)}
+          onDelete={() => deletePerson(p.id)}
         />
       ),
     },
   ];
 
   useEffect(() => {
-    fetchPersons({ page: 0, size: PAGE_SIZE });
+    loadPersons({ page: pagination?.page, size: pagination?.size });
   }, []);
-
-  const handlePersonCreated = () => {
-    handleCloseModal();
-    fetchPersons({
-      page: pagination?.page ?? 0,
-      size: PAGE_SIZE,
-    });
-  };
 
   return (
     <div className="page-content">
@@ -110,7 +104,7 @@ export function PersonPage() {
         page={uiPage}
         totalPages={uiTotalPages}
         onChange={(uiPage) =>
-          fetchPersons({ page: uiPage - 1, size: PAGE_SIZE })
+          loadPersons({ page: uiPage - 1, size: pagination?.size })
         }
       />
 
@@ -121,7 +115,8 @@ export function PersonPage() {
       >
         <PersonForm
           onCancel={handleCloseModal}
-          onSuccess={handlePersonCreated}
+          onSave={createPerson}
+          saving={savingPerson}
         />
       </Modal>
     </div>

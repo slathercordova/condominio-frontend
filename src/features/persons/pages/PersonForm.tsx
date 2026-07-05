@@ -5,17 +5,16 @@ import { usePersonForm } from "../hooks/usePersonForm";
 import { RadioButton } from "../../../common/components/ui-kit/RadioButton/RadioButton";
 import { GENDER_OPTIONS } from "../../../common/constants/gender";
 import { Button } from "../../../common/components/ui-kit/Button/Button";
-import { postPersona } from "../services/person-service";
 import type { personPostRequest } from "../types/person-types";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
-import { handleApiError } from "../../../common/security/handleApiError";
 
 interface PersonFormProps {
   onCancel: () => void;
-  onSuccess: ()=> void;
+  onSave: (request: personPostRequest) => void;
+  saving: boolean;
 }
 
-export function PersonForm({ onCancel, onSuccess }: PersonFormProps) {
+export function PersonForm({ onCancel, onSave, saving }: PersonFormProps) {
   const [tipDoc, setTipDoc] = useState("");
   const [numDoc, setNumDoc] = useState("");
   const [fecNac, setFecNac] = useState("");
@@ -29,7 +28,6 @@ export function PersonForm({ onCancel, onSuccess }: PersonFormProps) {
     label: doc.nombre,
   }));
   const [sexo, setSexo] = useState("");
-  const [saving, setSaving] = useState(false);
 
   useEffect(() => {
     fetchDocuments({});
@@ -57,7 +55,7 @@ export function PersonForm({ onCancel, onSuccess }: PersonFormProps) {
       return;
     }
 
-    const request: personPostRequest = {
+    onSave({
       tipoDocumento: tipDoc,
       numeroDocumento: numDoc,
       nacimiento: fecNac,
@@ -67,29 +65,7 @@ export function PersonForm({ onCancel, onSuccess }: PersonFormProps) {
       correo2: correo2,
       sexo: sexo,
       estado: true,
-    };
-
-    setSaving(true);
-
-    if (request === null) {
-      notification.error({ title: "Los datos del request no están completos" });
-      return;
-    }
-
-    console.log("datos" + request);
-
-    await postPersona(request)
-      .then((response) => {
-        if (response.data) {
-          notification.success({ title: "Persona creada correctamente" });
-          onSuccess();
-        }
-      })
-      .catch(handleApiError)
-      .finally(() => {
-        // setLoading(false);
-        setSaving(false);
-      });
+    });
   };
 
   return (
