@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { PersonDto, PersonFilters } from "../types/person-types";
-import { personaList } from "../services/person-service";
+import { deletePersona, personaList } from "../services/person-service";
 import type { Pagination } from "../../../common/types/pagination";
+import { handleApiError } from "../../../common/security/handleApiError";
+import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
 
 export function usePersonPage() {
   const navigate = useNavigate();
@@ -19,6 +21,8 @@ export function usePersonPage() {
     hasNext: false,
     hasPrevious: false,
   });
+
+  const PAGE_SIZE = 3;
 
   const fetchPersons = async (filter?: PersonFilters) => {
     setLoading(true);
@@ -39,6 +43,22 @@ export function usePersonPage() {
       });
   };
 
+  const fetchDeletePerson = async (id: string) => {
+    setLoading(true);
+    setError(null);
+
+    deletePersona(id)
+      .then(() => {
+        notification.success({ title: "Persona eliminada correctamente" });
+
+        refreshCurrentPage();
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const handleNuevaPersona = () => {
     setIsCreateModalOpen(true);
@@ -46,6 +66,13 @@ export function usePersonPage() {
 
   const handleCloseModal = () => {
     setIsCreateModalOpen(false);
+  };
+
+  const refreshCurrentPage = () => {
+    fetchPersons({
+      page: pagination?.page ?? 0,
+      size: PAGE_SIZE,
+    });
   };
 
   return {
@@ -57,5 +84,6 @@ export function usePersonPage() {
     handleNuevaPersona,
     handleCloseModal,
     isCreateModalOpen,
+    fetchDeletePerson,
   };
 }

@@ -64,3 +64,19 @@ export async function postPersona(
   );
   return response.data;
 }
+
+export async function deletePersona(
+  id: string,
+): Promise<ApiResponse<PersonaResponse>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.delete(
+    `${API_ENDPOINTS.PERSONA.DELETE}/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}

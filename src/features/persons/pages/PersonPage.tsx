@@ -24,6 +24,7 @@ export function PersonPage() {
     handleNuevaPersona,
     handleCloseModal,
     isCreateModalOpen,
+    fetchDeletePerson,
   } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -67,7 +68,7 @@ export function PersonPage() {
           showDelete
           onView={() => console.log("Ver", p.id)}
           onEdit={() => console.log("Editar", p.id)}
-          onDelete={() => console.log("Eliminar", p.id)}
+          onDelete={() => fetchDeletePerson(p.id)}
         />
       ),
     },
@@ -80,10 +81,10 @@ export function PersonPage() {
   const handlePersonCreated = () => {
     handleCloseModal();
     fetchPersons({
-        page: pagination?.page ?? 0,
-        size: PAGE_SIZE,
+      page: pagination?.page ?? 0,
+      size: PAGE_SIZE,
     });
-};
+  };
 
   return (
     <div className="page-content">
@@ -118,7 +119,10 @@ export function PersonPage() {
         title="Crear nueva persona"
         onClose={handleCloseModal}
       >
-        <PersonForm onCancel={handleCloseModal} onSuccess={handlePersonCreated} />
+        <PersonForm
+          onCancel={handleCloseModal}
+          onSuccess={handlePersonCreated}
+        />
       </Modal>
     </div>
   );
