@@ -77,6 +77,14 @@ export function PersonPage() {
     fetchPersons({ page: 0, size: PAGE_SIZE });
   }, []);
 
+  const handlePersonCreated = () => {
+    handleCloseModal();
+    fetchPersons({
+        page: pagination?.page ?? 0,
+        size: PAGE_SIZE,
+    });
+};
+
   return (
     <div className="page-content">
       <PageHeader titulo="PERSONAS" subtitulo="Adminstración de personas" />
@@ -110,7 +118,7 @@ export function PersonPage() {
         title="Crear nueva persona"
         onClose={handleCloseModal}
       >
-        <PersonForm onCancel={handleCloseModal} />
+        <PersonForm onCancel={handleCloseModal} onSuccess={handlePersonCreated} />
       </Modal>
     </div>
   );

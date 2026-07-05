@@ -8,17 +8,14 @@ import { Button } from "../../../common/components/ui-kit/Button/Button";
 import { postPersona } from "../services/person-service";
 import type { personPostRequest } from "../types/person-types";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
-import axios from "axios";
-import type {
-  ApiResponse,
-  ValidationErrors,
-} from "../../../common/types/api-response";
+import { handleApiError } from "../../../common/security/handleApiError";
 
 interface PersonFormProps {
   onCancel: () => void;
+  onSuccess: ()=> void;
 }
 
-export function PersonForm({ onCancel }: PersonFormProps) {
+export function PersonForm({ onCancel, onSuccess }: PersonFormProps) {
   const [tipDoc, setTipDoc] = useState("");
   const [numDoc, setNumDoc] = useState("");
   const [fecNac, setFecNac] = useState("");
@@ -40,6 +37,25 @@ export function PersonForm({ onCancel }: PersonFormProps) {
 
   const handleGrabar = async () => {
     //  TODO: Validar que cada item tenga algún valor
+    if (!tipDoc) {
+      notification.error({ title: "Debe ingresar el tipo de documento" });
+      return;
+    }
+
+    if (!numDoc) {
+      notification.error({ title: "Debe ingresar el número de documento" });
+      return;
+    }
+
+    if (!fecNac) {
+      notification.error({ title: "Debe ingresar la fecha de nacimiento" });
+      return;
+    }
+
+    if (!sexo) {
+      notification.error({ title: "Debe ingresar el sexo" });
+      return;
+    }
 
     const request: personPostRequest = {
       tipoDocumento: tipDoc,
@@ -66,34 +82,10 @@ export function PersonForm({ onCancel }: PersonFormProps) {
       .then((response) => {
         if (response.data) {
           notification.success({ title: "Persona creada correctamente" });
-          onCancel();
+          onSuccess();
         }
       })
-      .catch((error) => {
-        if (axios.isAxiosError(error)) {
-          const response = error.response
-            ?.data as ApiResponse<ValidationErrors>;
-          const errors = response.data;
-
-          if (!errors) {
-            notification.error({
-              title: "Ocurrió un error inesperado",
-            });
-            return;
-          }
-
-          Object.values(errors).forEach((messages) => {
-            messages.forEach((message) => {
-              notification.error({
-                title: message,
-              });
-            });
-          });
-          console.log(response);
-        }
-        console.log(error.response?.data);
-        notification.error({ title: error.message });
-      })
+      .catch(handleApiError)
       .finally(() => {
         // setLoading(false);
         setSaving(false);
@@ -107,6 +99,7 @@ export function PersonForm({ onCancel }: PersonFormProps) {
         value={tipDoc}
         onChange={setTipDoc}
         options={documentOptions}
+        placeholder="Seleccione un tipo de documento"
         required
       />
 
