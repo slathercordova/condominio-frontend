@@ -29,4 +29,11 @@ export const API_ENDPOINTS = {
   TIPO_DOCUMENTO: {
     GET: "/tipo-documento",
   },
+
+  UNIDAD: {
+    POST: "/unidad",
+    GET: "/unidad",
+    PUT: "/unidad",
+    DELETE: "/unidad",
+  },
 };
