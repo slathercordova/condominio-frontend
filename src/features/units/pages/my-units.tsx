@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../auth/store/auth-store";
-import { misUnidadesEP } from "../services/myunits";
+import { MyUnitsWs } from "../services/units-service";
 import type { UnidadUsuarioType } from "../types/mis-unidades";
 import { UnidadCard } from "../component/unit-card";
 
-export function UnitsPage() {
+export function MyUnitsPage() {
   //  sesion
-  const usuario = useAuthStore(state => state.usuario);
+  const usuario = useAuthStore((state) => state.usuario);
   const accessToken = usuario?.accessToken;
   const usuarioId = usuario?.idUsuario;
 
@@ -21,10 +21,10 @@ export function UnitsPage() {
       }
 
       try {
-        const data = await misUnidadesEP(accessToken, usuarioId);
+        const data = await MyUnitsWs(accessToken, usuarioId);
 
         console.log(data);
-        console.log("22"+data.data);
+        console.log("22" + data.data);
 
         if (data.success && data.data) {
           setUnidades(data.data);

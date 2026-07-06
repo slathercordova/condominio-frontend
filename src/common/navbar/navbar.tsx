@@ -1,9 +1,4 @@
-import {
-  Building,
-  DoorOpen,
-  Heart,
-  House,
-} from "lucide-react";
+import { Building, DoorOpen, Heart, House } from "lucide-react";
 import { Link } from "react-router-dom";
 import styles from "./navbar.module.css";
 import logo from "../images/edificio_logo.png";
@@ -14,7 +9,7 @@ export function NavBar() {
   //  TODO: poner el logo del edificio luego de BD
   //  TODO: poner el nombre del edificio luego de BD
   //  TODO: mensajes son TODO FIXME BUG HACK
-  
+
   return (
     <header className={styles.header}>
       <div className={styles.logoSection}>
@@ -29,14 +24,14 @@ export function NavBar() {
           Home
         </Link>
 
-        <AdministracionMenu/>
+        <AdministracionMenu />
 
         <Link to="/buildings" /*className={styles.highlight}*/>
           <Building size={20} />
           MIS EDIFICIOS
         </Link>
 
-        <Link to="/units" className={styles.highlight}>
+        <Link to="/my-units" className={styles.highlight}>
           <DoorOpen size={20} />
           MIS UNIDADES
         </Link>
@@ -46,7 +41,7 @@ export function NavBar() {
           FAVORITOS
         </Link>
 
-        <UserMenuCom/>
+        <UserMenuCom />
       </nav>
     </header>
   );

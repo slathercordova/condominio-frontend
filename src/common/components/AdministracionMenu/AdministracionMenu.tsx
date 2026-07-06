@@ -20,6 +20,10 @@ export function AdministracionMenu() {
     navigate("/persons", { replace: true });
   };
 
+  const handleUnits = () => {
+    navigate("/units", { replace: true });
+  };
+
   const handleEstilos = () => {
     navigate("/utilitarios", { replace: true });
   };
@@ -57,12 +61,12 @@ export function AdministracionMenu() {
         <Building />
         Edificios
       </div>
-      <div className={styles.item}>
+      <div className={styles.item} onClick={handleUnits}>
         <DoorOpen />
         Unidades
       </div>
       <div className={styles.item} onClick={handleEstilos}>
-        <Paintbrush/>
+        <Paintbrush />
         Diseños de prueba
       </div>
     </DropdownCom>
