@@ -35,6 +35,9 @@ export function PersonPage() {
     modo,
     updatePerson,
     openDisplayModal,
+    selectedRow,
+    setSelectedRow,
+    openAssignModal,
   } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -119,10 +122,24 @@ export function PersonPage() {
         title="Nueva persona"
       />
 
-      <Table data={persons} columns={columns} rowKey={(p) => p.id} />
+      <Table
+        data={persons}
+        columns={columns}
+        rowKey={(p) => p.id}
+        selectedRowKey={selectedRow?.id}
+        onRowClick={setSelectedRow}
+      />
 
       <div>
         BOTONES QUE HACEN ACCIONES EXTRAS AL SELECCIONAR UN REGISTRO DE LA TABLA
+        <Button
+          desc="Asignar unidades"
+          modo="UPD"
+          onClick={openAssignModal}
+          type="button"
+          title="Asignar unidades"
+          disabled={!selectedRow}
+        />
       </div>
 
       <Pagination

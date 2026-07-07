@@ -33,6 +33,10 @@ export function useUnitPage() {
   const [updatingUnit, setUpdatingUnit] = useState(false);
   const [deletingUnit, setDeletingUnit] = useState(false);
 
+  const [selectedRow, setSelectedRow] = useState<UnitDetailResponse | null>(
+    null,
+  );
+
   const [selectedUnit, setSelectedUnit] = useState<UnitDetailResponse | null>(
     null,
   );
@@ -194,5 +198,7 @@ export function useUnitPage() {
     updateUnit,
     deleteUnit,
     handleCalcularParticipacion,
+    selectedRow,
+    setSelectedRow,
   };
 }

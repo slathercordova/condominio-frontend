@@ -21,6 +21,7 @@ export function usePersonPage() {
   const DEFAULT_PAGE_SIZE = 3;
 
   const navigate = useNavigate();
+  const [selectedRow, setSelectedRow] = useState<PersonDto | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const [loadingPersons, setLoadingPersons] = useState(false);
   const [savingPerson, setSavingPerson] = useState(false);
@@ -163,6 +164,10 @@ export function usePersonPage() {
     });
   };
 
+  const openAssignModal = () => {
+    setModalOpen(true);
+  };
+
   return {
     error,
     persons,
@@ -184,5 +189,8 @@ export function usePersonPage() {
     modo,
     updatePerson,
     openDisplayModal,
+    selectedRow,
+    setSelectedRow,
+    openAssignModal,
   };
 }

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Button } from "../../../common/components/ui-kit/Button/Button";
 import { PageHeader } from "../../../common/components/ui-kit/PageHeader/PageHeader";
 import { useUnitPage } from "../hooks/useUnitPage";
@@ -14,6 +13,7 @@ import { Pagination } from "../../../common/components/ui-kit/Pagination/Paginat
 import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
 import { FORM_MODE } from "../../../common/constants/formMode";
 import { UnitForm } from "./UnitForm";
+import { useEffect } from "react";
 
 export function UnitPage() {
   const usuario = useAuthStore((state) => state.usuario);
@@ -38,6 +38,8 @@ export function UnitPage() {
     updateUnit,
     deleteUnit,
     handleCalcularParticipacion,
+    selectedRow,
+    setSelectedRow,
   } = useUnitPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -142,7 +144,13 @@ export function UnitPage() {
         type="button"
         title="Nueva unidad"
       />
-      <Table data={units} columns={columns} rowKey={(p) => p.id} />
+      <Table
+        data={units}
+        columns={columns}
+        rowKey={(p) => p.id}
+        selectedRowKey={selectedRow?.id}
+        onRowClick={setSelectedRow}
+      />
       <div>
         BOTONES QUE HACEN ACCIONES EXTRAS AL SELECCIONAR UN REGISTRO DE LA TABLA
       </div>
