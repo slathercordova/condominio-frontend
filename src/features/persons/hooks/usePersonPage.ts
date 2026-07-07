@@ -22,7 +22,8 @@ export function usePersonPage() {
 
   const navigate = useNavigate();
   const [selectedRow, setSelectedRow] = useState<PersonDto | null>(null);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [crudModalOpen, setCrudModalOpen] = useState(false);
+  const [assingModalOpen, setAssingModalOpen] = useState(false);
   const [loadingPersons, setLoadingPersons] = useState(false);
   const [savingPerson, setSavingPerson] = useState(false);
   const [deletingPerson, setDeletingPerson] = useState(false);
@@ -138,23 +139,24 @@ export function usePersonPage() {
   const handleNuevaPersona = () => {
     setModo(FORM_MODE.INSERT);
     setSelectedPerson(null);
-    setModalOpen(true);
+    setCrudModalOpen(true);
   };
 
   const openEditModal = (id: string) => {
     setModo(FORM_MODE.UPDATE);
     getPerson(id);
-    setModalOpen(true);
+    setCrudModalOpen(true);
   };
 
   const openDisplayModal = (id: string) => {
     setModo(FORM_MODE.DISPLAY);
     getPerson(id);
-    setModalOpen(true);
+    setCrudModalOpen(true);
   };
 
   const handleCloseModal = () => {
-    setModalOpen(false);
+    setCrudModalOpen(false);
+    setAssingModalOpen(false);
   };
 
   const refreshCurrentPage = () => {
@@ -165,8 +167,10 @@ export function usePersonPage() {
   };
 
   const openAssignModal = () => {
-    setModalOpen(true);
+    setAssingModalOpen(true);
   };
+
+  const handleGrabaAsignacion = () => {};
 
   return {
     error,
@@ -174,7 +178,7 @@ export function usePersonPage() {
     pagination,
     handleNuevaPersona,
     handleCloseModal,
-    isModalOpen,
+    crudModalOpen,
     loadPersons,
     createPerson,
     deletePerson,
@@ -192,5 +196,8 @@ export function usePersonPage() {
     selectedRow,
     setSelectedRow,
     openAssignModal,
+    setAssingModalOpen,
+    assingModalOpen,
+    handleGrabaAsignacion,
   };
 }

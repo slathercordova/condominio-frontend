@@ -12,6 +12,7 @@ import { Button } from "../../../common/components/ui-kit/Button/Button";
 import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
 import { PersonForm } from "./PersonForm";
 import { FORM_MODE } from "../../../common/constants/formMode";
+import { PersonAssignUnit } from "./PersonAssignUnit";
 
 export function PersonPage() {
   const {
@@ -20,7 +21,7 @@ export function PersonPage() {
     pagination,
     handleNuevaPersona,
     handleCloseModal,
-    isModalOpen,
+    crudModalOpen,
     loadPersons,
     createPerson,
     deletePerson,
@@ -38,6 +39,9 @@ export function PersonPage() {
     selectedRow,
     setSelectedRow,
     openAssignModal,
+    setAssingModalOpen,
+    assingModalOpen,
+    handleGrabaAsignacion,
   } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -95,7 +99,7 @@ export function PersonPage() {
     }
   };
 
-  const getModalTitle = () => {
+  const getCrudModalTitle = () => {
     switch (modo) {
       case FORM_MODE.INSERT:
         return "Crear persona";
@@ -151,8 +155,8 @@ export function PersonPage() {
       />
 
       <Modal
-        open={isModalOpen}
-        title={getModalTitle()}
+        open={crudModalOpen}
+        title={getCrudModalTitle()}
         onClose={handleCloseModal}
       >
         <PersonForm
@@ -161,6 +165,19 @@ export function PersonPage() {
           saving={savingPerson}
           modo={modo}
           person={selectedPerson}
+        />
+      </Modal>
+
+      <Modal
+        open={assingModalOpen}
+        title={"Asignación de unidades a la persona"}
+        onClose={handleCloseModal}
+      >
+        <PersonAssignUnit
+          onCancel={handleCloseModal}
+          onSubmit={handleGrabaAsignacion}
+          saving={false}
+          person={selectedRow}
         />
       </Modal>
     </div>

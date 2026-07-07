@@ -34,9 +34,9 @@ export interface personPostRequest {
   celular2?: string | null;
   correo?: string | null;
   correo2?: string | null;
-  nombres?: string  | null;
-  apellidoPaterno?: string  | null;
-  apellidoMaterno?: string  | null;
+  nombres?: string | null;
+  apellidoPaterno?: string | null;
+  apellidoMaterno?: string | null;
   sexo: string;
   estado: boolean;
 }
@@ -46,4 +46,14 @@ export interface PersonaResponse {
   tipoDocumentoId: string;
   tipoDocumentoNombre: string;
   numeroDocumento: string;
+}
+
+export interface PersonAssignRequest {
+  idUnidad: string;
+  idPersona: string;
+  esResponsable: boolean;
+  fechaInicio: Date;
+  fechaFin: Date;
+  tipoPropiedad: string;
+  estado: boolean;
 }
