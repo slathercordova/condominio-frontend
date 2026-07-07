@@ -43,12 +43,12 @@ export interface UnitDetailResponse {
 export interface UnitRequest {
   idEdificio: string;
   codigo: string;
-  logoUrl: string;
+  logoUrl?: string | null;
   piso: number;
   torre: string;
   metraje: number;
   porcentaje: number;
   tipoUnidad: string;
-  tipoAlquiler: string;
+  tipoAlquiler?: string | null;
   estado: boolean;
 }

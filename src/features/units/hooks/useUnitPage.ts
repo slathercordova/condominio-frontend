@@ -3,13 +3,20 @@ import type {
   UnitDetailResponse,
   UnitFilter,
   UnitRequest,
-} from "../types/mis-unidades";
-import { postUnitWs, unitListWs } from "../services/units-service";
+} from "../types/unit-types";
+import {
+  deleteUnitWs,
+  getUnitWs,
+  postUnitWs,
+  putUnitWs,
+  unitListWs,
+} from "../services/units-service";
 import type { Pagination } from "../../../common/types/pagination";
 import { handleApiError } from "../../../common/security/handleApiError";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
 import { useAuthStore } from "../../auth/store/auth-store";
 import { FORM_MODE } from "../../../common/constants/formMode";
+import { useCalcularParticipacion } from "../../buildings/hooks/useCalcularPartic";
 
 export function useUnitPage() {
   const usuario = useAuthStore((state) => state.usuario);
@@ -22,14 +29,19 @@ export function useUnitPage() {
   const [units, setUnits] = useState<UnitDetailResponse[]>([]);
 
   const [savingUnit, setSavingUnit] = useState(false);
-
-  const [error, setError] = useState<Error | null>(null);
-
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [gettingUnit, setGettingUnit] = useState(false);
+  const [updatingUnit, setUpdatingUnit] = useState(false);
+  const [deletingUnit, setDeletingUnit] = useState(false);
 
   const [selectedUnit, setSelectedUnit] = useState<UnitDetailResponse | null>(
     null,
   );
+
+  const { CalcularParticipacion } = useCalcularParticipacion();
+
+  const [error, setError] = useState<Error | null>(null);
+
+  const [isModalOpen, setModalOpen] = useState(false);
 
   const [pagination, setPagination] = useState<Pagination | null>({
     page: 0,
@@ -77,6 +89,75 @@ export function useUnitPage() {
       });
   };
 
+  const getUnit = async (id: string) => {
+    setSelectedUnit(null);
+    setGettingUnit(true);
+    setError(null);
+
+    getUnitWs(id)
+      .then((response) => {
+        if (response.data) {
+          setSelectedUnit(response.data);
+        }
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setGettingUnit(false);
+      });
+  };
+
+  const updateUnit = async (id: string, request: UnitRequest) => {
+    console.log("entra a update?");
+    setUpdatingUnit(true);
+    setError(null);
+
+    putUnitWs(id, request)
+      .then((response) => {
+        if (response.data) {
+          notification.success({ title: "Unidad actualizada correctamente" });
+          handleCloseModal();
+          refreshCurrentPage();
+        }
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setUpdatingUnit(false);
+      });
+  };
+
+  const deleteUnit = async (id: string) => {
+    setDeletingUnit(true);
+    setError(null);
+
+    deleteUnitWs(id)
+      .then(() => {
+        notification.success({ title: "Unidad eliminada correctamente" });
+        refreshCurrentPage();
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setDeletingUnit(false);
+      });
+  };
+
+  const openNewUnitModal = () => {
+    setModo(FORM_MODE.INSERT);
+    setSelectedUnit(null);
+    setModalOpen(true);
+  };
+
+  const openEditUnitModal = (id: string) => {
+    setModo(FORM_MODE.UPDATE);
+    getUnit(id);
+    setModalOpen(true);
+  };
+
+  const openDisplayUnitModal = (id: string) => {
+    setModo(FORM_MODE.DISPLAY);
+    getUnit(id);
+    setModalOpen(true);
+  };
+
   const handleCloseModal = () => {
     setModalOpen(false);
   };
@@ -89,10 +170,9 @@ export function useUnitPage() {
     });
   };
 
-  const openNewUnitModal = () => {
-    setModo(FORM_MODE.INSERT);
-    setSelectedUnit(null);
-    setModalOpen(true);
+  const handleCalcularParticipacion = async () => {
+    await CalcularParticipacion(idEdificio ?? "");
+    refreshCurrentPage();
   };
 
   return {
@@ -104,7 +184,15 @@ export function useUnitPage() {
     handleCloseModal,
     refreshCurrentPage,
     openNewUnitModal,
+    openEditUnitModal,
+    openDisplayUnitModal,
     isModalOpen,
     modo,
+    savingUnit,
+    getUnit,
+    selectedUnit,
+    updateUnit,
+    deleteUnit,
+    handleCalcularParticipacion,
   };
 }

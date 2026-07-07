@@ -65,22 +65,6 @@ export function usePersonPage() {
       });
   };
 
-  const deletePerson = async (id: string) => {
-    setDeletingPerson(true);
-    setError(null);
-
-    deletePersonaWs(id)
-      .then(() => {
-        notification.success({ title: "Persona eliminada correctamente" });
-
-        refreshCurrentPage();
-      })
-      .catch(handleApiError)
-      .finally(() => {
-        setDeletingPerson(false);
-      });
-  };
-
   const createPerson = async (request: personPostRequest) => {
     setSavingPerson(true);
     setError(null);
@@ -134,6 +118,22 @@ export function usePersonPage() {
       });
   };
 
+  const deletePerson = async (id: string) => {
+    setDeletingPerson(true);
+    setError(null);
+
+    deletePersonaWs(id)
+      .then(() => {
+        notification.success({ title: "Persona eliminada correctamente" });
+
+        refreshCurrentPage();
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setDeletingPerson(false);
+      });
+  };
+
   const handleNuevaPersona = () => {
     setModo(FORM_MODE.INSERT);
     setSelectedPerson(null);
@@ -146,7 +146,7 @@ export function usePersonPage() {
     setModalOpen(true);
   };
 
-   const openDisplayModal = (id: string) => {
+  const openDisplayModal = (id: string) => {
     setModo(FORM_MODE.DISPLAY);
     getPerson(id);
     setModalOpen(true);

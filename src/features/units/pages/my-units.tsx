@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAuthStore } from "../../auth/store/auth-store";
 import { MyUnitsWs } from "../services/units-service";
-import type { UnidadUsuarioType } from "../types/mis-unidades";
+import type { UnidadUsuarioType } from "../types/unit-types";
 import { UnidadCard } from "../component/unit-card";
 
 export function MyUnitsPage() {

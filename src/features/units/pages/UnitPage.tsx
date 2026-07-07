@@ -8,7 +8,7 @@ import {
   Table,
   type Column,
 } from "../../../common/components/ui-kit/Table/Table";
-import type { UnitDetailResponse } from "../types/mis-unidades";
+import type { UnitDetailResponse, UnitRequest } from "../types/unit-types";
 import { RowActions } from "../../../common/components/ui-kit/RowActions/RowActions";
 import { Pagination } from "../../../common/components/ui-kit/Pagination/Pagination";
 import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
@@ -28,14 +28,26 @@ export function UnitPage() {
     handleCloseModal,
     refreshCurrentPage,
     openNewUnitModal,
+    openEditUnitModal,
+    openDisplayUnitModal,
     isModalOpen,
     modo,
+    savingUnit,
+    getUnit,
+    selectedUnit,
+    updateUnit,
+    deleteUnit,
+    handleCalcularParticipacion,
   } = useUnitPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
   const uiTotalPages = pagination?.totalPages ?? 0;
 
   const columns: Column<UnitDetailResponse>[] = [
+    {
+      header: "ID",
+      render: (p: UnitDetailResponse) => p.id,
+    },
     {
       header: "Código",
       render: (p: UnitDetailResponse) => p.codigo,
@@ -76,9 +88,9 @@ export function UnitPage() {
           showView
           showEdit
           showDelete
-          // onView={() => openDisplayModal(p.id)}
-          // onEdit={() => openEditModal(p.id)}
-          // onDelete={() => deletePerson(p.id)}
+          onView={() => openDisplayUnitModal(p.id)}
+          onEdit={() => openEditUnitModal(p.id)}
+          onDelete={() => deleteUnit(p.id)}
         />
       ),
     },
@@ -94,6 +106,14 @@ export function UnitPage() {
         return "Consultar unidad";
       default:
         return "";
+    }
+  };
+
+  const handleSave = (request: UnitRequest) => {
+    if (modo === FORM_MODE.INSERT) {
+      createUnit(request);
+    } else if (selectedUnit) {
+      updateUnit(selectedUnit.id, request);
     }
   };
 
@@ -126,6 +146,15 @@ export function UnitPage() {
       <div>
         BOTONES QUE HACEN ACCIONES EXTRAS AL SELECCIONAR UN REGISTRO DE LA TABLA
       </div>
+
+      <Button
+        modo={"UPD"}
+        desc="Calcular Participación"
+        onClick={handleCalcularParticipacion}
+        type="button"
+        title="Calcular Participación"
+      />
+
       <Pagination
         page={uiPage}
         totalPages={uiTotalPages}
@@ -145,10 +174,10 @@ export function UnitPage() {
       >
         <UnitForm
           onCancel={handleCloseModal}
-          onSubmit={() => console.log("aea")}
-          saving={() => console.log("aea")}
+          onSubmit={handleSave}
+          saving={savingUnit}
           modo={modo}
-          person={() => console.log("aea")}
+          unit={selectedUnit}
         />
       </Modal>
     </div>

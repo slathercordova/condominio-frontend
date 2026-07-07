@@ -8,7 +8,7 @@ import type {
   UnitDetailResponse,
   UnitFilter,
   UnitRequest,
-} from "../types/mis-unidades";
+} from "../types/unit-types";
 
 export async function MyUnitsWs(
   token: string,
@@ -48,6 +48,48 @@ export async function postUnitWs(
 
   const response = await ApiUrl.post<ApiResponse<UnitDetailResponse>>(
     API_ENDPOINTS.UNIDAD.POST,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}
+
+export async function deleteUnitWs(id: string): Promise<ApiResponse<void>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.delete(`${API_ENDPOINTS.UNIDAD.DELETE}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
+
+export async function getUnitWs(
+  id: string,
+): Promise<ApiResponse<UnitDetailResponse>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.get(`${API_ENDPOINTS.UNIDAD.GET}/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}
+
+export async function putUnitWs(
+  id: string,
+  data: UnitRequest,
+): Promise<ApiResponse<UnitDetailResponse>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.put<ApiResponse<UnitDetailResponse>>(
+    `${API_ENDPOINTS.UNIDAD.PUT}/${id}`,
     data,
     {
       headers: {

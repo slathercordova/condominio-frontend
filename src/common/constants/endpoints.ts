@@ -36,4 +36,14 @@ export const API_ENDPOINTS = {
     PUT: "/unidad",
     DELETE: "/unidad",
   },
+
+  CATALOGO: {
+    TIPO_UNIDAD: "/catalogos/tipos-unidad",
+    TIPO_ALQUILER: "/catalogos/tipos-alquiler",
+  },
+
+  EDIFICIO: {
+    CALCULAR_PARTICIPACION: (idEdificio: string) =>
+      `/edificio/${idEdificio}/calcular-porcentajes`,
+  },
 };

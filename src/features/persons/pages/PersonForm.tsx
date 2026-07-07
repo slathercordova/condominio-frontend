@@ -48,7 +48,10 @@ export function PersonForm({
     label: doc.nombre,
   }));
 
-  const toNull = (value: string) => (value.trim() === "" ? null : value);
+  const toNull = (value: string | null) => {
+    if (value === null) return null;
+    return value.trim() === "" ? null : value;
+  };
 
   useEffect(() => {
     fetchDocuments({});
