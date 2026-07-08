@@ -4,6 +4,8 @@ import type { ApiResponse } from "../../../common/types/api-response";
 import type { PageResponse } from "../../../common/types/pagination";
 import { useAuthStore } from "../../auth/store/auth-store";
 import type {
+  PersonaUnidadRequest,
+  PersonaUnidadResponse,
   UnidadUsuarioType,
   UnitDetailResponse,
   UnitFilter,
@@ -90,6 +92,23 @@ export async function putUnitWs(
 
   const response = await ApiUrl.put<ApiResponse<UnitDetailResponse>>(
     `${API_ENDPOINTS.UNIDAD.PUT}/${id}`,
+    data,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}
+
+export async function AsignUnitPersonWs(
+  data: PersonaUnidadRequest,
+): Promise<ApiResponse<PersonaUnidadResponse>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.post<ApiResponse<PersonaUnidadResponse>>(
+    API_ENDPOINTS.USUARIO_UNIDAD.ASIGNAR_UNIDAD,
     data,
     {
       headers: {

@@ -35,3 +35,19 @@ export async function ListTipoAlquilerWs(): Promise<
   );
   return response.data;
 }
+
+export async function ListTipoPropiedadWs(): Promise<
+  ApiResponse<CatalogResponse[]>
+> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.get<ApiResponse<CatalogResponse[]>>(
+    API_ENDPOINTS.CATALOGO.TIPO_PROPIEDAD,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}

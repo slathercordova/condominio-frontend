@@ -47,13 +47,3 @@ export interface PersonaResponse {
   tipoDocumentoNombre: string;
   numeroDocumento: string;
 }
-
-export interface PersonAssignRequest {
-  idUnidad: string;
-  idPersona: string;
-  esResponsable: boolean;
-  fechaInicio: Date;
-  fechaFin: Date;
-  tipoPropiedad: string;
-  estado: boolean;
-}

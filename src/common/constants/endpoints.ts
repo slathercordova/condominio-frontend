@@ -17,6 +17,7 @@ export const API_ENDPOINTS = {
 
   USUARIO_UNIDAD: {
     MY_UNITS: "/unidad/mis-unidades/",
+    ASIGNAR_UNIDAD: "/unidad/asignar-persona",
   },
 
   PERSONA: {
@@ -40,6 +41,7 @@ export const API_ENDPOINTS = {
   CATALOGO: {
     TIPO_UNIDAD: "/catalogos/tipos-unidad",
     TIPO_ALQUILER: "/catalogos/tipos-alquiler",
+    TIPO_PROPIEDAD: "/catalogos/tipos-propiedad",
   },
 
   EDIFICIO: {

@@ -1,10 +1,12 @@
 import { useState } from "react";
 import type {
+  PersonaUnidadRequest,
   UnitDetailResponse,
   UnitFilter,
   UnitRequest,
 } from "../types/unit-types";
 import {
+  AsignUnitPersonWs,
   deleteUnitWs,
   getUnitWs,
   postUnitWs,
@@ -32,6 +34,8 @@ export function useUnitPage() {
   const [gettingUnit, setGettingUnit] = useState(false);
   const [updatingUnit, setUpdatingUnit] = useState(false);
   const [deletingUnit, setDeletingUnit] = useState(false);
+
+  const [loadingAsign, setLoadingAsign] = useState(false);
 
   const [selectedRow, setSelectedRow] = useState<UnitDetailResponse | null>(
     null,
@@ -144,6 +148,21 @@ export function useUnitPage() {
       });
   };
 
+  const AsignUnitPerson = async (request: PersonaUnidadRequest) => {
+    setLoadingAsign(true);
+    setError(null);
+
+    AsignUnitPersonWs(request)
+      .then(() => {
+        notification.success({ title: "Unidad asignada correctamente" });
+        refreshCurrentPage();
+      })
+      .catch(handleApiError)
+      .finally(() => {
+        setLoadingAsign(false);
+      });
+  };
+
   const openNewUnitModal = () => {
     setModo(FORM_MODE.INSERT);
     setSelectedUnit(null);
@@ -200,5 +219,6 @@ export function useUnitPage() {
     handleCalcularParticipacion,
     selectedRow,
     setSelectedRow,
+    AsignUnitPerson,
   };
 }

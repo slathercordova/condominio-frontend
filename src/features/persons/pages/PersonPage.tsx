@@ -13,6 +13,7 @@ import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
 import { PersonForm } from "./PersonForm";
 import { FORM_MODE } from "../../../common/constants/formMode";
 import { PersonAssignUnit } from "./PersonAssignUnit";
+import { UnitSearchModal } from "../../../common/components/prompt/unit/unit-search";
 
 export function PersonPage() {
   const {
@@ -42,6 +43,12 @@ export function PersonPage() {
     setAssingModalOpen,
     assingModalOpen,
     handleGrabaAsignacion,
+    isSearchUnitModalOpen,
+    handleSelectUnit,
+    selectedUnit,
+    openSearchUnitModal,
+    handleCloseAssignModal,
+    handleCloseSearchModal,
   } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -171,14 +178,24 @@ export function PersonPage() {
       <Modal
         open={assingModalOpen}
         title={"Asignación de unidades a la persona"}
-        onClose={handleCloseModal}
+        onClose={handleCloseAssignModal}
       >
         <PersonAssignUnit
-          onCancel={handleCloseModal}
+          onCancel={handleCloseAssignModal}
           onSubmit={handleGrabaAsignacion}
           saving={false}
           person={selectedRow}
+          selectedUnit={selectedUnit}
+          onSearchUnit={openSearchUnitModal}
         />
+      </Modal>
+
+      <Modal
+        open={isSearchUnitModalOpen}
+        title="Buscar unidad"
+        onClose={handleCloseSearchModal}
+      >
+        <UnitSearchModal onSelect={handleSelectUnit} />
       </Modal>
     </div>
   );

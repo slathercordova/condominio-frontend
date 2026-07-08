@@ -52,3 +52,20 @@ export interface UnitRequest {
   tipoAlquiler?: string | null;
   estado: boolean;
 }
+
+export interface PersonaUnidadRequest {
+  idUnidad: string;
+  idPersona: string;
+  esResponsable: boolean;
+  fechaInicio: string;
+  fechaFin?: string | null;
+  tipoPropiedad: string;
+  estado: boolean;
+}
+
+export interface PersonaUnidadResponse {
+  id: string;
+  idUnidad: string;
+  idPersona: string;
+  tipoPropiedad: string;
+}

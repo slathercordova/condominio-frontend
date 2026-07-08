@@ -16,14 +16,24 @@ import {
   putPersonaWs,
 } from "../services/person-service";
 import { FORM_MODE } from "../../../common/constants/formMode";
+import type {
+  PersonaUnidadRequest,
+  UnitDetailResponse,
+} from "../../units/types/unit-types";
+import { useUnitPage } from "../../units/hooks/useUnitPage";
 
 export function usePersonPage() {
+  const { AsignUnitPerson } = useUnitPage();
   const DEFAULT_PAGE_SIZE = 3;
 
   const navigate = useNavigate();
   const [selectedRow, setSelectedRow] = useState<PersonDto | null>(null);
   const [crudModalOpen, setCrudModalOpen] = useState(false);
   const [assingModalOpen, setAssingModalOpen] = useState(false);
+  const [isSearchUnitModalOpen, setSearchUnitModalOpen] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState<UnitDetailResponse | null>(
+    null,
+  );
   const [loadingPersons, setLoadingPersons] = useState(false);
   const [savingPerson, setSavingPerson] = useState(false);
   const [deletingPerson, setDeletingPerson] = useState(false);
@@ -156,7 +166,15 @@ export function usePersonPage() {
 
   const handleCloseModal = () => {
     setCrudModalOpen(false);
+  };
+
+  const handleCloseAssignModal = () => {
+    setSelectedUnit(null);
     setAssingModalOpen(false);
+  };
+
+  const handleCloseSearchModal = () => {
+    setSearchUnitModalOpen(false);
   };
 
   const refreshCurrentPage = () => {
@@ -170,7 +188,19 @@ export function usePersonPage() {
     setAssingModalOpen(true);
   };
 
-  const handleGrabaAsignacion = () => {};
+  const openSearchUnitModal = () => {
+    setSearchUnitModalOpen(true);
+  };
+
+  const handleSelectUnit = (unit: UnitDetailResponse) => {
+    setSelectedUnit(unit);
+    handleCloseSearchModal();
+  };
+
+  const handleGrabaAsignacion = (request: PersonaUnidadRequest) => {
+    AsignUnitPerson(request);
+    handleCloseAssignModal();
+  };
 
   return {
     error,
@@ -199,5 +229,11 @@ export function usePersonPage() {
     setAssingModalOpen,
     assingModalOpen,
     handleGrabaAsignacion,
+    isSearchUnitModalOpen,
+    handleSelectUnit,
+    selectedUnit,
+    openSearchUnitModal,
+    handleCloseAssignModal,
+    handleCloseSearchModal,
   };
 }

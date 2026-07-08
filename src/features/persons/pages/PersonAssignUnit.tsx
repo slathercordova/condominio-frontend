@@ -2,13 +2,22 @@ import { useEffect, useState } from "react";
 import { Input } from "../../../common/components/ui-kit/Input/Input";
 import { Switch } from "../../../common/components/ui-kit/Switch/Switch";
 import { Select } from "../../../common/components/ui-kit/Select/Select";
-import type { PersonAssignRequest, PersonDto } from "../types/person-types";
+import { useCatalog } from "../../catalogs/hooks/useCatalogs";
+import { Button } from "../../../common/components/ui-kit/Button/Button";
+import type {
+  PersonaUnidadRequest,
+  UnitDetailResponse,
+} from "../../units/types/unit-types";
+import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
+import type { PersonDto } from "../types/person-types";
 
 interface PersonAssignProps {
   onCancel: () => void;
-  onSubmit: (request: PersonAssignRequest) => void;
+  onSubmit: (request: PersonaUnidadRequest) => void;
   saving?: boolean;
   person: PersonDto | null;
+  selectedUnit: UnitDetailResponse | null;
+  onSearchUnit: () => void;
 }
 
 export function PersonAssignUnit({
@@ -16,8 +25,11 @@ export function PersonAssignUnit({
   onSubmit,
   saving,
   person,
+  selectedUnit,
+  onSearchUnit,
 }: PersonAssignProps) {
   const [idUnidad, setIdUnidad] = useState("");
+  const [codigoUnidad, setCodigoUnidad] = useState("");
   const [idPersona, setIdPersona] = useState("");
   const [esResponsable, setEsResponsable] = useState(false);
   const [fechaInicio, setFechaInicio] = useState("");
@@ -25,22 +37,90 @@ export function PersonAssignUnit({
   const [tipoPropiedad, setTipoPropiedad] = useState("");
   const [estado, setEstado] = useState(false);
 
+  const { fetchTipoPropiedad, listTipoProp } = useCatalog();
+
+  const listTipoPropOptions = listTipoProp.map((item) => ({
+    value: item.codigo,
+    label: item.descripcion,
+  }));
+
   useEffect(() => {
     setIdPersona(person?.id ?? "");
-    //   fetchDocuments({});
+    fetchTipoPropiedad();
   }, []);
+
+  useEffect(() => {
+    if (selectedUnit) {
+      setIdUnidad(selectedUnit.id);
+      setCodigoUnidad(selectedUnit.codigo);
+    }
+  }, [selectedUnit]);
+
+  const handleGrabar = () => {
+    if (!idUnidad) {
+      notification.error({ title: "Debe seleccionar una unidad" });
+      return;
+    }
+
+    if (!idPersona) {
+      notification.error({ title: "Debe seleccionar una persona" });
+      return;
+    }
+
+    if (esResponsable === null) {
+      notification.error({ title: "Debe indicar si es responsable" });
+      return;
+    }
+
+    if (!fechaInicio) {
+      notification.error({ title: "Debe indicar una fecha de inicio" });
+      return;
+    }
+
+    if (!tipoPropiedad) {
+      notification.error({ title: "Debe seleccionar un tipo de propiedad" });
+      return;
+    }
+
+    if (estado === null) {
+      notification.error({ title: "Debe indicar un estado" });
+      return;
+    }
+
+    const request: PersonaUnidadRequest = {
+      idUnidad: idUnidad,
+      idPersona: idPersona,
+      esResponsable: esResponsable,
+      fechaInicio: fechaInicio,
+      fechaFin: fechaFin || null,
+      tipoPropiedad: tipoPropiedad,
+      estado: estado,
+    };
+
+    console.log(request);
+    onSubmit(request);
+  };
 
   return (
     <div>
       <Input
         label="Código unidad"
-        value={idUnidad}
-        onChange={setIdUnidad}
+        value={codigoUnidad}
+        onChange={setCodigoUnidad}
         placeholder="Código unidad"
         type="text"
         required
         status="default"
-        clearable
+        readOnly
+      />
+
+      <Button
+        desc={"Buscar"}
+        modo={"LNK"}
+        onClick={onSearchUnit}
+        type="button"
+        title="Buscar"
+        disabled={false}
       />
 
       <Input
@@ -97,16 +177,33 @@ export function PersonAssignUnit({
         clearable
       />
 
-      {/* <Select
-        label="Tipo propietario"
+      <Select
+        label="Tipo propiedad"
         value={tipoPropiedad}
         onChange={setTipoPropiedad}
-        options={}
-        placeholder="Seleccione tipo propietario"
+        options={listTipoPropOptions}
+        placeholder="--Seleccionar--"
         required
-      /> */}
+      />
 
       <Switch label="Estado" checked={estado} onChange={setEstado} />
+
+      <Button
+        desc="Grabar"
+        modo="UPD"
+        onClick={handleGrabar}
+        type="button"
+        title="Grabar"
+        disabled={saving}
+      />
+
+      <Button
+        desc="Cancelar"
+        modo="LNK"
+        onClick={onCancel}
+        type="button"
+        title="Cancelar"
+      />
     </div>
   );
 }
