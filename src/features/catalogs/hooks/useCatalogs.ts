@@ -88,5 +88,11 @@ export function useCatalog() {
     listTipoAlquiler,
     fetchTipoPropiedad,
     listTipoProp,
+    loadingCatalog,
+    errorCatalog,
+    loadingTipoAlquiler,
+    errorTipoAlquiler,
+    loadingTipoProp,
+    errorTipoProp,
   };
 }
