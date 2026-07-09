@@ -1,5 +1,3 @@
-import type { BuildingFilters } from "../../features/buildings/types/building-types";
-
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
