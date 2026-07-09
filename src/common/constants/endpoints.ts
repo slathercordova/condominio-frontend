@@ -1,3 +1,5 @@
+import type { BuildingFilters } from "../../features/buildings/types/building-types";
+
 export const API_ENDPOINTS = {
   AUTH: {
     LOGIN: "/auth/login",
@@ -42,10 +44,16 @@ export const API_ENDPOINTS = {
     TIPO_UNIDAD: "/catalogos/tipos-unidad",
     TIPO_ALQUILER: "/catalogos/tipos-alquiler",
     TIPO_PROPIEDAD: "/catalogos/tipos-propiedad",
+    TIPO_COBRO: "/catalogos/tipos-cobro",
+    PERIODO_MORA: "/catalogos/periodo-mora",
   },
 
   EDIFICIO: {
     CALCULAR_PARTICIPACION: (idEdificio: string) =>
       `/edificio/${idEdificio}/calcular-porcentajes`,
+    GET_FILTERS: "/edificio",
+    DELETE: (id: string) => `/edificio/${id}`,
+    POST: () => `/edificio`,
+    PUT: (id: string) => `/edificio/${id}`,
   },
 };

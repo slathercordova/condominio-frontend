@@ -1,7 +1,9 @@
 import { useState } from "react";
 import type { CatalogResponse } from "../types/catalog-type";
 import {
+  ListPeriodoMoraWs,
   ListTipoAlquilerWs,
+  ListTipoCobroWs,
   ListTipoPropiedadWs,
   ListTipoUnidadWs,
 } from "../services/catalog-service";
@@ -81,6 +83,52 @@ export function useCatalog() {
       });
   };
 
+  const [loadingTipoCobro, setLoadingTipoCobro] = useState(false);
+  const [errorTipoCobro, setErrorTipoCobro] = useState<Error | null>(null);
+  const [listTipoCobro, setListTipoCobro] = useState<CatalogResponse[]>([]);
+
+  const fetchTipoCobro = () => {
+    setLoadingTipoCobro(true);
+    setErrorTipoCobro(null);
+
+    ListTipoCobroWs()
+      .then((response) => {
+        if (response.data) {
+          setListTipoCobro(response.data);
+        }
+      })
+      .catch((error) => {
+        setErrorTipoCobro(error);
+        handleApiError(error);
+      })
+      .finally(() => {
+        setLoadingTipoCobro(false);
+      });
+  };
+
+  const [loadingPeriMora, setLoadingPeriMora] = useState(false);
+  const [errorPeriMora, setErrorPeriMora] = useState<Error | null>(null);
+  const [listPeriMora, setListPeriMora] = useState<CatalogResponse[]>([]);
+
+  const fetchPeriodoMora = () => {
+    setLoadingPeriMora(true);
+    setErrorPeriMora(null);
+
+    ListPeriodoMoraWs()
+      .then((response) => {
+        if (response.data) {
+          setListPeriMora(response.data);
+        }
+      })
+      .catch((error) => {
+        setErrorPeriMora(error);
+        handleApiError(error);
+      })
+      .finally(() => {
+        setLoadingPeriMora(false);
+      });
+  };
+
   return {
     fetchTipoUnidad,
     listCatalogs,
@@ -94,5 +142,9 @@ export function useCatalog() {
     errorTipoAlquiler,
     loadingTipoProp,
     errorTipoProp,
+    fetchPeriodoMora,
+    fetchTipoCobro,
+    listPeriMora,
+    listTipoCobro,
   };
 }

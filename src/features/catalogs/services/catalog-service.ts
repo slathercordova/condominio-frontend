@@ -51,3 +51,35 @@ export async function ListTipoPropiedadWs(): Promise<
   );
   return response.data;
 }
+
+export async function ListTipoCobroWs(): Promise<
+  ApiResponse<CatalogResponse[]>
+> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.get<ApiResponse<CatalogResponse[]>>(
+    API_ENDPOINTS.CATALOGO.TIPO_COBRO,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}
+
+export async function ListPeriodoMoraWs(): Promise<
+  ApiResponse<CatalogResponse[]>
+> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.get<ApiResponse<CatalogResponse[]>>(
+    API_ENDPOINTS.CATALOGO.PERIODO_MORA,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}

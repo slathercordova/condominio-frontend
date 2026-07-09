@@ -28,6 +28,10 @@ export function AdministracionMenu() {
     navigate("/utilitarios", { replace: true });
   };
 
+  const handleBuildings = () => {
+    navigate("/buildings", { replace: true });
+  };
+
   return (
     <DropdownCom
       trigger={
@@ -57,7 +61,7 @@ export function AdministracionMenu() {
         <Building2 />
         Empresas
       </div>
-      <div className={styles.item}>
+      <div className={styles.item} onClick={handleBuildings}>
         <Building />
         Edificios
       </div>

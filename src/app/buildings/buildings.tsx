@@ -1,5 +1,5 @@
-import { BudilignsPage } from "../../features/buildings/pages/buildings";
+import { BudilignsPage } from "../../features/buildings/pages/buildingsPage";
 
-export function BuildingApp(){
-    return <BudilignsPage/>
+export function BuildingApp() {
+  return <BudilignsPage />;
 }
