@@ -25,6 +25,7 @@ export interface BuildingDetailResponse {
   diaVencimiento: number;
   diaGracia: number;
   estado: boolean;
+  gastoTotal: number;
 }
 
 export interface BuildingRequest {
@@ -41,6 +42,7 @@ export interface BuildingRequest {
   diaGeneracion: number;
   diaVencimiento: number;
   diaGracia: number;
+  gastoTotal: number;
 }
 
 export interface BuildingResponse {

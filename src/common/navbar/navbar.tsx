@@ -4,11 +4,19 @@ import styles from "./navbar.module.css";
 import logo from "../images/edificio_logo.png";
 import { UserMenuCom } from "../components/UserMenu/UserMenu";
 import { AdministracionMenu } from "../components/AdministracionMenu/AdministracionMenu";
+import { useAuthStore } from "../../features/auth/store/auth-store";
+import { useEffect, useState } from "react";
 
 export function NavBar() {
   //  TODO: poner el logo del edificio luego de BD
   //  TODO: poner el nombre del edificio luego de BD
   //  TODO: mensajes son TODO FIXME BUG HACK
+  const usuario = useAuthStore((state) => state.usuario);
+  const esAdmin =
+    usuario?.roles.some(
+      (item) =>
+        item.nombre === "ADMINISTRADOR" || item.nombre === "ADMINISTRACION",
+    ) ?? false;
 
   return (
     <header className={styles.header}>
@@ -24,7 +32,7 @@ export function NavBar() {
           Home
         </Link>
 
-        <AdministracionMenu />
+        {esAdmin && <AdministracionMenu />}
 
         <Link to="/buildings" /*className={styles.highlight}*/>
           <Building size={20} />

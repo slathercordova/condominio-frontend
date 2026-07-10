@@ -15,6 +15,8 @@ import { FORM_MODE } from "../../../common/constants/formMode";
 import { UnitForm } from "./UnitForm";
 import { useEffect } from "react";
 import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
+import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
+import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
 
 export function UnitPage() {
   const usuario = useAuthStore((state) => state.usuario);
@@ -54,10 +56,6 @@ export function UnitPage() {
 
   const columns: Column<UnitDetailResponse>[] = [
     {
-      header: "ID",
-      render: (p: UnitDetailResponse) => p.id,
-    },
-    {
       header: "Código",
       render: (p: UnitDetailResponse) => p.codigo,
     },
@@ -76,6 +74,10 @@ export function UnitPage() {
     {
       header: "%",
       render: (p: UnitDetailResponse) => p.porcentaje,
+    },
+    {
+      header: "Deuda",
+      render: (p: UnitDetailResponse) => p.deudaTmp,
     },
     {
       header: "Tipo Unidad",
@@ -140,10 +142,18 @@ export function UnitPage() {
     });
   }, []);
 
+  if (loadingUnits) {
+    return (
+      <>
+        <Loading text="Consultando unidades..." />{" "}
+        <Skeleton type="table" rows={5} height={35} />
+      </>
+    );
+  }
+
   return (
     <div className="page-content">
       <PageHeader titulo="UNIDADES" subtitulo="Administración de unidades" />
-      <div>FILTROS</div>
       <Button
         modo={"INS"}
         desc="Nuevo"
@@ -158,9 +168,6 @@ export function UnitPage() {
         selectedRowKey={selectedRow?.id}
         onRowClick={setSelectedRow}
       />
-      <div>
-        BOTONES QUE HACEN ACCIONES EXTRAS AL SELECCIONAR UN REGISTRO DE LA TABLA
-      </div>
 
       <Button
         modo={"UPD"}

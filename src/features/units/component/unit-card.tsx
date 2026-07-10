@@ -1,5 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { type UnidadUsuarioType } from "../types/unit-types";
+import { Building2, CarFront, Heart, MapPin, Ruler } from "lucide-react";
+import { Button } from "../../../common/components/ui-kit/Button/Button";
+import styles from "./unit-card.module.css";
 
 interface UnidadCardProps {
   unidad: UnidadUsuarioType;
@@ -12,39 +15,72 @@ export function UnidadCard({ unidad }: UnidadCardProps) {
     navigate(`/unit/${unidad.idUnidad}`);
   };
 
+  const tieneDeuda = (unidad.deudaTmp ?? 0) > 0;
+
   return (
-    <div
-      style={{
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-        padding: "16px",
-        margin: "10px",
-        boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-        backgroundColor: "#fff",
-      }}
-    >
-      {/* Visual Anchor: Un emoji o icono según el tipo de unidad */}
-      <h3>
-        {unidad.tipoUnidad === "COCHERA" ? "🚗" : "🏢"} {unidad.tipoUnidad}:{" "}
-        {unidad.codigo}
-      </h3>
+    <div className={styles.card}>
+      <div className={styles.header}>
+        <div className={styles.title}>
+          {unidad.tipoUnidad === "COCHERA" ? (
+            <CarFront size={34} />
+          ) : (
+            <Building2 size={34} />
+          )}
 
-      <p>
-        <strong>Edificio:</strong> {unidad.edificioNombre}
-      </p>
-      <p>
-        <strong>Dirección:</strong> {unidad.edificioDireccion}
-      </p>
-      <p>
-        <strong>Metraje:</strong> {unidad.metraje} m²
-      </p>
+          <div>
+            <h3>{unidad.codigo}</h3>
+            <span>{unidad.tipoUnidad}</span>
+          </div>
+        </div>
 
-      <button
+        <Heart className={styles.favorite} size={22} />
+      </div>
+
+      <div className={styles.info}>
+        <p>
+          <Building2 size={16} />
+          {unidad.edificioNombre}
+        </p>
+
+        <p>
+          <MapPin size={16} />
+          {unidad.edificioDireccion}
+        </p>
+      </div>
+
+      <div className={styles.stats}>
+        <div>
+          <small>Metraje</small>
+          <strong>
+            <Ruler size={15} />
+            {unidad.metraje} m²
+          </strong>
+        </div>
+
+        <div>
+          <small>Estado</small>
+
+          <span
+            className={tieneDeuda ? styles.badgeDanger : styles.badgeSuccess}
+          >
+            {tieneDeuda ? "Pendiente" : "Al día"}
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.deuda}>
+        <small>Deuda pendiente</small>
+        <strong>S/ {unidad.deudaTmp?.toFixed(2) ?? "0.00"}</strong>
+      </div>
+
+      <Button
+        desc="Gestionar unidad"
+        modo="UPD"
         onClick={handleUnidad}
-        style={{ marginTop: "10px", padding: "8px 12px", cursor: "pointer" }}
-      >
-        Gestionar Unidad
-      </button>
+        type="button"
+        title="Gestionar unidad"
+        fullWidth
+      />
     </div>
   );
 }

@@ -49,6 +49,8 @@ export const API_ENDPOINTS = {
   EDIFICIO: {
     CALCULAR_PARTICIPACION: (idEdificio: string) =>
       `/edificio/${idEdificio}/calcular-porcentajes`,
+    CALCULAR_DEUDA: (idEdificio: string) =>
+      `/edificio/${idEdificio}/generar-recibos`,
     GET_FILTERS: "/edificio",
     DELETE: (id: string) => `/edificio/${id}`,
     POST: () => `/edificio`,

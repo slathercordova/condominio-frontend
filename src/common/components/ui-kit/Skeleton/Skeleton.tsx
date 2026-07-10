@@ -16,9 +16,9 @@ export function Skeleton({
       <div className={styles.table}>
         {Array.from({ length: rows }).map((_, i) => (
           <div key={i} className={styles.tableRow}>
-            <div className={styles.cell}></div>
-            <div className={styles.cell}></div>
-            <div className={styles.cell}></div>
+            <div className={styles.cell} style={{ height }}></div>
+            <div className={styles.cell} style={{ height }}></div>
+            <div className={styles.cell} style={{ height }}></div>
           </div>
         ))}
       </div>

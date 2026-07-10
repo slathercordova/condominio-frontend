@@ -2,11 +2,13 @@ export interface UnidadUsuarioType {
   idPersonaUnidad: string;
   idPersona: string;
   personaNombre: string;
+  esFavorito: boolean;
   idUnidad: string;
   codigo: string;
   metraje: number;
   porcentaje: number;
   tipoUnidad: string;
+  deudaTmp: number;
   idEdificio: string;
   edificioNombre: string;
   edificioDireccion: string;
@@ -38,6 +40,7 @@ export interface UnitDetailResponse {
   tipoUnidad: string;
   tipoAlquiler: string;
   estado: boolean;
+  deudaTmp: number;
 }
 
 export interface UnitRequest {

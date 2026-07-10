@@ -36,6 +36,7 @@ export function BuildingForm({
   const [direccion, setDireccion] = useState("");
   const [ruc, setRuc] = useState("");
   const [contingencia, setContingencia] = useState("");
+  const [gastoTotal, setGastoTotal] = useState("");
   const [tipoCobro, setTipoCobro] = useState("");
   const [aplicaMora, setAplicaMora] = useState(false);
   const [montoMora, setMontoMora] = useState("");
@@ -104,6 +105,7 @@ export function BuildingForm({
       diaGeneracion: Number(diaGeneracion),
       diaVencimiento: Number(diaVencimiento),
       diaGracia: Number(diaGracia),
+      gastoTotal: Number(gastoTotal),
     };
 
     onSubmit(request);
@@ -130,6 +132,7 @@ export function BuildingForm({
         setDiaGeneracion(String(building.diaGeneracion));
         setDiaVencimiento(String(building.diaVencimiento));
         setDiaGracia(String(building.diaGracia));
+        setGastoTotal(String(building.gastoTotal));
       }
     }
   }, [building]);
@@ -198,6 +201,17 @@ export function BuildingForm({
         value={contingencia}
         onChange={setContingencia}
         placeholder="Contingencia"
+        type="number"
+        status="default"
+        clearable
+        disabled={isDisplay}
+      />
+
+      <Input
+        label="Gasto Total"
+        value={gastoTotal}
+        onChange={setGastoTotal}
+        placeholder="Gasto Total"
         type="number"
         status="default"
         clearable

@@ -41,15 +41,15 @@ export function AdministracionMenu() {
         </div>
       }
     >
-      <div className={styles.item}>
+      {/* <div className={styles.item}>
         <IdCard />
         Tipo Documento
-      </div>
+      </div> */}
       <div className={styles.item} onClick={handlePersonas}>
         <Users />
         Personas
       </div>
-      <div className={styles.item}>
+      {/* <div className={styles.item}>
         <UserCog />
         Usuarios
       </div>
@@ -60,7 +60,7 @@ export function AdministracionMenu() {
       <div className={styles.item}>
         <Building2 />
         Empresas
-      </div>
+      </div> */}
       <div className={styles.item} onClick={handleBuildings}>
         <Building />
         Edificios

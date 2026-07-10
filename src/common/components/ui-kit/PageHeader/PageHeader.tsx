@@ -1,4 +1,4 @@
-import styles from "./PageHeader.module.css"
+import styles from "./PageHeader.module.css";
 
 interface PageHeaderProps {
   titulo: string;

@@ -3,6 +3,9 @@ import { useAuthStore } from "../../auth/store/auth-store";
 import { MyUnitsWs } from "../services/units-service";
 import type { UnidadUsuarioType } from "../types/unit-types";
 import { UnidadCard } from "../component/unit-card";
+import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
+import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
+import { EmptyState } from "../../../common/components/ui-kit/EmptyState/EmptyState";
 
 export function MyUnitsPage() {
   //  sesion
@@ -23,9 +26,6 @@ export function MyUnitsPage() {
       try {
         const data = await MyUnitsWs(accessToken, usuarioId);
 
-        console.log(data);
-        console.log("22" + data.data);
-
         if (data.success && data.data) {
           setUnidades(data.data);
         } else {
@@ -41,13 +41,26 @@ export function MyUnitsPage() {
     cargarUnidades();
   }, [accessToken, usuarioId]);
 
-  if (loading) return <p>Cargando tus unidades...</p>;
+  if (loading)
+    return (
+      <>
+        <Loading text="Consultando mis unidades..." />{" "}
+        <Skeleton type="table" rows={5} height={35} />
+      </>
+    );
 
   if (unidades.length === 0)
-    return <p>No tienes unidades registradas en este edificio.</p>;
+    return (
+      <>
+        <EmptyState
+          title="No hay datos"
+          description="No tienes unidades registradas en este edificio."
+        />
+      </>
+    );
 
   return (
-    <div>
+    <div className="page-content">
       <h2>Bienvenido, {unidades[0]?.personaNombre}</h2>
       <p>Estas son las unidades asociadas a tu cuenta:</p>
 

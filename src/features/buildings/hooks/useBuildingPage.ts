@@ -16,6 +16,7 @@ import { notification } from "../../../common/components/ui-kit/Notificacion/Not
 import { FORM_MODE } from "../../../common/constants/formMode";
 import { useAuthStore } from "../../auth/store/auth-store";
 import { useCalcularParticipacion } from "./useCalcularPartic";
+import { useCalcularDeuda } from "./useCalcularDeuda";
 
 export function useBuildingPage() {
   const usuario = useAuthStore((state) => state.usuario);
@@ -53,6 +54,8 @@ export function useBuildingPage() {
   });
 
   const { CalcularParticipacion } = useCalcularParticipacion();
+
+  const { calcularDeuda } = useCalcularDeuda();
 
   const loadBuildings = (filter: BuildingFilters) => {
     setLoadingBuildings(true);
@@ -188,6 +191,11 @@ export function useBuildingPage() {
     closeDeleteDialog();
   };
 
+  const handleCalcularDeuda = async () => {
+    await calcularDeuda(idEdificio ?? "");
+    refreshCurrentPage();
+  };
+
   return {
     openCrudModal,
     loadBuildings,
@@ -210,5 +218,6 @@ export function useBuildingPage() {
     closeDeleteDialog,
     confirmDelete,
     buildingToDelete,
+    handleCalcularDeuda,
   };
 }

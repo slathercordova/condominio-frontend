@@ -90,6 +90,7 @@ export function SignInPage() {
                   onClick={() => showForgotPassword(true)}
                   type="button"
                   title="¿Olvidaste tu contraseña?"
+                  fullWidth
                 />
               )}
 
@@ -102,6 +103,7 @@ export function SignInPage() {
                 type="button"
                 title={mostrarCombo ? "Confirmar e ingresar" : "Ingresar"}
                 disabled={loadingLogin}
+                fullWidth
               />
             </>
           )}
@@ -127,6 +129,7 @@ export function SignInPage() {
                 type="button"
                 title="Enviar enlace"
                 disabled={loadingLogin}
+                fullWidth
               />
 
               <Button
@@ -135,6 +138,7 @@ export function SignInPage() {
                 onClick={handleBackToLogin}
                 type="button"
                 title="Volver al inicio de sesión"
+                fullWidth
               />
             </>
           )}

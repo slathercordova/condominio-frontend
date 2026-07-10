@@ -11,6 +11,7 @@ interface ButtonProps {
   type?: "button" | "submit";
   title?: string;
   disabled?: boolean;
+  fullWidth?: boolean;
 }
 
 const stylesMap: Record<EstadoBoton, string> = {
@@ -29,12 +30,13 @@ export function Button({
   type = "button",
   title,
   disabled = false,
+  fullWidth = false,
 }: ButtonProps) {
   const iconOnly = !!Icon && !desc;
 
   return (
     <button
-      className={`${styles.btn} ${stylesMap[modo]} ${iconOnly ? styles.iconOnly : ""}`}
+      className={`${styles.btn} ${stylesMap[modo]} ${iconOnly ? styles.iconOnly : ""} ${fullWidth ? styles.fullWidth : ""}`}
       onClick={onClick}
       type={type}
       title={title}

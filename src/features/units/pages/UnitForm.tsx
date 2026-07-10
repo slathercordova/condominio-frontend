@@ -43,6 +43,7 @@ export function UnitForm({
   const [torre, setTorre] = useState("");
   const [metraje, setMetraje] = useState("");
   const [porcentaje, setPorcentaje] = useState("");
+  const [deudaTmp, setDeudaTmp] = useState("");
   const [tipoUnidad, setTipoUnidad] = useState("");
   const [tipoAlquiler, setTipoAlquiler] = useState("");
   const [estado, setEstado] = useState(false);
@@ -186,6 +187,16 @@ export function UnitForm({
         value={String(porcentaje)}
         onChange={setPorcentaje}
         placeholder="% participación"
+        type="number"
+        status="default"
+        disabled
+      />
+
+      <Input
+        label="Deuda Total"
+        value={String(deudaTmp)}
+        onChange={setDeudaTmp}
+        placeholder="Deuda Total"
         type="number"
         status="default"
         disabled

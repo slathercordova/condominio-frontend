@@ -91,3 +91,20 @@ export async function putBuildingWs(
   );
   return response.data;
 }
+
+export async function CalcularDeudaWs(
+  idEdificio: string,
+): Promise<ApiResponse<number>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.post<ApiResponse<number>>(
+    API_ENDPOINTS.EDIFICIO.CALCULAR_DEUDA(idEdificio),
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}

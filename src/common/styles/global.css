@@ -107,3 +107,9 @@ select:focus {
 .page-content {
   padding: 24px;
 }
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 16px 0;
+}

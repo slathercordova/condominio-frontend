@@ -16,6 +16,8 @@ import { useEffect } from "react";
 import { FORM_MODE } from "../../../common/constants/formMode";
 import { BuildingForm } from "./buildingForm";
 import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
+import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
+import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
 
 export function BudilignsPage() {
   const {
@@ -40,6 +42,7 @@ export function BudilignsPage() {
     closeDeleteDialog,
     confirmDelete,
     buildingToDelete,
+    handleCalcularDeuda,
   } = useBuildingPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -57,6 +60,10 @@ export function BudilignsPage() {
     {
       header: "Ruc",
       render: (p: BuildingDetailResponse) => p.ruc,
+    },
+    {
+      header: "Gasto Total",
+      render: (p: BuildingDetailResponse) => p.gastoTotal,
     },
     {
       header: "Tipo Cobro",
@@ -115,11 +122,18 @@ export function BudilignsPage() {
     loadBuildings({ page: pagination?.page, size: pagination?.size });
   }, []);
 
+  if (loadingBuildings) {
+    return (
+      <>
+        <Loading text="Consultando edificios..." />{" "}
+        <Skeleton type="table" rows={5} height={35} />
+      </>
+    );
+  }
+
   return (
     <div className="page-content">
       <PageHeader titulo="EDIFICIOS" subtitulo="Administración de edificio" />
-
-      <div>FILTROS</div>
 
       <Button
         modo={"INS"}
@@ -137,16 +151,20 @@ export function BudilignsPage() {
         // onRowClick={setSelectedRow}
       />
 
-      <div>
-        BOTONES QUE HACEN ACCIONES EXTRAS AL SELECCIONAR UN REGISTRO DE LA TABLA
-      </div>
-
       <Button
         modo={"UPD"}
         desc="Calcular Participación"
         onClick={handleCalcularParticipacion}
         type="button"
         title="Calcular Participación"
+      />
+
+      <Button
+        modo={"UPD"}
+        desc="Calcular Deuda"
+        onClick={handleCalcularDeuda}
+        type="button"
+        title="Calcular Deuda"
       />
 
       <Pagination

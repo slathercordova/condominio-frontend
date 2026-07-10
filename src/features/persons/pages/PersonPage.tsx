@@ -15,6 +15,8 @@ import { FORM_MODE } from "../../../common/constants/formMode";
 import { PersonAssignUnit } from "./PersonAssignUnit";
 import { UnitSearchModal } from "../../../common/components/prompt/unit/unit-search";
 import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
+import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
+import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
 
 export function PersonPage() {
   const {
@@ -100,10 +102,6 @@ export function PersonPage() {
     },
   ];
 
-  useEffect(() => {
-    loadPersons({ page: pagination?.page, size: pagination?.size });
-  }, []);
-
   const handleSave = (request: personPostRequest) => {
     if (modo === FORM_MODE.INSERT) {
       createPerson(request);
@@ -125,19 +123,32 @@ export function PersonPage() {
     }
   };
 
+  useEffect(() => {
+    loadPersons({ page: pagination?.page, size: pagination?.size });
+  }, []);
+
+  if (loadingPersons) {
+    return (
+      <>
+        <Loading text="Consultando personas..." />{" "}
+        <Skeleton type="table" rows={5} height={35} />
+      </>
+    );
+  }
+
   return (
     <div className="page-content">
       <PageHeader titulo="PERSONAS" subtitulo="Adminstración de personas" />
 
-      <div>FILTROS</div>
-
-      <Button
-        desc="Nuevo"
-        modo="INS"
-        onClick={handleNuevaPersona}
-        type="button"
-        title="Nueva persona"
-      />
+      <div className="actions">
+        <Button
+          desc="Nuevo"
+          modo="INS"
+          onClick={handleNuevaPersona}
+          type="button"
+          title="Nueva persona"
+        />
+      </div>
 
       <Table
         data={persons}
@@ -148,7 +159,6 @@ export function PersonPage() {
       />
 
       <div>
-        BOTONES QUE HACEN ACCIONES EXTRAS AL SELECCIONAR UN REGISTRO DE LA TABLA
         <Button
           desc="Asignar unidades"
           modo="UPD"
