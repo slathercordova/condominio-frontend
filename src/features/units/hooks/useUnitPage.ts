@@ -51,6 +51,12 @@ export function useUnitPage() {
 
   const [isModalOpen, setModalOpen] = useState(false);
 
+  //  Confirm deletet
+  const [isDialogDelete, setIsDialogDelete] = useState(false);
+  const [unitToDelete, setUnitToDelete] = useState<UnitDetailResponse | null>(
+    null,
+  );
+
   const [pagination, setPagination] = useState<Pagination | null>({
     page: 0,
     size: DEFAULT_PAGE_SIZE,
@@ -198,6 +204,25 @@ export function useUnitPage() {
     refreshCurrentPage();
   };
 
+  // Delete dialog
+  const openDeleteDialog = (unit: UnitDetailResponse) => {
+    setUnitToDelete(unit);
+    setIsDialogDelete(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setUnitToDelete(null);
+    setIsDialogDelete(false);
+  };
+
+  const confirmDelete = async () => {
+    if (!unitToDelete) return;
+
+    await deleteUnit(unitToDelete.id);
+    closeDeleteDialog();
+    refreshCurrentPage();
+  };
+
   return {
     loadingUnits,
     loadUnits,
@@ -220,5 +245,11 @@ export function useUnitPage() {
     selectedRow,
     setSelectedRow,
     AsignUnitPerson,
+
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+    unitToDelete,
+    isDialogDelete,
   };
 }

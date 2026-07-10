@@ -35,6 +35,12 @@ export function useBuildingPage() {
     [],
   );
 
+  //  Confirm deletet
+  const [isDialogDelete, setIsDialogDelete] = useState(false);
+  const [buildingToDelete, setBuildingToDelete] =
+    useState<BuildingDetailResponse | null>(null);
+
+  //  Paginacion
   const [pagination, setPagination] = useState<Pagination | null>({
     page: 0,
     size: DEFAULT_PAGE_SIZE,
@@ -164,6 +170,24 @@ export function useBuildingPage() {
     refreshCurrentPage();
   };
 
+  // Delete dialog
+  const openDeleteDialog = (building: BuildingDetailResponse) => {
+    setBuildingToDelete(building);
+    setIsDialogDelete(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setBuildingToDelete(null);
+    setIsDialogDelete(false);
+  };
+
+  const confirmDelete = async () => {
+    if (!buildingToDelete) return;
+
+    await deleteBuilding(buildingToDelete.id);
+    closeDeleteDialog();
+  };
+
   return {
     openCrudModal,
     loadBuildings,
@@ -181,5 +205,10 @@ export function useBuildingPage() {
     createBuilding,
     oneBuilding,
     updateBuilding,
+    isDialogDelete,
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+    buildingToDelete,
   };
 }

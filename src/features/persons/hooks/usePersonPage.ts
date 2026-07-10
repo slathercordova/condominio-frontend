@@ -47,6 +47,12 @@ export function usePersonPage() {
     page: 0,
     size: DEFAULT_PAGE_SIZE,
   });
+
+  //  Confirm deletet
+  const [isDialogDelete, setIsDialogDelete] = useState(false);
+  const [personToDelete, setPersonToDelete] = useState<PersonDto | null>(null);
+
+  //  Paginacion
   const [pagination, setPagination] = useState<Pagination | null>({
     page: 0,
     size: DEFAULT_PAGE_SIZE,
@@ -202,6 +208,25 @@ export function usePersonPage() {
     handleCloseAssignModal();
   };
 
+  // Delete dialog
+  const openDeleteDialog = (person: PersonDto) => {
+    setPersonToDelete(person);
+    setIsDialogDelete(true);
+  };
+
+  const closeDeleteDialog = () => {
+    setPersonToDelete(null);
+    setIsDialogDelete(false);
+  };
+
+  const confirmDelete = async () => {
+    if (!personToDelete) return;
+
+    await deletePerson(personToDelete.id);
+    closeDeleteDialog();
+    refreshCurrentPage();
+  };
+
   return {
     error,
     persons,
@@ -235,5 +260,10 @@ export function usePersonPage() {
     openSearchUnitModal,
     handleCloseAssignModal,
     handleCloseSearchModal,
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+    personToDelete,
+    isDialogDelete,
   };
 }

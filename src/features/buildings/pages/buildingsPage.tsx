@@ -15,6 +15,7 @@ import { RowActions } from "../../../common/components/ui-kit/RowActions/RowActi
 import { useEffect } from "react";
 import { FORM_MODE } from "../../../common/constants/formMode";
 import { BuildingForm } from "./buildingForm";
+import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
 
 export function BudilignsPage() {
   const {
@@ -34,6 +35,11 @@ export function BudilignsPage() {
     createBuilding,
     oneBuilding,
     updateBuilding,
+    isDialogDelete,
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+    buildingToDelete,
   } = useBuildingPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -78,7 +84,7 @@ export function BudilignsPage() {
           showDelete
           onView={() => openDisplayModal(p.id)}
           onEdit={() => openEditModal(p.id)}
-          onDelete={() => deleteBuilding(p.id)}
+          onDelete={() => openDeleteDialog(p)}
         />
       ),
     },
@@ -167,6 +173,13 @@ export function BudilignsPage() {
           building={oneBuilding}
         />
       </Modal>
+
+      <ConfirmDialog
+        open={isDialogDelete}
+        message={`¿Seguro que deseas eliminar el edificio "${buildingToDelete?.nombre}"? Esta acción no se puede deshacer.`}
+        onCancel={closeDeleteDialog}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

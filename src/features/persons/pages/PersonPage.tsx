@@ -14,6 +14,7 @@ import { PersonForm } from "./PersonForm";
 import { FORM_MODE } from "../../../common/constants/formMode";
 import { PersonAssignUnit } from "./PersonAssignUnit";
 import { UnitSearchModal } from "../../../common/components/prompt/unit/unit-search";
+import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
 
 export function PersonPage() {
   const {
@@ -49,6 +50,11 @@ export function PersonPage() {
     openSearchUnitModal,
     handleCloseAssignModal,
     handleCloseSearchModal,
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+    personToDelete,
+    isDialogDelete,
   } = usePersonPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -88,7 +94,7 @@ export function PersonPage() {
           showDelete
           onView={() => openDisplayModal(p.id)}
           onEdit={() => openEditModal(p.id)}
-          onDelete={() => deletePerson(p.id)}
+          onDelete={() => openDeleteDialog(p)}
         />
       ),
     },
@@ -197,6 +203,13 @@ export function PersonPage() {
       >
         <UnitSearchModal onSelect={handleSelectUnit} />
       </Modal>
+
+      <ConfirmDialog
+        open={isDialogDelete}
+        message={`¿Seguro que deseas eliminar a "${personToDelete?.nombres} ${personToDelete?.apellidoPaterno}"? Esta acción no se puede deshacer.`}
+        onCancel={closeDeleteDialog}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }

@@ -14,6 +14,7 @@ import { Modal } from "../../../common/components/ui-kit/Modal/Modal";
 import { FORM_MODE } from "../../../common/constants/formMode";
 import { UnitForm } from "./UnitForm";
 import { useEffect } from "react";
+import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
 
 export function UnitPage() {
   const usuario = useAuthStore((state) => state.usuario);
@@ -40,6 +41,12 @@ export function UnitPage() {
     handleCalcularParticipacion,
     selectedRow,
     setSelectedRow,
+
+    openDeleteDialog,
+    closeDeleteDialog,
+    confirmDelete,
+    unitToDelete,
+    isDialogDelete,
   } = useUnitPage();
 
   const uiPage = (pagination?.page ?? 0) + 1;
@@ -92,7 +99,7 @@ export function UnitPage() {
           showDelete
           onView={() => openDisplayUnitModal(p.id)}
           onEdit={() => openEditUnitModal(p.id)}
-          onDelete={() => deleteUnit(p.id)}
+          onDelete={() => openDeleteDialog(p)}
         />
       ),
     },
@@ -188,6 +195,13 @@ export function UnitPage() {
           unit={selectedUnit}
         />
       </Modal>
+
+      <ConfirmDialog
+        open={isDialogDelete}
+        message={`¿Seguro que deseas eliminar la unidad "${unitToDelete?.codigo}"? Esta acción no se puede deshacer.`}
+        onCancel={closeDeleteDialog}
+        onConfirm={confirmDelete}
+      />
     </div>
   );
 }
