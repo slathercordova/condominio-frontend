@@ -9,6 +9,10 @@ import type { PersonDto, personPostRequest } from "../types/person-types";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
 import { Switch } from "../../../common/components/ui-kit/Switch/Switch";
 import { FORM_MODE } from "../../../common/constants/formMode";
+import { ActionSection } from "../../../common/components/ui-kit/ActionSection/ActionSection";
+import { FormGrid } from "../../../common/components/ui-kit/FormGrid/FormGrid";
+import { CalendarDays, IdCard, Mail, Smartphone } from "lucide-react";
+import { FormGridItem } from "../../../common/components/ui-kit/FormGrid/FormGridItem";
 
 interface PersonFormProps {
   onCancel: () => void;
@@ -114,161 +118,195 @@ export function PersonForm({
 
   return (
     <div>
-      <Select
-        label="Tipo de Documento"
-        value={tipDoc}
-        onChange={setTipDoc}
-        options={documentOptions}
-        placeholder="Seleccione un tipo de documento"
-        required
-        disabled={isDisplay}
-      />
+      <FormGrid>
+        <FormGridItem colSpan={6}>
+          <Select
+            label="Tipo de Documento"
+            value={tipDoc}
+            onChange={setTipDoc}
+            options={documentOptions}
+            placeholder="Seleccione un tipo de documento"
+            required
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Número Documento"
-        value={numDoc}
-        onChange={setNumDoc}
-        placeholder="Número de documento"
-        type="text"
-        required
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
-
-      {!isInsert && (
-        <>
+        <FormGridItem colSpan={6}>
           <Input
-            label="Apellido paterno"
-            value={apePat}
-            onChange={setApePat}
-            placeholder="Apellido paterno"
+            label="Número Documento"
+            value={numDoc}
+            onChange={setNumDoc}
+            placeholder="Número de documento"
             type="text"
             required
             status="default"
             clearable
             disabled={isDisplay}
+            startAdornment={<IdCard />}
           />
+        </FormGridItem>
 
+        {!isInsert && (
+          <>
+            <FormGridItem colSpan={6}>
+              <Input
+                label="Apellido paterno"
+                value={apePat}
+                onChange={setApePat}
+                placeholder="Apellido paterno"
+                type="text"
+                required
+                status="default"
+                clearable
+                disabled={isDisplay}
+              />
+            </FormGridItem>
+
+            <FormGridItem colSpan={6}>
+              <Input
+                label="Apellido materno"
+                value={apeMat}
+                onChange={setApeMat}
+                placeholder="Apellido materno"
+                type="text"
+                required
+                status="default"
+                clearable
+                disabled={isDisplay}
+              />
+            </FormGridItem>
+
+            <FormGridItem colSpan={12}>
+              <Input
+                label="Nombres"
+                value={nombre}
+                onChange={setNombre}
+                placeholder="Nombres"
+                type="text"
+                required
+                status="default"
+                clearable
+                disabled={isDisplay}
+              />
+            </FormGridItem>
+          </>
+        )}
+
+        <FormGridItem colSpan={6}>
           <Input
-            label="Apellido materno"
-            value={apeMat}
-            onChange={setApeMat}
-            placeholder="Apellido materno"
-            type="text"
+            label="Fecha de nacimiento"
+            value={fecNac}
+            onChange={setFecNac}
+            placeholder="Fecha de nacimiento"
+            type="date"
+            startAdornment={<CalendarDays />}
             required
             status="default"
             clearable
             disabled={isDisplay}
           />
+        </FormGridItem>
 
-          <Input
-            label="Nombres"
-            value={nombre}
-            onChange={setNombre}
-            placeholder="Nombres"
-            type="text"
+        <FormGridItem colSpan={6}>
+          <RadioButton
+            label="Sexo"
+            value={sexo}
+            options={GENDER_OPTIONS}
+            onChange={setSexo}
             required
-            status="default"
-            clearable
+            direction="horizontal"
             disabled={isDisplay}
           />
-        </>
-      )}
+        </FormGridItem>
 
-      <Input
-        label="Fecha de nacimiento"
-        value={fecNac}
-        onChange={setFecNac}
-        placeholder="Fecha de nacimiento"
-        type="date"
-        required
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Celular 1"
+            value={cel1}
+            onChange={setCel1}
+            placeholder="Número de celular principal"
+            type="number"
+            status="default"
+            clearable
+            startAdornment={<Smartphone />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Celular 1"
-        value={cel1}
-        onChange={setCel1}
-        placeholder="Número de celular principal"
-        type="number"
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Celular 2"
+            value={cel2}
+            onChange={setCel2}
+            placeholder="Número de celular secundario"
+            type="number"
+            status="default"
+            clearable
+            startAdornment={<Smartphone />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Celular 2"
-        value={cel2}
-        onChange={setCel2}
-        placeholder="Número de celular secundario"
-        type="number"
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Correo principal"
+            value={correo1}
+            onChange={setCorreo1}
+            placeholder="ejemplo@gmail.com"
+            type="email"
+            status="default"
+            clearable
+            startAdornment={<Mail />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Correo principal"
-        value={correo1}
-        onChange={setCorreo1}
-        placeholder="ejemplo@gmail.com"
-        type="email"
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Correo secundario"
+            value={correo2}
+            onChange={setCorreo2}
+            placeholder="ejemplo2@gmail.com"
+            type="email"
+            status="default"
+            clearable
+            startAdornment={<Mail />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Correo secundario"
-        value={correo2}
-        onChange={setCorreo2}
-        placeholder="ejemplo2@gmail.com"
-        type="email"
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        {!isInsert && (
+          <FormGridItem colSpan={12}>
+            <Switch
+              label="Estado"
+              checked={estado}
+              onChange={setEstado}
+              disabled={isDisplay}
+            />
+          </FormGridItem>
+        )}
+      </FormGrid>
 
-      <RadioButton
-        label="Sexo"
-        value={sexo}
-        options={GENDER_OPTIONS}
-        onChange={setSexo}
-        required
-        direction="horizontal"
-        disabled={isDisplay}
-      />
+      <ActionSection align="end">
+        {!isDisplay && (
+          <Button
+            desc={isInsert ? "Grabar" : "Actualizar"}
+            modo={isInsert ? "INS" : "UPD"}
+            onClick={handleGrabar}
+            type="button"
+            title="Grabar"
+            disabled={saving}
+          />
+        )}
 
-      {!isInsert && (
-        <Switch
-          label="Estado"
-          checked={estado}
-          onChange={setEstado}
-          disabled={isDisplay}
-        />
-      )}
-
-      {!isDisplay && (
         <Button
-          desc={isInsert ? "Grabar" : "Actualizar"}
-          modo={isInsert ? "INS" : "UPD"}
-          onClick={handleGrabar}
+          desc={isDisplay ? "Cerrar" : "Cancelar"}
+          modo="LNK"
+          onClick={onCancel}
           type="button"
-          title="Grabar"
-          disabled={saving}
+          title="Cancelar"
         />
-      )}
-
-      <Button
-        desc={isDisplay ? "Cerrar" : "Cancelar"}
-        modo="LNK"
-        onClick={onCancel}
-        type="button"
-        title="Cancelar"
-      />
+      </ActionSection>
     </div>
   );
 }

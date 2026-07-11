@@ -8,6 +8,17 @@ import { useCatalog } from "../../catalogs/hooks/useCatalogs";
 import { Switch } from "../../../common/components/ui-kit/Switch/Switch";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
 import { useAuthStore } from "../../auth/store/auth-store";
+import { ActionSection } from "../../../common/components/ui-kit/ActionSection/ActionSection";
+import { FormGrid } from "../../../common/components/ui-kit/FormGrid/FormGrid";
+import {
+  Building,
+  HandCoins,
+  Hash,
+  Layers,
+  PieChart,
+  Ruler,
+} from "lucide-react";
+import { FormGridItem } from "../../../common/components/ui-kit/FormGrid/FormGridItem";
 
 interface UnitFormProps {
   onCancel: () => void;
@@ -134,131 +145,161 @@ export function UnitForm({
 
   return (
     <div>
-      <Input
-        label="Código"
-        value={codigo}
-        onChange={setCodigo}
-        placeholder="Código de unidad"
-        type="text"
-        required
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+      <FormGrid>
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Código"
+            value={codigo}
+            onChange={setCodigo}
+            placeholder="Código de unidad"
+            type="text"
+            required
+            status="default"
+            clearable
+            startAdornment={<Hash />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Torre"
-        value={torre}
-        onChange={(e) => setTorre(String(e))}
-        placeholder="Torre"
-        type="text"
-        required
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Torre"
+            value={torre}
+            onChange={(e) => setTorre(String(e))}
+            placeholder="Torre"
+            type="text"
+            required
+            status="default"
+            clearable
+            startAdornment={<Building />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Piso"
-        value={String(piso)}
-        onChange={setPiso}
-        placeholder="Piso"
-        type="number"
-        required
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Piso"
+            value={String(piso)}
+            onChange={setPiso}
+            placeholder="Piso"
+            type="number"
+            required
+            status="default"
+            clearable
+            startAdornment={<Layers />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Metraje"
-        value={String(metraje)}
-        onChange={setMetraje}
-        placeholder="Metraje"
-        type="number"
-        required
-        status="default"
-        clearable
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Metraje"
+            value={String(metraje)}
+            onChange={setMetraje}
+            placeholder="Metraje"
+            type="number"
+            required
+            status="default"
+            clearable
+            startAdornment={<Ruler />}
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="% participación"
-        value={String(porcentaje)}
-        onChange={setPorcentaje}
-        placeholder="% participación"
-        type="number"
-        status="default"
-        disabled
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="% participación"
+            value={String(porcentaje)}
+            onChange={setPorcentaje}
+            placeholder="% participación"
+            type="number"
+            status="default"
+            startAdornment={<PieChart />}
+            disabled
+          />
+        </FormGridItem>
 
-      <Input
-        label="Deuda Total"
-        value={String(deudaTmp)}
-        onChange={setDeudaTmp}
-        placeholder="Deuda Total"
-        type="number"
-        status="default"
-        disabled
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Deuda Total"
+            value={String(deudaTmp)}
+            onChange={setDeudaTmp}
+            placeholder="Deuda Total"
+            type="number"
+            status="default"
+            startAdornment={<HandCoins />}
+            disabled
+          />
+        </FormGridItem>
 
-      <Select
-        label="Tipo de Unidad"
-        value={tipoUnidad}
-        onChange={setTipoUnidad}
-        options={catalogsOption}
-        placeholder="Seleccione un tipo de unidad"
-        required
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Select
+            label="Tipo de Unidad"
+            value={tipoUnidad}
+            onChange={setTipoUnidad}
+            options={catalogsOption}
+            placeholder="Seleccione un tipo de unidad"
+            required
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Select
-        label="Tipo de Alquiler"
-        value={tipoAlquiler}
-        onChange={setTipoAlquiler}
-        options={AlquileresOption}
-        placeholder="Seleccione tipo de alquiler"
-        required
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Select
+            label="Tipo de Alquiler"
+            value={tipoAlquiler}
+            onChange={setTipoAlquiler}
+            options={AlquileresOption}
+            placeholder="Seleccione tipo de alquiler"
+            required
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Logo"
-        value={logoUrl}
-        onChange={setLogoUrl}
-        placeholder="Logo"
-        type="text"
-        status="default"
-        disabled={isDisplay}
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Logo"
+            value={logoUrl}
+            onChange={setLogoUrl}
+            placeholder="Logo"
+            type="text"
+            status="default"
+            disabled={isDisplay}
+          />
+        </FormGridItem>
 
-      {!isInsert && (
-        <Switch
-          label="Estado"
-          checked={estado}
-          onChange={setEstado}
-          disabled={isDisplay}
-        />
-      )}
+        {!isInsert && (
+          <FormGridItem colSpan={6}>
+            <Switch
+              label="Estado"
+              checked={estado}
+              onChange={setEstado}
+              disabled={isDisplay}
+            />
+          </FormGridItem>
+        )}
+      </FormGrid>
 
-      {!isDisplay && (
+      <ActionSection align="end">
+        {!isDisplay && (
+          <Button
+            desc={isInsert ? "Grabar" : "Actualizar"}
+            modo={isInsert ? "INS" : "UPD"}
+            onClick={handleGrabar}
+            type="button"
+            title="Grabar"
+            disabled={saving}
+          />
+        )}
+
         <Button
-          desc={isInsert ? "Grabar" : "Actualizar"}
-          modo={isInsert ? "INS" : "UPD"}
-          onClick={handleGrabar}
+          desc={isDisplay ? "Cerrar" : "Cancelar"}
+          modo="LNK"
+          onClick={onCancel}
           type="button"
-          title="Grabar"
-          disabled={saving}
+          title="Cancelar"
         />
-      )}
-
-      <Button
-        desc={isDisplay ? "Cerrar" : "Cancelar"}
-        modo="LNK"
-        onClick={onCancel}
-        type="button"
-        title="Cancelar"
-      />
+      </ActionSection>
     </div>
   );
 }

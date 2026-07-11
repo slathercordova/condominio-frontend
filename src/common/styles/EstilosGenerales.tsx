@@ -24,6 +24,7 @@ import { notification } from "../components/ui-kit/Notificacion/Notification";
 import { Tabs } from "../components/ui-kit/Tabs/Tabs";
 import { Popover } from "../components/ui-kit/Popover/Popover";
 import { Avatar } from "../components/ui-kit/Avatar/Avatar";
+import { Badge } from "../components/ui-kit/Badge/Badge";
 
 export function EstilosGeneralesPage() {
   //   DATOS PARA TEXTO
@@ -420,6 +421,12 @@ export function EstilosGeneralesPage() {
         status="online"
         onClick={() => console.log("aea")}
       />
+
+      <h1>BADGES</h1>
+      <Badge color="success">SUCCESS</Badge>
+      <Badge color="warning">WARNING</Badge>
+      <Badge color="danger">DANGER</Badge>
+      <Badge color="info">INFO</Badge>
     </div>
   );
 }

@@ -18,6 +18,11 @@ import { BuildingForm } from "./buildingForm";
 import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
 import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
 import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
+import { PageContainer } from "../../../common/components/ui-kit/PageContainer/PageContainer";
+import { ActionBar } from "../../../common/components/ui-kit/ActionBar/ActionBar";
+import { ActionSection } from "../../../common/components/ui-kit/ActionSection/ActionSection";
+import { Badge } from "../../../common/components/ui-kit/Badge/Badge";
+import { Plus } from "lucide-react";
 
 export function BudilignsPage() {
   const {
@@ -79,7 +84,11 @@ export function BudilignsPage() {
     },
     {
       header: "Estado",
-      render: (p: BuildingDetailResponse) => (p.estado ? "Activo" : "Inactivo"),
+      render: (p: BuildingDetailResponse) => (
+        <Badge color={p.estado ? "success" : "danger"}>
+          {p.estado ? "Activo" : "Inactivo"}
+        </Badge>
+      ),
     },
 
     {
@@ -135,53 +144,64 @@ export function BudilignsPage() {
     <div className="page-content">
       <PageHeader titulo="EDIFICIOS" subtitulo="Administración de edificio" />
 
-      <Button
-        modo={"INS"}
-        desc="Nuevo"
-        onClick={openCrudModal}
-        type="button"
-        title="Nueva unidad"
-      />
+      <PageContainer>
+        <ActionBar>
+          <Button
+            modo={"INS"}
+            icon={Plus}
+            desc="Nuevo"
+            onClick={openCrudModal}
+            type="button"
+            title="Nueva unidad"
+          />
+        </ActionBar>
 
-      <Table
-        data={listBuildings}
-        columns={columns}
-        rowKey={(p) => p.id}
-        // selectedRowKey={selectedRow?.id}
-        // onRowClick={setSelectedRow}
-      />
+        <Table
+          data={listBuildings}
+          columns={columns}
+          rowKey={(p) => p.id}
+          // selectedRowKey={selectedRow?.id}
+          // onRowClick={setSelectedRow}
+        />
 
-      <Button
-        modo={"UPD"}
-        desc="Calcular Participación"
-        onClick={handleCalcularParticipacion}
-        type="button"
-        title="Calcular Participación"
-      />
+        <Pagination
+          page={uiPage}
+          totalPages={uiTotalPages}
+          pageElements={pagination?.size}
+          totalElements={pagination?.totalElements}
+          pageSize={pagination?.size}
+          onChange={(uiPage) =>
+            loadBuildings({
+              page: uiPage - 1,
+              size: pagination?.size,
+            })
+          }
+        />
 
-      <Button
-        modo={"UPD"}
-        desc="Calcular Deuda"
-        onClick={handleCalcularDeuda}
-        type="button"
-        title="Calcular Deuda"
-      />
+        <ActionSection>
+          <Button
+            modo={"UPD"}
+            desc="Calcular Participación"
+            onClick={handleCalcularParticipacion}
+            type="button"
+            title="Calcular Participación"
+          />
 
-      <Pagination
-        page={uiPage}
-        totalPages={uiTotalPages}
-        onChange={(uiPage) =>
-          loadBuildings({
-            page: uiPage - 1,
-            size: pagination?.size,
-          })
-        }
-      />
+          <Button
+            modo={"UPD"}
+            desc="Calcular Deuda"
+            onClick={handleCalcularDeuda}
+            type="button"
+            title="Calcular Deuda"
+          />
+        </ActionSection>
+      </PageContainer>
 
       <Modal
         open={isCrudModal}
         title={getModalTitle()}
         onClose={handleCloseCrudModal}
+        size="lg"
       >
         <BuildingForm
           onCancel={handleCloseCrudModal}

@@ -1,11 +1,10 @@
-import { Building, DoorOpen, Heart, House } from "lucide-react";
+import { Building, Building2, DoorOpen, Heart, House } from "lucide-react";
 import { Link } from "react-router-dom";
 import styles from "./navbar.module.css";
 import logo from "../images/edificio_logo.png";
 import { UserMenuCom } from "../components/UserMenu/UserMenu";
 import { AdministracionMenu } from "../components/AdministracionMenu/AdministracionMenu";
 import { useAuthStore } from "../../features/auth/store/auth-store";
-import { useEffect, useState } from "react";
 
 export function NavBar() {
   //  TODO: poner el logo del edificio luego de BD
@@ -21,9 +20,10 @@ export function NavBar() {
   return (
     <header className={styles.header}>
       <div className={styles.logoSection}>
-        <img src={logo} alt="Ícono de aplicación" className={styles.logo} />
+        <Building2 color="white" size={40}/>
+        {/* <img src={logo} alt="Ícono de aplicación" className={styles.logo} /> */}
 
-        <h1>App edificio - nombre</h1>
+        <h1>App edificio - {usuario?.nombreEdificio}</h1>
       </div>
 
       <nav className={styles.nav}>

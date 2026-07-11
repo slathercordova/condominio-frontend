@@ -24,7 +24,7 @@ import { useUnitPage } from "../../units/hooks/useUnitPage";
 
 export function usePersonPage() {
   const { AsignUnitPerson } = useUnitPage();
-  const DEFAULT_PAGE_SIZE = 3;
+  const DEFAULT_PAGE_SIZE = 10;
 
   const navigate = useNavigate();
   const [selectedRow, setSelectedRow] = useState<PersonDto | null>(null);

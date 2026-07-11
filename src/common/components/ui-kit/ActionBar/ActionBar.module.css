@@ -1,0 +1,6 @@
+.actionBar{
+    display:flex;
+    justify-content:flex-end;
+    gap:12px;
+    margin-bottom:20px;
+}

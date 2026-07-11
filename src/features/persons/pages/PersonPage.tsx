@@ -17,6 +17,11 @@ import { UnitSearchModal } from "../../../common/components/prompt/unit/unit-sea
 import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
 import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
 import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
+import { PageContainer } from "../../../common/components/ui-kit/PageContainer/PageContainer";
+import { ActionBar } from "../../../common/components/ui-kit/ActionBar/ActionBar";
+import { ActionSection } from "../../../common/components/ui-kit/ActionSection/ActionSection";
+import { Badge } from "../../../common/components/ui-kit/Badge/Badge";
+import { Plus } from "lucide-react";
 
 export function PersonPage() {
   const {
@@ -84,7 +89,11 @@ export function PersonPage() {
     },
     {
       header: "Estado",
-      render: (p: PersonDto) => (p.estado ? "Activo" : "Inactivo"),
+      render: (p: PersonDto) => (
+        <Badge color={p.estado ? "success" : "danger"}>
+          {p.estado ? "Activo" : "Inactivo"}
+        </Badge>
+      ),
     },
 
     {
@@ -140,47 +149,54 @@ export function PersonPage() {
     <div className="page-content">
       <PageHeader titulo="PERSONAS" subtitulo="Adminstración de personas" />
 
-      <div className="actions">
-        <Button
-          desc="Nuevo"
-          modo="INS"
-          onClick={handleNuevaPersona}
-          type="button"
-          title="Nueva persona"
+      <PageContainer>
+        <ActionBar>
+          <Button
+            icon={Plus}
+            modo="INS"
+            desc="Nuevo"
+            onClick={handleNuevaPersona}
+            type="button"
+            title="Nueva persona"
+          />
+        </ActionBar>
+
+        <Table
+          data={persons}
+          columns={columns}
+          rowKey={(p) => p.id}
+          selectedRowKey={selectedRow?.id}
+          onRowClick={setSelectedRow}
         />
-      </div>
 
-      <Table
-        data={persons}
-        columns={columns}
-        rowKey={(p) => p.id}
-        selectedRowKey={selectedRow?.id}
-        onRowClick={setSelectedRow}
-      />
-
-      <div>
-        <Button
-          desc="Asignar unidades"
-          modo="UPD"
-          onClick={openAssignModal}
-          type="button"
-          title="Asignar unidades"
-          disabled={!selectedRow}
+        <Pagination
+          page={uiPage}
+          totalPages={uiTotalPages}
+          pageElements={pagination?.size}
+          totalElements={pagination?.totalElements}
+          pageSize={pagination?.size}
+          onChange={(uiPage) =>
+            loadPersons({ page: uiPage - 1, size: pagination?.size })
+          }
         />
-      </div>
 
-      <Pagination
-        page={uiPage}
-        totalPages={uiTotalPages}
-        onChange={(uiPage) =>
-          loadPersons({ page: uiPage - 1, size: pagination?.size })
-        }
-      />
+        <ActionSection title="Acciones sobre el registro seleccionado">
+          <Button
+            desc="Asignar unidades"
+            modo="UPD"
+            onClick={openAssignModal}
+            type="button"
+            title="Asignar unidades"
+            disabled={!selectedRow}
+          />
+        </ActionSection>
+      </PageContainer>
 
       <Modal
         open={crudModalOpen}
         title={getCrudModalTitle()}
         onClose={handleCloseModal}
+        size="lg"
       >
         <PersonForm
           onCancel={handleCloseModal}
@@ -195,6 +211,7 @@ export function PersonPage() {
         open={assingModalOpen}
         title={"Asignación de unidades a la persona"}
         onClose={handleCloseAssignModal}
+        size="lg"
       >
         <PersonAssignUnit
           onCancel={handleCloseAssignModal}

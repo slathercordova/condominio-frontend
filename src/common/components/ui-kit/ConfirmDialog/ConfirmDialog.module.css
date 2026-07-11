@@ -27,9 +27,3 @@
   color: #4b5563;
   margin-bottom: 16px;
 }
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}

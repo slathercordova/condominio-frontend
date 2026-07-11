@@ -22,7 +22,7 @@
   background: #f9fafb;
   padding: 12px;
   font-weight: 600;
-  color: #374151;
+  color: #513739;
 }
 
 .table td {
@@ -42,4 +42,8 @@
 
 .selected {
   background: #dbeafe;
+}
+
+.selected:hover {
+  background: #bfdbfe;
 }

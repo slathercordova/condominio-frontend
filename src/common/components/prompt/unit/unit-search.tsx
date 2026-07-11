@@ -6,6 +6,8 @@ import { Table, type Column } from "../../ui-kit/Table/Table";
 import { Button } from "../../ui-kit/Button/Button";
 import { Input } from "../../ui-kit/Input/Input";
 import { Pagination } from "../../ui-kit/Pagination/Pagination";
+import { FormGrid } from "../../ui-kit/FormGrid/FormGrid";
+import { ActionBar } from "../../ui-kit/ActionBar/ActionBar";
 
 interface UnitSearchProps {
   onSelect: (unit: UnitDetailResponse) => void;
@@ -72,30 +74,34 @@ export function UnitSearchModal({ onSelect }: UnitSearchProps) {
 
   return (
     <>
-      <Input
-        label="Código"
-        value={codigo}
-        onChange={setCodigo}
-        placeholder="Código"
-        clearable
-      />
+      <ActionBar>
+        <FormGrid columns={3}>
+          <Input
+            label="Código"
+            value={codigo}
+            onChange={setCodigo}
+            placeholder="Código"
+            clearable
+          />
 
-      <Input
-        label="Piso"
-        value={piso}
-        onChange={setPiso}
-        placeholder="Piso"
-        type="number"
-        clearable
-      />
+          <Input
+            label="Piso"
+            value={piso}
+            onChange={setPiso}
+            placeholder="Piso"
+            type="number"
+            clearable
+          />
 
-      <Button
-        desc="Buscar"
-        modo="LNK"
-        type="button"
-        title="Buscar"
-        onClick={buscar}
-      />
+          <Button
+            desc="Buscar"
+            modo="LNK"
+            type="button"
+            title="Buscar"
+            onClick={buscar}
+          />
+        </FormGrid>
+      </ActionBar>
 
       <Table data={units} columns={columns} rowKey={(i) => i.id} />
 

@@ -17,6 +17,11 @@ import { useEffect } from "react";
 import { ConfirmDialog } from "../../../common/components/ui-kit/ConfirmDialog/ConfirmDialog";
 import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
 import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
+import { PageContainer } from "../../../common/components/ui-kit/PageContainer/PageContainer";
+import { ActionBar } from "../../../common/components/ui-kit/ActionBar/ActionBar";
+import { ActionSection } from "../../../common/components/ui-kit/ActionSection/ActionSection";
+import { Badge } from "../../../common/components/ui-kit/Badge/Badge";
+import { Plus } from "lucide-react";
 
 export function UnitPage() {
   const usuario = useAuthStore((state) => state.usuario);
@@ -89,7 +94,11 @@ export function UnitPage() {
     },
     {
       header: "Estado",
-      render: (p: UnitDetailResponse) => (p.estado ? "Activo" : "Inactivo"),
+      render: (p: UnitDetailResponse) => (
+        <Badge color={p.estado ? "success" : "danger"}>
+          {p.estado ? "Activo" : "Inactivo"}
+        </Badge>
+      ),
     },
 
     {
@@ -154,45 +163,58 @@ export function UnitPage() {
   return (
     <div className="page-content">
       <PageHeader titulo="UNIDADES" subtitulo="Administración de unidades" />
-      <Button
-        modo={"INS"}
-        desc="Nuevo"
-        onClick={openNewUnitModal}
-        type="button"
-        title="Nueva unidad"
-      />
-      <Table
-        data={units}
-        columns={columns}
-        rowKey={(p) => p.id}
-        selectedRowKey={selectedRow?.id}
-        onRowClick={setSelectedRow}
-      />
 
-      <Button
-        modo={"UPD"}
-        desc="Calcular Participación"
-        onClick={handleCalcularParticipacion}
-        type="button"
-        title="Calcular Participación"
-      />
+      <PageContainer>
+        <ActionBar>
+          <Button
+            modo={"INS"}
+            icon={Plus}
+            desc="Nuevo"
+            onClick={openNewUnitModal}
+            type="button"
+            title="Nueva unidad"
+          />
+        </ActionBar>
 
-      <Pagination
-        page={uiPage}
-        totalPages={uiTotalPages}
-        onChange={(uiPage) =>
-          loadUnits({
-            idEdificio: idEdificio ?? "",
-            page: uiPage - 1,
-            size: pagination?.size,
-          })
-        }
-      />
+        <Table
+          data={units}
+          columns={columns}
+          rowKey={(p) => p.id}
+          selectedRowKey={selectedRow?.id}
+          onRowClick={setSelectedRow}
+        />
+
+        <Pagination
+          page={uiPage}
+          totalPages={uiTotalPages}
+          pageElements={pagination?.size}
+          totalElements={pagination?.totalElements}
+          pageSize={pagination?.size}
+          onChange={(uiPage) =>
+            loadUnits({
+              idEdificio: idEdificio ?? "",
+              page: uiPage - 1,
+              size: pagination?.size,
+            })
+          }
+        />
+
+        <ActionSection>
+          <Button
+            modo={"UPD"}
+            desc="Calcular Participación"
+            onClick={handleCalcularParticipacion}
+            type="button"
+            title="Calcular Participación"
+          />
+        </ActionSection>
+      </PageContainer>
 
       <Modal
         open={isModalOpen}
         title={getModalTitle()}
         onClose={handleCloseModal}
+        size="lg"
       >
         <UnitForm
           onCancel={handleCloseModal}

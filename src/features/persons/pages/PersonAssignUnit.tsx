@@ -10,6 +10,10 @@ import type {
 } from "../../units/types/unit-types";
 import { notification } from "../../../common/components/ui-kit/Notificacion/Notification";
 import type { PersonDto } from "../types/person-types";
+import { FormGrid } from "../../../common/components/ui-kit/FormGrid/FormGrid";
+import { ActionSection } from "../../../common/components/ui-kit/ActionSection/ActionSection";
+import { CalendarDays } from "lucide-react";
+import { FormGridItem } from "../../../common/components/ui-kit/FormGrid/FormGridItem";
 
 interface PersonAssignProps {
   onCancel: () => void;
@@ -103,107 +107,131 @@ export function PersonAssignUnit({
 
   return (
     <div>
-      <Input
-        label="Código unidad"
-        value={codigoUnidad}
-        onChange={setCodigoUnidad}
-        placeholder="Código unidad"
-        type="text"
-        required
-        status="default"
-        readOnly
-      />
+      <FormGrid>
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Código unidad"
+            value={codigoUnidad}
+            onChange={setCodigoUnidad}
+            placeholder="Código unidad"
+            type="text"
+            required
+            status="default"
+            readOnly
+          />
+        </FormGridItem>
 
-      <Button
-        desc={"Buscar"}
-        modo={"LNK"}
-        onClick={onSearchUnit}
-        type="button"
-        title="Buscar"
-        disabled={false}
-      />
+        <FormGridItem colSpan={6}>
+          <Button
+            desc={"Buscar"}
+            modo={"LNK"}
+            onClick={onSearchUnit}
+            type="button"
+            title="Buscar"
+            disabled={false}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Código persona"
-        value={idPersona}
-        onChange={setIdPersona}
-        placeholder="Código persona"
-        type="text"
-        required
-        status="default"
-        readOnly
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Código persona"
+            value={idPersona}
+            onChange={setIdPersona}
+            placeholder="Código persona"
+            type="text"
+            required
+            status="default"
+            readOnly
+          />
+        </FormGridItem>
 
-      <Input
-        label="Nombres Completos"
-        value={
-          person?.nombres +
-          " " +
-          person?.apellidoPaterno +
-          " " +
-          person?.apellidoMaterno
-        }
-        onChange={() => {}}
-        placeholder="Nombres Completos"
-        type="text"
-        status="default"
-        readOnly
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Nombres Completos"
+            value={
+              person?.nombres +
+              " " +
+              person?.apellidoPaterno +
+              " " +
+              person?.apellidoMaterno
+            }
+            onChange={() => {}}
+            placeholder="Nombres Completos"
+            type="text"
+            status="default"
+            readOnly
+          />
+        </FormGridItem>
 
-      <Switch
-        label="¿Es responsable?"
-        checked={esResponsable}
-        onChange={setEsResponsable}
-      />
+        <FormGridItem colSpan={12}>
+          <Switch
+            label="¿Es responsable?"
+            checked={esResponsable}
+            onChange={setEsResponsable}
+          />
+        </FormGridItem>
 
-      <Input
-        label="Fecha inicio responsable"
-        value={fechaInicio}
-        onChange={setFechaInicio}
-        placeholder="Fecha inicio responsable"
-        type="date"
-        required
-        status="default"
-        clearable
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Fecha inicio responsable"
+            value={fechaInicio}
+            onChange={setFechaInicio}
+            placeholder="Fecha inicio responsable"
+            type="date"
+            startAdornment={<CalendarDays />}
+            required
+            status="default"
+            clearable
+          />
+        </FormGridItem>
 
-      <Input
-        label="Fecha fin responsable"
-        value={fechaFin}
-        onChange={setFechaFin}
-        placeholder="Fecha fin responsable"
-        type="date"
-        status="default"
-        clearable
-      />
+        <FormGridItem colSpan={6}>
+          <Input
+            label="Fecha fin responsable"
+            value={fechaFin}
+            onChange={setFechaFin}
+            placeholder="Fecha fin responsable"
+            type="date"
+            startAdornment={<CalendarDays />}
+            status="default"
+            clearable
+          />
+        </FormGridItem>
 
-      <Select
-        label="Tipo propiedad"
-        value={tipoPropiedad}
-        onChange={setTipoPropiedad}
-        options={listTipoPropOptions}
-        placeholder="--Seleccionar--"
-        required
-      />
+        <FormGridItem colSpan={6}>
+          <Select
+            label="Tipo propiedad"
+            value={tipoPropiedad}
+            onChange={setTipoPropiedad}
+            options={listTipoPropOptions}
+            placeholder="--Seleccionar--"
+            required
+          />
+        </FormGridItem>
 
-      <Switch label="Estado" checked={estado} onChange={setEstado} />
+        <FormGridItem colSpan={6}>
+          <Switch label="Estado" checked={estado} onChange={setEstado} />
+        </FormGridItem>
+      </FormGrid>
 
-      <Button
-        desc="Grabar"
-        modo="UPD"
-        onClick={handleGrabar}
-        type="button"
-        title="Grabar"
-        disabled={saving}
-      />
+      <ActionSection align="end">
+        <Button
+          desc="Grabar"
+          modo="UPD"
+          onClick={handleGrabar}
+          type="button"
+          title="Grabar"
+          disabled={saving}
+        />
 
-      <Button
-        desc="Cancelar"
-        modo="LNK"
-        onClick={onCancel}
-        type="button"
-        title="Cancelar"
-      />
+        <Button
+          desc="Cancelar"
+          modo="LNK"
+          onClick={onCancel}
+          type="button"
+          title="Cancelar"
+        />
+      </ActionSection>
     </div>
   );
 }

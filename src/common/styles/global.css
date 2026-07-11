@@ -43,7 +43,7 @@ body {
     "Helvetica Neue",
     sans-serif;
 
-  background: linear-gradient(135deg, #f8fafc, #eef2ff);
+  background: #f8fafc;
   color: #1f2937;
 }
 
@@ -106,10 +106,4 @@ select:focus {
 /* ===== PAGE LAYOUT ===== */
 .page-content {
   padding: 24px;
-}
-
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  margin: 16px 0;
 }
