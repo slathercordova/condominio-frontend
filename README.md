@@ -2,6 +2,37 @@
 
 Sistema de administración de condominios desarrollado con **React + TypeScript**, utilizando una arquitectura modular basada en **Features**, componentes reutilizables y separación de responsabilidades.
 
+La aplicación es un sistema de gestión de condominios donde se puede realiza las siguientes features:
+
+ACCIONES DEL ADMINISTRADOR
+
+- CRUD de personas consumiendo servicios de reniec por decoleta
+- Asignar unidades a las personas
+- CRUD de edificios (configurar gasto mensual y distribución de cobro, por % o flat)
+- Calcular porcentaje de participación de cada unidad, dependiendo de la configuración del edificio
+- Calcular la deuda de cada unidad, dependiendo del monto ingresado y de la configuración del edificio
+- CRUD de unidades
+
+ACCIONES DEL PROPIETARIO
+- Podrá consultar sus unidades en cards
+- Podrá realizar el pago de su deuda simulada
+
+AUTH
+- Login exitoso
+- Forgot Password (con envío de correo y nuevo token)
+- Bloqueo por intentos erroneos
+
+# Usuarios de prueba
+
+El sistema de microservicios del back end ya contiene data pre cargada usando flyway, para utilizar el sistema deberán loguearse con los siguientes datos:
+
+USUARIOS
+ADMIN (Administrador)
+LCORDOVA (propietario)
+
+PASSWORD (aplica para todos los usuarios)
+Sc191215*
+
 ---
 
 # Tecnologías
@@ -145,20 +176,8 @@ PageContainer
 
 ## Button
 
-Botón reutilizable.
-
-Modos:
-
-```
-INS
-UPD
-DLT
-DSP
-LNK
-```
-
 Puede recibir:
-
+- modo
 - icon
 - disabled
 - loading
@@ -195,17 +214,6 @@ Soporta:
 - Hover
 - Empty State
 
-Ejemplo:
-
-```tsx
-const columns = [
-  {
-    header: "Nombre",
-    render: (x) => x.nombre,
-  },
-];
-```
-
 ---
 
 ## Badge
@@ -234,39 +242,11 @@ Ejemplo:
 
 Contenedor superior para acciones principales.
 
-Ejemplo:
-
-```
-Nuevo
-
-Importar
-
-Exportar
-```
-
 ---
 
 ## ActionSection
 
 Contenedor inferior para acciones.
-
-Ejemplo:
-
-```
-Grabar
-
-Cancelar
-```
-
-Puede alinearse:
-
-```
-start
-
-center
-
-end
-```
 
 ---
 
@@ -475,3 +455,7 @@ Actualizar lista
 - Componentes independientes.
 - Escalabilidad para nuevas Features.
 - Aspecto similar a aplicaciones empresariales modernas.
+
+# Autor
+
+Proyecto integrador desarrollado por Slather Córdova Amez, para el curso de bootcamp de desarrollo web full stack con java.
