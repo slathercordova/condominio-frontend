@@ -27,11 +27,11 @@ AUTH
 El sistema de microservicios del back end ya contiene data pre cargada usando flyway, para utilizar el sistema deberán loguearse con los siguientes datos:
 
 USUARIOS
-ADMIN (Administrador)
-LCORDOVA (propietario)
+- ADMIN (Administrador)
+- LCORDOVA (propietario)
 
 PASSWORD (aplica para todos los usuarios)
-Sc191215*
+- Sc191215*
 
 ---
 
