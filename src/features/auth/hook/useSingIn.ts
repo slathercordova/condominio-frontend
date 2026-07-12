@@ -60,7 +60,17 @@ export function useSingIn() {
           if (response.data) {
             setLoginSuccess(response.data);
             if (response.data.edificioSeleccionado) {
-              navigate("/landing");
+              if (
+                response.data.roles.some(
+                  (rol) =>
+                    rol.nombre === "ADMINISTRADOR" ||
+                    rol.nombre === "ADMINISTRACION",
+                )
+              ) {
+                navigate("/buildings");
+              } else {
+                navigate("/my-units");
+              }
             }
           }
         })

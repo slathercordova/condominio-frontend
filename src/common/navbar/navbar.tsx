@@ -27,10 +27,10 @@ export function NavBar() {
       </div>
 
       <nav className={styles.nav}>
-        <Link to="/landing" /*className={styles.link}*/>
+        {/* <Link to="/landing">
           <House size={20} />
           Home
-        </Link>
+        </Link> */}
 
         {esAdmin && <AdministracionMenu />}
 
