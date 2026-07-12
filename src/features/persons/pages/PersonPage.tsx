@@ -98,6 +98,7 @@ export function PersonPage() {
 
     {
       header: "Acciones",
+      align: "center",
       render: (p: PersonDto) => (
         <RowActions
           showView

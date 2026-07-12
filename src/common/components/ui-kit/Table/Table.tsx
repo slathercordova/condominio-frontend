@@ -4,6 +4,8 @@ export interface Column<T> {
   header: string;
   render: (row: T) => React.ReactNode;
   width?: string;
+  align?: "left" | "center" | "right";
+  headerAlign?: "left" | "center" | "right";
 }
 
 interface TableProps<T> {
@@ -27,7 +29,13 @@ export function Table<T>({
         <thead>
           <tr>
             {columns.map((col, i) => (
-              <th key={i} style={{ width: col.width }}>
+              <th
+                key={i}
+                style={{
+                  width: col.width,
+                  textAlign: col.headerAlign ?? col.align ?? "left",
+                }}
+              >
                 {col.header}
               </th>
             ))}
@@ -49,7 +57,9 @@ export function Table<T>({
                 onClick={() => onRowClick?.(row)}
               >
                 {columns.map((col, j) => (
-                  <td key={j}>{col.render(row)}</td>
+                  <td key={j} style={{ textAlign: col.align ?? "left" }}>
+                    {col.render(row)}
+                  </td>
                 ))}
               </tr>
             ))

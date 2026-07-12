@@ -34,7 +34,7 @@ export function NavBar() {
 
         {esAdmin && <AdministracionMenu />}
 
-        <Link to="/buildings" /*className={styles.highlight}*/>
+        <Link to="/buildings">
           <Building size={20} />
           MIS EDIFICIOS
         </Link>
@@ -44,10 +44,10 @@ export function NavBar() {
           MIS UNIDADES
         </Link>
 
-        <Link to="/favorites" /*className={styles.link}*/>
+        {/* <Link to="/favorites" className={styles.link}>
           <Heart size={20} />
           FAVORITOS
-        </Link>
+        </Link> */}
 
         <UserMenuCom />
       </nav>

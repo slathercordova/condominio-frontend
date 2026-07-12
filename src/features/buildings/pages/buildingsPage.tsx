@@ -93,6 +93,7 @@ export function BudilignsPage() {
 
     {
       header: "Acciones",
+      align: "center",
       render: (p: BuildingDetailResponse) => (
         <RowActions
           showView

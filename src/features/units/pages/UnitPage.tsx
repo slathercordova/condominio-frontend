@@ -103,6 +103,7 @@ export function UnitPage() {
 
     {
       header: "Acciones",
+      align: "center",
       render: (p: UnitDetailResponse) => (
         <RowActions
           showView

@@ -36,6 +36,7 @@ export const API_ENDPOINTS = {
     GET: "/unidad",
     PUT: "/unidad",
     DELETE: "/unidad",
+    PAGARR_UNIDAD: (idUnidad: string) => `/unidad/${idUnidad}/pagar-recibo`,
   },
 
   CATALOGO: {

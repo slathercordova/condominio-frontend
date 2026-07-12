@@ -9,6 +9,7 @@ export interface UnidadUsuarioType {
   porcentaje: number;
   tipoUnidad: string;
   deudaTmp: number;
+  estadoRecibo: string;
   idEdificio: string;
   edificioNombre: string;
   edificioDireccion: string;

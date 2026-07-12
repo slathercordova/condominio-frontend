@@ -1,45 +1,12 @@
-import { useEffect, useState } from "react";
-import { useAuthStore } from "../../auth/store/auth-store";
-import { MyUnitsWs } from "../services/units-service";
-import type { UnidadUsuarioType } from "../types/unit-types";
 import { UnidadCard } from "../component/unit-card";
 import { Loading } from "../../../common/components/ui-kit/Loading/Loading";
 import { Skeleton } from "../../../common/components/ui-kit/Skeleton/Skeleton";
 import { EmptyState } from "../../../common/components/ui-kit/EmptyState/EmptyState";
+import { useMyUnits } from "../hooks/useMyUnits";
 
 export function MyUnitsPage() {
-  //  sesion
-  const usuario = useAuthStore((state) => state.usuario);
-  const accessToken = usuario?.accessToken;
-  const usuarioId = usuario?.idUsuario;
-
-  //  variables a utilizar
-  const [unidades, setUnidades] = useState<UnidadUsuarioType[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function cargarUnidades() {
-      if (!accessToken || !usuarioId) {
-        return;
-      }
-
-      try {
-        const data = await MyUnitsWs(accessToken, usuarioId);
-
-        if (data.success && data.data) {
-          setUnidades(data.data);
-        } else {
-          setUnidades([]);
-        }
-      } catch (error) {
-        console.error("Error al cargar unidades", error);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    cargarUnidades();
-  }, [accessToken, usuarioId]);
+  const { loading, unidades, pagarRecibo, pagandoUnidad } =
+    useMyUnits();
 
   if (loading)
     return (
@@ -76,6 +43,8 @@ export function MyUnitsPage() {
           <UnidadCard
             key={item.idPersonaUnidad} // Llave única requerida por React para optimizar el DOM
             unidad={item} // Pasamos el objeto completo como prop
+            onPagar={pagarRecibo}
+            pagandoUnidad={pagandoUnidad}
           />
         ))}
       </div>

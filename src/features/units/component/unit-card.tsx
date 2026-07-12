@@ -1,21 +1,43 @@
-import { useNavigate } from "react-router-dom";
 import { type UnidadUsuarioType } from "../types/unit-types";
-import { Building2, CarFront, Heart, MapPin, Ruler } from "lucide-react";
+import {
+  Building2,
+  CarFront,
+  MapPin,
+  Percent,
+  Ruler,
+  RulerDimensionLine,
+} from "lucide-react";
 import { Button } from "../../../common/components/ui-kit/Button/Button";
 import styles from "./unit-card.module.css";
+import { Badge } from "../../../common/components/ui-kit/Badge/Badge";
 
 interface UnidadCardProps {
   unidad: UnidadUsuarioType;
+  onPagar: (id: string) => void;
+  pagandoUnidad?: boolean;
 }
 
-export function UnidadCard({ unidad }: UnidadCardProps) {
-  const navigate = useNavigate();
-
-  const handleUnidad = () => {
-    navigate(`/unit/${unidad.idUnidad}`);
+export function UnidadCard({
+  unidad,
+  onPagar,
+  pagandoUnidad,
+}: UnidadCardProps) {
+  const estadoRecibo = {
+    PAGADO: {
+      color: "success" as const,
+      texto: "Pagado",
+    },
+    PENDIENTE: {
+      color: "warning" as const,
+      texto: "Pendiente",
+    },
+    VENCIDO: {
+      color: "danger" as const,
+      texto: "Vencido",
+    },
   };
 
-  const tieneDeuda = (unidad.deudaTmp ?? 0) > 0;
+  const estado = estadoRecibo[unidad.estadoRecibo];
 
   return (
     <div className={styles.card}>
@@ -33,7 +55,7 @@ export function UnidadCard({ unidad }: UnidadCardProps) {
           </div>
         </div>
 
-        <Heart className={styles.favorite} size={22} />
+        {/* <Heart className={styles.favorite} size={22} /> */}
       </div>
 
       <div className={styles.info}>
@@ -52,19 +74,28 @@ export function UnidadCard({ unidad }: UnidadCardProps) {
         <div>
           <small>Metraje</small>
           <strong>
-            <Ruler size={15} />
+            <RulerDimensionLine size={18} />
             {unidad.metraje} m²
           </strong>
         </div>
 
         <div>
-          <small>Estado</small>
+          <small>Porcentaje</small>
+          <strong>
+            <Ruler size={15} />
+            {unidad.porcentaje}
+            <Percent size={15} />
+          </strong>
+        </div>
 
-          <span
+        <div>
+          <small>Estado</small>
+          <Badge color={estado.color}>{estado.texto}</Badge>
+          {/* <span
             className={tieneDeuda ? styles.badgeDanger : styles.badgeSuccess}
           >
-            {tieneDeuda ? "Pendiente" : "Al día"}
-          </span>
+            {tieneDeuda ? "Deuda pendiente" : "Al día"}
+          </span> */}
         </div>
       </div>
 
@@ -74,11 +105,12 @@ export function UnidadCard({ unidad }: UnidadCardProps) {
       </div>
 
       <Button
-        desc="Gestionar unidad"
+        desc="Pagar recibo"
         modo="UPD"
-        onClick={handleUnidad}
+        onClick={() => onPagar(unidad.idUnidad)}
         type="button"
-        title="Gestionar unidad"
+        title="Pagar recibo"
+        disabled={pagandoUnidad}
         fullWidth
       />
     </div>

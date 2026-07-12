@@ -118,3 +118,20 @@ export async function AsignUnitPersonWs(
   );
   return response.data;
 }
+
+export async function PagarReciboUnidadWs(
+  id: string,
+): Promise<ApiResponse<void>> {
+  const token = useAuthStore.getState().usuario?.accessToken;
+
+  const response = await ApiUrl.patch<ApiResponse<void>>(
+    API_ENDPOINTS.UNIDAD.PAGARR_UNIDAD(id),
+    {},
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+  return response.data;
+}
