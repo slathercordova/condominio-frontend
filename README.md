@@ -1,73 +1,477 @@
-# React + TypeScript + Vite
+# 🏢 Condominios Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sistema de administración de condominios desarrollado con **React + TypeScript**, utilizando una arquitectura modular basada en **Features**, componentes reutilizables y separación de responsabilidades.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+# Tecnologías
 
-## React Compiler
+- React
+- TypeScript
+- React Router
+- Zustand
+- Axios
+- CSS Modules
+- Lucide React
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+# Arquitectura del proyecto
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+src
+│
+├── app
+│   └── rutas
+├── common
+│   ├── components
+│   ├── constants
+│   ├── layouts
+│   ├── navbar
+│   ├── security
+│   ├── styles
+│   └── types
+│
+├── features
+│   ├── auth
+│   ├── buildings
+│   ├── catalogs
+│   ├── persons
+│   └── units
+│
+└── router
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Cada **Feature** contiene todo lo necesario para funcionar de forma independiente.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Ejemplo:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
 ```
+persons
+├── components
+├── hooks
+├── pages
+├── services
+└── types
+```
+
+---
+
+# Organización de responsabilidades
+
+## Pages
+
+Las páginas únicamente:
+
+- Componen la pantalla.
+- Consumen Hooks.
+- Renderizan componentes.
+
+Ejemplo:
+
+```tsx
+const {
+  error,
+  persons,
+  pagination,
+  handleNuevaPersona,
+  handleCloseModal,
+  crudModalOpen,
+  loadPersons,
+  createPerson,
+  deletePerson,
+  loadingPersons,
+  savingPerson,
+  ...
+} = usePersonPage();
+```
+
+---
+
+## Hooks
+
+Toda la lógica vive en Hooks.
+
+Ejemplo:
+
+```tsx
+usePersonPage()
+
+• cargar personas
+• crear
+• modificar
+• eliminar
+• abrir modal
+• cerrar modal
+• paginación
+• loading
+• errores
+• ...
+```
+
+Los componentes únicamente reciben datos y callbacks.
+
+---
+
+## Components
+
+Los componentes son reutilizables.
+
+Ejemplo:
+
+```
+Button
+Input
+Select
+Modal
+Badge
+Table
+Pagination
+Loading
+Skeleton
+ActionBar
+ActionSection
+FormGrid
+FormItem
+ConfirmDialog
+EmptyState
+PageHeader
+PageContainer
+```
+
+---
+
+# Componentes reutilizables
+
+## Button
+
+Botón reutilizable.
+
+Modos:
+
+```
+INS
+UPD
+DLT
+DSP
+LNK
+```
+
+Puede recibir:
+
+- icon
+- disabled
+- loading
+- fullWidth
+
+---
+
+## Modal
+
+Características:
+
+- Tamaños
+- Header
+- Body
+- Footer opcional
+- Cierre por overlay
+- Scroll interno
+
+Los botones viven dentro del formulario.
+
+---
+
+## Table
+
+Tabla genérica.
+
+Soporta:
+
+- Columnas dinámicas
+- Render personalizado
+- Width
+- Alineación
+- Selección de fila
+- Hover
+- Empty State
+
+Ejemplo:
+
+```tsx
+const columns = [
+  {
+    header: "Nombre",
+    render: (x) => x.nombre,
+  },
+];
+```
+
+---
+
+## Badge
+
+Estados reutilizables.
+
+```
+success
+
+danger
+
+warning
+
+info
+```
+
+Ejemplo:
+
+```tsx
+<Badge color="success">Activo</Badge>
+```
+
+---
+
+## ActionBar
+
+Contenedor superior para acciones principales.
+
+Ejemplo:
+
+```
+Nuevo
+
+Importar
+
+Exportar
+```
+
+---
+
+## ActionSection
+
+Contenedor inferior para acciones.
+
+Ejemplo:
+
+```
+Grabar
+
+Cancelar
+```
+
+Puede alinearse:
+
+```
+start
+
+center
+
+end
+```
+
+---
+
+## FormGrid
+
+Sistema de columnas basado en CSS Grid de 12 columnas.
+
+Ejemplo:
+
+```
+6 + 6
+
+4 + 4 + 4
+
+3 + 3 + 3 + 3
+
+8 + 4
+
+9 + 3
+```
+
+---
+
+## FormItem
+
+Controla el ancho de cada campo.
+
+Ejemplo:
+
+```tsx
+<FormItem colSpan={6}>
+  <Input />
+</FormItem>
+```
+
+Permite cambiar fácilmente la distribución del formulario.
+
+---
+
+# Diseño de formularios
+
+```
+FormGrid
+
+↓
+
+FormItem
+
+↓
+
+Input
+```
+
+---
+
+# Diseño de páginas
+
+```
+PageHeader
+
+↓
+
+PageContainer
+
+↓
+
+ActionBar
+
+↓
+
+Tabla / Cards
+
+↓
+
+Pagination
+
+↓
+
+ActionSection
+```
+
+---
+
+# Navegación
+
+React Router.
+
+---
+
+# Estado global
+
+Zustand.
+
+Actualmente almacena:
+
+- Usuario
+- Tokens
+- Roles
+- Edificio seleccionado
+
+---
+
+# Autenticación
+
+Login devuelve:
+
+- Access Token
+- Refresh Token
+- Usuario
+- Roles
+- Edificio
+
+Todo queda almacenado en Zustand.
+
+---
+
+# Notificaciones
+
+Todas las operaciones muestran:
+
+```
+notification.success()
+
+notification.error()
+```
+
+---
+
+# Manejo de errores
+
+Centralizado mediante:
+
+```
+handleApiError()
+```
+
+---
+
+# Buenas prácticas
+
+✅ Toda la lógica en Hooks.
+
+✅ Componentes reutilizables.
+
+✅ Servicios separados.
+
+✅ DTO por Feature.
+
+✅ CSS Modules.
+
+✅ Tipado fuerte.
+
+✅ Formularios con Grid.
+
+✅ Componentes pequeños.
+
+✅ Responsabilidad única.
+
+---
+
+# Flujo CRUD
+
+```
+Botón
+
+↓
+
+Abrir Modal
+
+↓
+
+Formulario
+
+↓
+
+Validaciones
+
+↓
+
+Hook
+
+↓
+
+Service
+
+↓
+
+Backend
+
+↓
+
+Notificación
+
+↓
+
+Actualizar lista
+```
+
+---
+
+# Objetivo de la arquitectura
+
+- Alta reutilización.
+- Bajo acoplamiento.
+- Fácil mantenimiento.
+- Componentes independientes.
+- Escalabilidad para nuevas Features.
+- Aspecto similar a aplicaciones empresariales modernas.
